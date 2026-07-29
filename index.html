@@ -1846,6 +1846,112 @@
     .abc-big .letter-up{font-size: 46px;}
     .abc-big .letter-lo{font-size: 30px;}
   }
+  /* ============ 🔥 热点模块 ============ */
+  .hot-tabs{
+    display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 12px;
+  }
+  .hot-tab{
+    flex:1; min-width:120px; text-align:center;
+    padding: 9px 10px; border-radius: 12px;
+    background: var(--card-soft); font-size: 13px; color: var(--ink-2);
+    border: 1px solid transparent; cursor: pointer; user-select:none;
+    transition: all .18s ease;
+  }
+  .hot-tab.active{
+    background: linear-gradient(135deg, #fff2e0 0%, #ffe0c4 100%);
+    color:#8a4a1a; border-color:#f4d0aa;
+    box-shadow: inset 0 -2px 0 #e08a3d;
+  }
+  .hot-tip{
+    font-size:12px; color: var(--ink-3);
+    margin: -2px 2px 10px; letter-spacing:.2px;
+  }
+  .hot-card{
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 12px;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+  .hot-list{ display:flex; flex-direction:column; gap: 10px; }
+  .hot-item{
+    background: #fbf7f0;
+    border: 1px solid #f0e7d5;
+    border-radius: 14px;
+    padding: 12px 12px 10px;
+    position: relative;
+  }
+  .hot-head{
+    display:flex; align-items:center; gap: 8px;
+    margin-bottom: 6px;
+  }
+  .hot-rank{
+    font-weight: 900; font-size: 18px;
+    min-width: 26px; text-align:center;
+    color:#8a867e;
+    letter-spacing: 0;
+  }
+  .hot-rank.rank-1{ color:#d4a02b; text-shadow: 0 1px 0 #fff, 0 2px 6px #f0d68c88;}
+  .hot-rank.rank-2{ color:#9aa4b0; text-shadow: 0 1px 0 #fff, 0 2px 6px #cfd5da88;}
+  .hot-rank.rank-3{ color:#c67a3e; text-shadow: 0 1px 0 #fff, 0 2px 6px #edc79b88;}
+  .hot-platform{
+    display:inline-flex; align-items:center; gap:3px;
+    font-size: 11.5px; font-weight: 700;
+    padding: 2px 8px; border-radius: 999px;
+    background: #eee; color:#333; white-space:nowrap;
+    letter-spacing:.2px;
+  }
+  .hot-platform.pf-weibo{ background:#ffe1e1; color:#c93838;}
+  .hot-platform.pf-douyin{ background:#e8e6ff; color:#1d1a55;}
+  .hot-platform.pf-toutiao{ background:#ffe9d6; color:#a5461a;}
+  .hot-platform.pf-xhs{ background:#ffe1e6; color:#c22a45;}
+  .hot-platform.pf-bili{ background:#e2f2ff; color:#2b7bc4;}
+  .hot-platform.pf-dp{ background:#fff2c9; color:#8a6a10;}
+  .hot-platform.pf-vertical{ background:#e4f3e1; color:#4a7a41;}
+  .hot-platform.pf-people{ background:#f0e6ff; color:#5a3a9a;}
+  .hot-platform.pf-tv{ background:#ffe4f0; color:#a63668;}
+  .hot-platform.pf-brand{ background:#dcecff; color:#2a5aa8;}
+  .hot-platform.pf-wechat{ background:#dcf5e0; color:#256e30;}
+  .hot-heat{
+    margin-left: auto;
+    font-size: 11.5px; color:#a86d1a; font-weight:700;
+    background:#fff4d1; padding: 2px 8px; border-radius: 999px;
+    border: 1px solid #f0dea3;
+    white-space:nowrap;
+  }
+  .hot-title{
+    font-size: 14.5px; font-weight: 700;
+    color: var(--ink); line-height: 1.5;
+    margin: 2px 0 8px;
+  }
+  .hot-scene{
+    background: #fffdf6;
+    border: 1px dashed #f0dea3;
+    border-radius: 12px;
+    padding: 10px;
+    display:flex; flex-direction:column; gap: 6px;
+  }
+  .hot-scene-item{
+    font-size: 12.5px; color: var(--ink-2);
+    line-height: 1.55;
+  }
+  .hot-scene-item b{ color:#8a5a15; font-weight:700; margin-right:2px;}
+  .hot-actions{
+    margin-top: 10px; display:flex; justify-content:flex-end;
+  }
+  .hot-copy{
+    font-size: 12.5px; font-weight:700;
+    padding: 6px 12px; border-radius: 999px;
+    background: #fff2d1; color: #8a5a15;
+    border: 1px solid #f0dea3; cursor:pointer;
+    transition: all .18s ease;
+  }
+  .hot-copy:active{ transform: scale(.96); }
+  .hot-copy.ok{ background:#e4f3e1; color:#4a7a41; border-color:#c8e2c0; }
+  @media (max-width: 420px){
+    .hot-tab{ min-width: 0; }
+    .hot-heat{ font-size: 11px; padding: 2px 6px; }
+  }
 </style>
 </head>
 <body>
@@ -1893,6 +1999,7 @@
       <button type="button" class="nav-item" data-target="share"><span class="n-emoji">✍️</span><span class="n-name">灵感</span></button>
       <button type="button" class="nav-item" data-target="ledger"><span class="n-emoji">💰</span><span class="n-name">账本</span></button>
       <button type="button" class="nav-item" data-target="days"><span class="n-emoji">📅</span><span class="n-name">日子</span></button>
+      <button type="button" class="nav-item" data-target="hot"><span class="n-emoji">🔥</span><span class="n-name">热点</span></button>
     </aside>
 
     <!-- ============ 右侧内容区 ============ -->
@@ -2389,6 +2496,24 @@
     </div>
     <div class="card hangout-tips" id="hangout-tips"></div>
   </section>
+    </div>
+
+    <div class="page page-detail" id="page-hot">
+      <section class="section">
+        <div class="section-head">
+          <div class="section-title"><span class="dot"></span><span class="icon">🔥</span>热点借势 · 一键抄作业</div>
+          <div class="section-note" id="hot-count">加载中…</div>
+        </div>
+        <div class="hot-tip">静态示例数据，可自行更新（每周手动刷新更贴合）</div>
+        <div class="hot-tabs" role="tablist" aria-label="热点二级 Tab" id="hot-tabs">
+          <button type="button" class="hot-tab active" data-htab="social">📱 全平台热搜</button>
+          <button type="button" class="hot-tab" data-htab="food">🍔 餐饮行业热点</button>
+        </div>
+        <div class="hot-card">
+          <div class="hot-list" id="hot-list-social"></div>
+          <div class="hot-list" id="hot-list-food" style="display:none;"></div>
+        </div>
+      </section>
     </div>
     </main>
   </div>
@@ -4408,6 +4533,389 @@ async function loadWeatherAndRecommend(){
   }
 }
 
+/* ============ 🔥 热点模块 ============ */
+const HOT_SOCIAL = [
+  {
+    rank: 1,
+    platform: "微博热搜",
+    platformCls: "pf-weibo",
+    title: "上海连发 7 天高温红色预警，体感温度突破 42℃",
+    heat: "热度 3.8 亿",
+    sceneCircle: "发一条『42 度的路面能煎蛋，我却要跑 8 家门店。谁懂啊』配一张融化的冰美式或门店店招被晒白的图，共鸣拉满。",
+    sceneVendor: "把预警截图发进服务商群，附一句『下周走店尽量安排在 9 点前 / 5 点后，我们把预算往冰饮 + 冷面新品倾斜，蹭一波高温流量』。",
+    sceneStore: "推动门店上『第二杯半价冰饮 · 打卡消暑』海报，联动外卖端的『高温防暑套餐』，2 天出结果。"
+  },
+  {
+    rank: 2,
+    platform: "抖音热榜",
+    platformCls: "pf-douyin",
+    title: "《声生不息 · 2026 夏日季》决赛夜，播放量 24 小时破 3 亿",
+    heat: "热度 3.2 亿",
+    sceneCircle: "『看完决赛夜差点忘了打卡明日新品——夏天就该有点心动的东西』附一张新品图，情绪价值直接拉满。",
+    sceneVendor: "建议服务商拍一个『我给这家店选主打歌』短视频，30 秒剪配决赛热门曲，抖音发布挂门店 POI，很容易吃到自然流量。",
+    sceneStore: "门店做『点单送金曲卡片』小活动，扫码进歌单，让顾客帮转朋友圈，成本几乎为零。"
+  },
+  {
+    rank: 3,
+    platform: "微博热搜",
+    platformCls: "pf-weibo",
+    title: "《长安十二时辰 2》定档 8 月 8 日，主演直播 618W 人在线",
+    heat: "热度 2.6 亿",
+    sceneCircle: "『8 月 8 日蹲长安，7 月 30 日先蹲新品发布——追剧要有仪式感』顺手把工作和生活绑一起。",
+    sceneVendor: "跟服务商聊『唐风国潮包装』灵感，饮品杯套 / 汉堡纸袋做一版限量款，8 月上市正好赶上剧播期。",
+    sceneStore: "门店做『长安十二时辰主题套餐 · 12 元起』，配一张唐风海报，抖音探店号自然会来拍。"
+  },
+  {
+    rank: 4,
+    platform: "抖音热榜",
+    platformCls: "pf-douyin",
+    title: "『打工人午休避暑地图』话题突破 12 亿播放，办公楼下商圈引流",
+    heat: "播放 12 亿",
+    sceneCircle: "『打工人午休不是去吃饭，是去续命。这周走的 5 家门店，有 3 家自发做了避暑角』配门店角落照片，专业感有了。",
+    sceneVendor: "让服务商在门店门口摆两把免费冰粉试吃 + 空调直吹的座位，专门捕捉 12:00-13:30 的写字楼流量。",
+    sceneStore: "主推『午间冰饮套餐 19.9 元 · 加冰不加价』，门口一张贴纸『空调开足 · 打工人歇脚区』就够了。"
+  },
+  {
+    rank: 5,
+    platform: "小红书",
+    platformCls: "pf-xhs",
+    title: "『多巴胺色系餐厅』笔记周增 47 万，年轻人吃饭要拍照",
+    heat: "笔记 68 万+",
+    sceneCircle: "『门店装修卷不动，但是一面撞色墙 + 一杯粉紫饮，就能让年轻人主动帮你打广告』分享观察，不硬广。",
+    sceneVendor: "建议服务商挑一面白墙刷成撞色，成本 300 块，一周内就能收 20+ 篇小红书自来水。",
+    sceneStore: "推『拍照打卡送小蛋糕 / 挂耳咖啡』活动，指定 tag 品牌 + 门店 POI，两周内做出 10w+ 曝光很稳。"
+  },
+  {
+    rank: 6,
+    platform: "头条热榜",
+    platformCls: "pf-toutiao",
+    title: "国家发改委：2026 年 7 月核心 CPI 同比 0.9%，餐饮价格温和上行",
+    heat: "热度 1.5 亿",
+    sceneCircle: "『大盘温和上行，说明消费者愿意为价值买单。今天陪服务商聊到深夜——不涨价，但把品质感做出来』分享行业观察。",
+    sceneVendor: "把数据截图发进群，一句『客单不用降，我们把套餐结构改一下，把毛利守回来』，直接推动重构菜单。",
+    sceneStore: "门店保持定价，重点做『同价加量』『第二份 5 折』这类感受价值高的活动。"
+  },
+  {
+    rank: 7,
+    platform: "B站",
+    platformCls: "pf-bili",
+    title: "『AI 一键生成菜单文案』视频冲上百大 UP 主榜，B 站商单破圈",
+    heat: "播放 480 万",
+    sceneCircle: "『看完这条视频，把新品文案让 AI 写了个初稿，用了 2 分钟，够我省下一顿午饭时间』顺便小晒工作效率。",
+    sceneVendor: "顺手把这条视频转给服务商，附一句『下次门店海报文案，我们试着 AI + 你的品牌语气打个样，速度 x3』。",
+    sceneStore: "门店可以试用 AI 出『每周新品文案 3 版』，A/B 测朋友圈转化，做数据沉淀。"
+  },
+  {
+    rank: 8,
+    platform: "微博热搜",
+    platformCls: "pf-weibo",
+    title: "某顶流明星代言饮品品牌合约到期，粉丝呼吁『理性消费』",
+    heat: "热度 1.2 亿",
+    sceneCircle: "『代言人换了，产品没换。真正靠品牌活下来的门店，是靠味道，不是靠脸』观察行业本质，安全不踩雷。",
+    sceneVendor: "跟服务商说『我们不用押代言人，把 SKU 结构和门店体验做扎实，抗周期能力才强』，把注意力拉回运营。",
+    sceneStore: "门店做『味道盲测』活动——遮住品牌 logo，让顾客盲测，产出真实好评做私域素材。"
+  },
+  {
+    rank: 9,
+    platform: "抖音热榜",
+    platformCls: "pf-douyin",
+    title: "『00 后整顿夜宵』话题爆火，凌晨 2 点烧烤外卖单量翻倍",
+    heat: "话题 6.8 亿",
+    sceneCircle: "『年轻人不是不消费，是要在他们的时间点消费。凌晨 2 点，是新的黄金档』观察角度自带专业感。",
+    sceneVendor: "推服务商把『夜宵档』延到 24:00-02:30，SKU 缩到 8 个精品单，做出爆款 SKU 的高毛利小时段。",
+    sceneStore: "门店联动『夜宵 + 冷萃咖啡』组合套餐，专攻加班党外卖，2 周就能看到夜间订单数据。"
+  },
+  {
+    rank: 10,
+    platform: "微博热搜",
+    platformCls: "pf-weibo",
+    title: "上海台风『梅花』外围影响，外卖单量单日暴涨 220%",
+    heat: "热度 9800 万",
+    sceneCircle: "『台风天，别的行业歇了，我们的外卖小哥在加速。感谢每一位在雨里跑的骑手』温情向，不消费灾情。",
+    sceneVendor: "台风预警前 24 小时提醒服务商把外卖菜单精简到爆款 6 个，同时加 20% 备餐量，避免爆单塌房。",
+    sceneStore: "门店挂『雨天暖心套餐 · 免运费』，专攻家庭聚餐 3-4 人份，客单价能上抬 30%。"
+  },
+  {
+    rank: 11,
+    platform: "小红书",
+    platformCls: "pf-xhs",
+    title: "『City Not Walk · 商场躺平指南』突破 30 万笔记，反 City Walk 兴起",
+    heat: "笔记 32 万",
+    sceneCircle: "『我们不做 City Walk，我们做 City Chill——一杯冰饮 + 一个空调位 + 2 小时 wifi，这才是夏天该有的样子』。",
+    sceneVendor: "建议服务商门店开辟『躺平角 · 免费 wifi 60 分钟』，一个下午能带 3 次翻台。",
+    sceneStore: "推『下午茶两杯 + 甜品 = 88 元 · 座位保留 3 小时』套餐，专抓周末 14:00-17:00 空档时段。"
+  },
+  {
+    rank: 12,
+    platform: "头条热榜",
+    platformCls: "pf-toutiao",
+    title: "教育部：2026 秋季学期 9 月 1 日开学，暑期消费进入最后 30 天",
+    heat: "热度 8600 万",
+    sceneCircle: "『还剩 33 天暑假，孩子的胃和爸妈的钱包都在冲刺阶段——是时候把亲子套餐算上』提醒得刚好。",
+    sceneVendor: "推服务商上『开学季倒计时』——亲子套餐 + 儿童套餐同步上，配上『暑假最后 30 天』倒计时贴纸。",
+    sceneStore: "门店推『家庭套餐 · 大人送冰饮，小孩送玩具』，抖音本地端做定向推广，成本可控。"
+  },
+  {
+    rank: 13,
+    platform: "抖音热榜",
+    platformCls: "pf-douyin",
+    title: "『打工人平替奶茶自制视频』播放破 5 亿，DIY 潮流反噬现制饮品",
+    heat: "播放 5.2 亿",
+    sceneCircle: "『年轻人开始自制奶茶，说明什么？不是不喝，是要更值——所以我们的答卷是：现制 = 一分钟拿到 + 100 分口感』。",
+    sceneVendor: "提醒服务商：卷『速度 + 稳定性』，1 分钟出杯 + 全国口感一致，是自制永远替代不了的。",
+    sceneStore: "门店做『下午 3 点前 · 现制奶茶 10.9 元』快闪档，专攻办公室下午茶时段。"
+  },
+  {
+    rank: 14,
+    platform: "B站",
+    platformCls: "pf-bili",
+    title: "《中餐厅 · 巴黎季》开机，海外中餐赛道再度被讨论",
+    heat: "播放 2.4 亿",
+    sceneCircle: "『中餐出海，看着热闹，落地不易。我们做西式快餐入中国 30 年，才有今天——每一步都值得敬畏』行业观察。",
+    sceneVendor: "跟服务商聊『Made in local · 海外中餐的本地化坑』，反过来提醒我们做西式快餐的门店本地化不能松懈。",
+    sceneStore: "门店推『世界美食周』——每周一款异国灵感新品，做菜单新鲜度，跟综艺热度打配合。"
+  },
+  {
+    rank: 15,
+    platform: "微博热搜",
+    platformCls: "pf-weibo",
+    title: "『00 后消费降级 vs 品质升级』双话题登顶，年轻人到底怎么花钱？",
+    heat: "热度 7500 万",
+    sceneCircle: "『00 后不是不花钱，是花得更精。9.9 元的咖啡他们买，998 的手办他们也买——中间地带才是最难的』。",
+    sceneVendor: "跟服务商聊 SKU 结构：要么做 9.9-15 元的心智入口款，要么做 39+ 的品质款，中间价位砍掉一半。",
+    sceneStore: "门店做『入门款 + 尊享款』双主推，中间 20-30 元价位精简 SKU，减少备货压力。"
+  }
+];
+
+const HOT_FOOD = [
+  {
+    rank: 1,
+    platform: "行业垂直",
+    platformCls: "pf-vertical",
+    title: "麦当劳 7 月 30 日全球同步上市『黄油鸡腿堡 2.0』，中国区首发限量 300 万份",
+    heat: "热度 4.2 亿",
+    sceneCircle: "『大牌新品发布日，服务商群消息比自己家上新还热闹——这就是我们做这行的意义感』现场感很强。",
+    sceneVendor: "第一时间转发官方海报到服务商群，附一句『麦当劳这波节奏我们复盘一下：预热 3 天 → 首发日直播 → D+3 数据总结，我们中小客户也能抄』。",
+    sceneStore: "推动同类西式快餐门店做『致敬经典 · 我家的黄油鸡腿堡』本土化产品，抢流量尾部，成本低见效快。"
+  },
+  {
+    rank: 2,
+    platform: "行业垂直",
+    platformCls: "pf-vertical",
+    title: "瑞幸 & 库迪 9.9 元战再度升级，7 月推出『冰美式 8.8 元』常态化",
+    heat: "热度 3.6 亿",
+    sceneCircle: "『8.8 元的冰美式，是给整个行业上了一课——如果卷价格卷不过，就把服务和场景卷起来』行业感慨到位。",
+    sceneVendor: "把 8.8 元战线的数据梳理给服务商『瑞幸单店日均咖啡杯量 300+，我们的门店要么做进社区做粘性，要么升级到 15-20 元品质价位，不建议正面刚』。",
+    sceneStore: "对饮品门店：推『第二杯半价 + 会员日 1 元加购小食』错峰竞争；对西式快餐：把咖啡拆成套餐加购项，做隐形补贴。"
+  },
+  {
+    rank: 3,
+    platform: "大众点评",
+    platformCls: "pf-dp",
+    title: "海底捞发布 2026 上半年财报，客单价同比 -8.2%，翻台率 4.3 次",
+    heat: "热度 2.8 亿",
+    sceneCircle: "『客单价降了，翻台率反而升了。海底捞用行动告诉我们：消费者要的不是便宜，是感知到的划算』。",
+    sceneVendor: "把财报重点画出来给服务商『翻台率 4.3 = 客户愿意等的耐心，我们门店能不能做到？取号排队体验优化才是关键』。",
+    sceneStore: "门店推『排队送冰饮 + 手工点心』，让 15 分钟等待也变成体验的一部分，转化不流失。"
+  },
+  {
+    rank: 4,
+    platform: "小红书",
+    platformCls: "pf-xhs",
+    title: "喜茶联名迪士尼 100 周年，『米奇冰霜杯』笔记周增 8 万篇",
+    heat: "笔记 12 万+",
+    sceneCircle: "『喜茶又赢了。联名不是随便联，是把 IP 的情绪价值榨到最干净——包装、周边、话题一条龙』。",
+    sceneVendor: "转发 3-5 个爆款笔记，跟服务商说『我们也能做小 IP 联名——本地插画师 / 城市地标，成本几千块，产出 100+ 篇小红书笔记』。",
+    sceneStore: "推『本地城市地标限定杯』，一个门店只做当地地标一款，稀缺感就出来了，客户会为『别的城市喝不到』付溢价。"
+  },
+  {
+    rank: 5,
+    platform: "《人物》",
+    platformCls: "pf-people",
+    title: "《人物》深度报道『西式快餐加盟商生存现状 · 3 位老板的 2026』",
+    heat: "热度 2.1 亿",
+    sceneCircle: "『看完这篇，深夜给 3 个加盟商各打了个电话——最难的时候，服务商站在旁边比说什么都重要』真实感拉满。",
+    sceneVendor: "把文章链接转到服务商群，附一句『这篇讲的痛点我们也踩过，明天例会一起聊聊 3 个避坑点：选址、供应链、私域』。",
+    sceneStore: "借势『扶持真诚商家』主题，做一波『服务商挑一家最有温度的门店』打卡活动，让品牌真诚感通过服务商传出去。"
+  },
+  {
+    rank: 6,
+    platform: "行业垂直",
+    platformCls: "pf-vertical",
+    title: "Manner 咖啡上海新开 12 家门店，主打『站立咖啡 · 3 分钟拿走』",
+    heat: "热度 1.8 亿",
+    sceneCircle: "『Manner 又开了 12 家——上海白领的咖啡地图正在被重新画。我们做西饮渠道的，也要盯紧站立式 SKU』。",
+    sceneVendor: "推荐服务商研究『站立咖啡工作台 + 简化菜单』，让门店 15㎡ 也能出 200 杯 / 天，服务商听得懂 ROI。",
+    sceneStore: "对小面积门店：主推『快取窗口 · 3 分钟出杯』，减 SKU 到 12 款以内，把翻台率作为核心指标。"
+  },
+  {
+    rank: 7,
+    platform: "抖音探店",
+    platformCls: "pf-douyin",
+    title: "抖音探店 UP 主『阿远来吃饭』一条视频带火成都『第 47 号餐厅』，排队从 30 分钟到 2 小时",
+    heat: "播放 4600 万",
+    sceneCircle: "『一个探店号，就能把一家店从冷清做到排队 2 小时。渠道时代的机会，藏在每一个愿意讲故事的博主里』。",
+    sceneVendor: "把这个案例拆解发给服务商『我们本地 10 万粉丝以下的探店号也能带 2-3 次翻台，成本 2000-8000 一条』。",
+    sceneStore: "做『首月新店探店计划』——锁 20 个本地小 KOL，签保底 15 条内容 + 2 场直播，开业月直接把口碑打出去。"
+  },
+  {
+    rank: 8,
+    platform: "行业垂直",
+    platformCls: "pf-vertical",
+    title: "呷哺呷哺 Q2 财报：湊湊子品牌关店 42 家，反思高端化策略",
+    heat: "热度 1.5 亿",
+    sceneCircle: "『高端化不是加两个 SKU 涨 20 块钱，是从供应链到服务全链条重构。呷哺给整个行业上了一堂课』。",
+    sceneVendor: "跟服务商聊『不要贸然做高端子品牌，先把主品牌单店模型跑通，再谈拓展』，帮客户守住基本盘。",
+    sceneStore: "门店回归主赛道，把『招牌单品 + 稳定出品 + 服务标准化』做到极致，比追概念稳。"
+  },
+  {
+    rank: 9,
+    platform: "小红书",
+    platformCls: "pf-xhs",
+    title: "『多层脏脏芋泥杯』小红书爆款持续霸屏 3 周，笔记破 25 万",
+    heat: "笔记 25 万+",
+    sceneCircle: "『芋泥 + 咸奶盖 + 麻薯，一杯 22 元卖到脱销——甜品的爆款逻辑永远是层次 + 颜值 + 可拍性』。",
+    sceneVendor: "让做甜品 / 烘焙的服务商 3 天内出一版本地化芋泥 SKU，蹭一波流量尾部，两周内至少多做 500 杯。",
+    sceneStore: "推『多层芋泥杯 22 元 · 拍照 tag 门店送小饼干』，专攻小红书用户，做出笔记再传导到堂食。"
+  },
+  {
+    rank: 10,
+    platform: "行业垂直",
+    platformCls: "pf-vertical",
+    title: "汉堡王中国宣布 2026 下半年新开 300 家门店，重点布局三四线城市",
+    heat: "热度 1.3 亿",
+    sceneCircle: "『汉堡王下沉，说明三四线的西式快餐盘子还没到顶。我们做的不是一线红海，而是下沉蓝海』视野拉出来。",
+    sceneVendor: "推服务商关注三四线城市加盟商开店节奏『同步布局县城，客单低 3-5 元但翻台 x2』，帮客户找增长曲线。",
+    sceneStore: "县城门店主推『家庭套餐 · 4 人 88 元』，把周末聚餐场景做起来，比一线更容易做出稳定复购。"
+  },
+  {
+    rank: 11,
+    platform: "微信公众号",
+    platformCls: "pf-wechat",
+    title: "『餐观察』头条：2026 上半年餐饮闭店率 21.4%，反弹信号仍需时间",
+    heat: "阅读 100w+",
+    sceneCircle: "『21.4% 的闭店率，说明这行没那么好做——但活下来的每一家，都是熬出来的。今天陪着的 3 个服务商都在盘算 Q3』。",
+    sceneVendor: "把报告要点摘出来发群『Q3 我们的重点是帮服务商守 60% 存量 + 拓 40% 新增，别再散打』，把节奏定下来。",
+    sceneStore: "门店优先做『老客户召回 · 90 天沉睡券』，成本比拉新低 5 倍，Q3 打底就靠这个动作。"
+  },
+  {
+    rank: 12,
+    platform: "行业垂直",
+    platformCls: "pf-vertical",
+    title: "网红烘焙品牌『鲍师傅』因加盟商纠纷登上热搜，创始人回应",
+    heat: "热度 1.1 亿",
+    sceneCircle: "『加盟这条路，好的时候 100 家一起赚，坏的时候 100 家一起爆——制度和沟通比扩张更重要』行业观察。",
+    sceneVendor: "跟做加盟型品牌的服务商强调『合同细节 + 定期沟通机制 + 加盟商大会』，把风险前置。",
+    sceneStore: "内部做『门店经营健康度体检』，每季度一次，把小问题在爆发前处理掉。"
+  },
+  {
+    rank: 13,
+    platform: "微博热搜",
+    platformCls: "pf-weibo",
+    title: "『自助餐 39.9 元一位』上海 CBD 门店爆火，工作日午市 15 分钟坐满",
+    heat: "热度 9200 万",
+    sceneCircle: "『39.9 元自助餐，我第一反应是——这家门店的 SKU 结构一定极其克制，不做无效品类』看的是门道不是热闹。",
+    sceneVendor: "拉自助餐服务商开会『把 SKU 从 60 款砍到 35 款，主打米面 + 3 款硬菜 + 5 款饮品，做出高毛利套餐感』。",
+    sceneStore: "门店推『午市 39.9 元自助 · 15:00 前有效』，专门抢写字楼午高峰，其他时段维持原价，做时段分层。"
+  },
+  {
+    rank: 14,
+    platform: "微信公众号",
+    platformCls: "pf-wechat",
+    title: "『茶饮观察』：星巴克中国推出『下午 3 元冰美式 · 4-6 点限时』",
+    heat: "阅读 50w+",
+    sceneCircle: "『连星巴克都开始做时段促销了，我们的门店还有什么理由不做——错峰、错人群、错场景，就是新的增长』。",
+    sceneVendor: "推服务商做『下午茶特惠档 15:00-17:00』，客单价压 40%，把闲时坪效救回来。",
+    sceneStore: "门店挂『下午 3 元咖啡 · 限量 100 杯』贴纸，配合抖音本地推 200 元预算，拉到 50+ 新客。"
+  },
+  {
+    rank: 15,
+    platform: "抖音热榜",
+    platformCls: "pf-douyin",
+    title: "『上海 CBD 关店潮 vs 郊区反弹』话题上热搜，餐饮版图正在重画",
+    heat: "话题 8300 万",
+    sceneCircle: "『上海 CBD 关的都是租金拖垮的，郊区反弹的都是社区粘性做起来的——地段思路要变了』观点鲜明有见解。",
+    sceneVendor: "把地图数据分析发给服务商『Q3 我们优先看 3 公里社区型点位，避开租金塌方的 CBD 商圈』，明确方向。",
+    sceneStore: "郊区社区门店做『月度会员 · 39 元享 8 次咖啡』，把复购做到 6 次以上就锁死了一批忠诚客户。"
+  }
+];
+
+let HOT_STATE = { tab: "social", inited: false };
+
+function renderHotList(kind){
+  const list = kind === "food" ? HOT_FOOD : HOT_SOCIAL;
+  const wrap = document.getElementById(kind === "food" ? "hot-list-food" : "hot-list-social");
+  if(!wrap) return;
+  wrap.innerHTML = list.map(item => {
+    const rankCls = item.rank <= 3 ? ` rank-${item.rank}` : "";
+    const heat = item.heat ? `<span class="hot-heat">🔥 ${escapeHot(item.heat)}</span>` : "";
+    return `
+      <div class="hot-item">
+        <div class="hot-head">
+          <div class="hot-rank${rankCls}">${item.rank}</div>
+          <span class="hot-platform ${item.platformCls}">${escapeHot(item.platform)}</span>
+          ${heat}
+        </div>
+        <div class="hot-title">${escapeHot(item.title)}</div>
+        <div class="hot-scene">
+          <div class="hot-scene-item"><b>📱 朋友圈：</b>${escapeHot(item.sceneCircle)}</div>
+          <div class="hot-scene-item"><b>💬 给服务商：</b>${escapeHot(item.sceneVendor)}</div>
+          <div class="hot-scene-item"><b>🎯 门店活动：</b>${escapeHot(item.sceneStore)}</div>
+        </div>
+        <div class="hot-actions">
+          <button type="button" class="hot-copy" data-hot-kind="${kind}" data-hot-idx="${item.rank - 1}">📋 一键复制</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+function escapeHot(s){
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function buildHotCopyText(kind, idx){
+  const list = kind === "food" ? HOT_FOOD : HOT_SOCIAL;
+  const it = list[idx];
+  if(!it) return "";
+  const heat = it.heat ? ` · ${it.heat}` : "";
+  return `【${it.platform}${heat}】\n${it.title}\n\n使用场景：\n📱 朋友圈：${it.sceneCircle}\n💬 给服务商：${it.sceneVendor}\n🎯 门店活动：${it.sceneStore}`;
+}
+function switchHotTab(kind){
+  HOT_STATE.tab = kind === "food" ? "food" : "social";
+  document.querySelectorAll("#hot-tabs .hot-tab").forEach(btn=>{
+    btn.classList.toggle("active", btn.getAttribute("data-htab") === HOT_STATE.tab);
+  });
+  const social = document.getElementById("hot-list-social");
+  const food = document.getElementById("hot-list-food");
+  if(social) social.style.display = HOT_STATE.tab === "social" ? "" : "none";
+  if(food) food.style.display = HOT_STATE.tab === "food" ? "" : "none";
+  const cnt = document.getElementById("hot-count");
+  if(cnt){
+    const n = HOT_STATE.tab === "food" ? HOT_FOOD.length : HOT_SOCIAL.length;
+    cnt.textContent = `共 ${n} 条 · ${HOT_STATE.tab === "food" ? "餐饮" : "全平台"}`;
+  }
+}
+function ensureHotInit(){
+  if(HOT_STATE.inited) return;
+  HOT_STATE.inited = true;
+  renderHotList("social");
+  renderHotList("food");
+  switchHotTab(HOT_STATE.tab);
+  const box = document.getElementById("hot-tabs");
+  if(box){
+    box.querySelectorAll(".hot-tab").forEach(btn=>{
+      btn.addEventListener("click", ()=> switchHotTab(btn.getAttribute("data-htab") || "social"));
+    });
+  }
+  document.querySelectorAll("#page-hot .hot-copy").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const kind = btn.getAttribute("data-hot-kind") || "social";
+      const idx = parseInt(btn.getAttribute("data-hot-idx") || "0", 10);
+      doCopy(buildHotCopyText(kind, idx), btn);
+    });
+  });
+}
+
 /* ============ 侧栏导航 + 置顶卡片 路由 ============ */
 const routes = {
   news: "page-news",
@@ -4420,10 +4928,11 @@ const routes = {
   share: "page-share",
   hangout: "page-hangout",
   days: "page-days",
-  ledger: "page-ledger"
+  ledger: "page-ledger",
+  hot: "page-hot"
 };
 // 左侧导航默认展示的模块（顶部三卡片对应 news/global/bdj 不在侧栏）
-const SIDE_KEYS = new Set(["ai","food","feng","baby","hangout","share","days","ledger"]);
+const SIDE_KEYS = new Set(["ai","food","feng","baby","hangout","share","days","ledger","hot"]);
 const DEFAULT_ROUTE = "baby";
 let currentRoute = DEFAULT_ROUTE;
 
@@ -4435,6 +4944,9 @@ function showPage(key){
   if(routeKey === "hangout"){
     ensureHangoutInit();
     loadWeatherAndRecommend();
+  }
+  if(routeKey === "hot"){
+    ensureHotInit();
   }
   currentRoute = routeKey;
   // 更新侧栏 active 状态：如果是侧栏项就高亮，否则清除
