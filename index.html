@@ -1,0 +1,4055 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+<meta name="theme-color" content="#f7f3ec" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="江江的工作台" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='40' fill='%23f7d774'/><text x='50%25' y='55%25' font-size='110' text-anchor='middle' dominant-baseline='middle'>💰</text></svg>" />
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23f7d774'/><text x='50%25' y='58%25' font-size='40' text-anchor='middle' dominant-baseline='middle'>💰</text></svg>" />
+<title>金元宝 · 江江的工作台</title>
+<style>
+  :root{
+    --bg: #f5f1ea;
+    --bg-2: #efeae1;
+    --card: #ffffff;
+    --card-soft: #fbf9f4;
+    --ink: #2b2a28;
+    --ink-2: #55524d;
+    --ink-3: #8a867e;
+    --line: #ecebe6;
+    --brand: #c9a24a;
+    --brand-2: #e5c274;
+    --pink: #ffe4ec;
+    --pink-ink: #b24d68;
+    --yellow: #fff4d1;
+    --yellow-ink: #a97c1f;
+    --green: #e4f3e1;
+    --green-ink: #4a7a41;
+    --blue: #e4edf7;
+    --blue-ink: #3c5b83;
+    --danger: #d3705d;
+    --shadow: 0 6px 20px rgba(60,50,30,0.06), 0 1px 3px rgba(60,50,30,0.04);
+    --radius: 18px;
+    --radius-sm: 12px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) calc(env(safe-area-inset-bottom) + 24px) env(safe-area-inset-left);
+    background-image: radial-gradient(1200px 400px at 100% -10%, #f9e9c380 0%, transparent 60%),
+                      radial-gradient(800px 300px at -10% 20%, #efe6d380 0%, transparent 60%);
+    background-attachment: fixed;
+  }
+  .wrap{max-width: 720px; margin: 0 auto; padding: 16px;}
+  .app-shell{position:relative;}
+  .page{display:none;}
+  .page.active{display:block; animation:fadeIn .25s ease;}
+  .page-home{min-height:calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 48px);}
+  .page-detail{padding-bottom:18px;}
+  @keyframes fadeIn{
+    from{opacity:0; transform:translateY(8px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  /* ===== 顶部欢迎条 ===== */
+  .hero{
+    background: linear-gradient(135deg, #fff5d9 0%, #fce6b4 55%, #f6d47a 100%);
+    border-radius: 22px;
+    padding: 18px 18px 16px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; right:-30px; bottom:-40px;
+    width:180px; height:180px; border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, #ffffff80, transparent 60%);
+    pointer-events:none;
+  }
+  .hero-top{display:flex; justify-content:space-between; align-items:center; gap:12px;}
+  .hello{font-size: 20px; font-weight: 700; letter-spacing: 0.3px;}
+  .hello .emoji{margin-left:4px;}
+  .weather{
+    display:flex; align-items:center; gap:6px;
+    background: #ffffffb8; backdrop-filter: blur(6px);
+    padding: 6px 10px; border-radius: 999px;
+    font-size: 13px; color: var(--ink-2);
+    box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  }
+  .weather .ic{font-size:16px;}
+  .date-line{
+    margin-top: 10px; font-size: 13.5px; color: #6c5a2f;
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  }
+  .date-line .chip{
+    background:#ffffffa8; padding: 3px 9px; border-radius: 999px;
+    font-size:12.5px; color:#7a6432;
+  }
+  .quote{
+    margin-top: 12px; font-size: 13px; color:#7c6534;
+    background:#ffffff9c; border-radius: 12px; padding: 8px 10px;
+    border-left: 3px solid #c9a24a;
+  }
+
+  /* ===== 通用卡片 ===== */
+  .section{margin-top: 16px;}
+  .section-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 0 4px 8px;
+  }
+  .section-title{
+    display:flex; align-items:center; gap:8px;
+    font-size: 15px; font-weight: 700; color: var(--ink);
+  }
+  .section-title .dot{
+    width:6px; height:6px; border-radius:50%; background:var(--brand);
+    display:inline-block;
+  }
+  .section-title .icon{font-size:16px;}
+  .section-note{font-size: 11.5px; color: var(--ink-3);}
+  .card{
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: var(--shadow);
+    border: 1px solid #f2eee5;
+  }
+
+  /* ===== 每日资讯 ===== */
+  .news-tabs{
+    display:flex; gap:8px; margin-bottom: 10px;
+  }
+  .tab{
+    flex:1; text-align:center;
+    padding: 8px 10px; border-radius: 10px;
+    background: var(--card-soft);
+    font-size: 13px; color: var(--ink-2);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all .18s ease;
+    user-select:none;
+  }
+  .tab.active{
+    background: #fff2d1; color:#7a5a15;
+    border-color:#f0dea3;
+    box-shadow: inset 0 -2px 0 #d9b45a;
+  }
+  .news-list{display:flex; flex-direction:column; gap:8px;}
+  .news-item{
+    display:flex; gap:10px; align-items:flex-start;
+    padding: 10px; border-radius: 12px;
+    background: var(--card-soft);
+    border:1px solid #f2eee5;
+  }
+  .news-item .rank{
+    flex:0 0 22px; height:22px; border-radius:6px;
+    background:#fff; border:1px solid #ecebe6;
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; font-weight:700; color:#8a867e;
+  }
+  .news-item.hot .rank{background:#fff1e6; color:#c97a35; border-color:#f4d9b8;}
+  .news-item .body{flex:1; min-width:0;}
+  .news-item .title{
+    font-size: 14px; font-weight: 600; color: var(--ink);
+    line-height:1.45;
+  }
+  .news-item .meta{
+    margin-top:4px;
+    font-size: 12px; color: var(--ink-3);
+    display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+  }
+  .news-item .tag{
+    padding: 1px 7px; border-radius:999px;
+    background:#f3ede0; color:#8a7440; font-size:11px;
+  }
+  .news-item .tag.hot{background:#fde3d5; color:#b7502a;}
+  .news-item .tag.new{background:#e0efe0; color:#4a7a41;}
+  .news-panel{display:none;}
+  .news-panel.active{display:block;}
+
+  /* ===== 宝宝成长 ===== */
+  .baby-card{
+    background: linear-gradient(180deg, #fff8ec 0%, #ffeef2 100%);
+    border: 1px solid #fde3d5;
+  }
+  .baby-head{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom: 10px;
+  }
+  .baby-avatar{
+    display:flex; align-items:center; gap:10px;
+  }
+  .baby-avatar .badge{
+    width:44px; height:44px; border-radius:50%;
+    background: #ffe0d0; display:flex; align-items:center; justify-content:center;
+    font-size:22px;
+    box-shadow: 0 2px 6px #ffd6c680;
+  }
+  .baby-name{font-size:15px; font-weight:700; color:#8b4d3d;}
+  .baby-age{font-size:12px; color:#b07a63;}
+  .baby-chip{
+    background: #fff0d5; color:#a97c1f;
+    padding: 4px 10px; border-radius:999px; font-size:12px; font-weight:600;
+  }
+  .baby-grid{
+    display:grid; grid-template-columns: 1fr; gap:10px;
+  }
+  .baby-block{
+    background:#ffffffcc; border-radius: 14px; padding:12px;
+    border:1px solid #fce3d5;
+  }
+  .baby-block .lbl{
+    display:flex; align-items:center; gap:6px;
+    font-size:12.5px; color:#a97c1f; font-weight:600; margin-bottom:6px;
+  }
+  .baby-block .cnt{
+    font-size:13.5px; color:#5a4432; line-height:1.6;
+  }
+  .baby-block ul{margin:6px 0 0; padding-left:20px;}
+  .baby-block li{margin:2px 0;}
+  .milestone-tag{
+    display:inline-block; margin: 4px 6px 0 0;
+    padding: 3px 10px; border-radius: 999px;
+    background: #ffe4ec; color: #b24d68;
+    font-size: 12px;
+  }
+
+  /* ===== 健康饮食（中药期忌口 + 一周菜单）===== */
+  .food-card{
+    background: linear-gradient(180deg, #ffffff 0%, #fffdf8 100%);
+    border: 1px solid #f2eee5;
+    padding: 14px;
+  }
+  .food-tabs{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom: 12px;
+  }
+  .food-tab{
+    flex: 1;
+    min-width: 120px;
+    text-align:center;
+    padding: 8px 10px;
+    border-radius: 12px;
+    background: var(--card-soft);
+    font-size: 13px;
+    color: var(--ink-2);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all .18s ease;
+    user-select:none;
+  }
+  .food-tab.active{
+    background: #fff2d1;
+    color:#7a5a15;
+    border-color:#f0dea3;
+    box-shadow: inset 0 -2px 0 #d9b45a;
+  }
+  .food-panel{display:none;}
+  .food-panel.active{display:block;}
+
+  .food-med-card{
+    background: linear-gradient(180deg, #fff8ec 0%, #fff1df 100%);
+    border: 1px solid #f6dfb5;
+    border-radius: 16px;
+    padding: 12px;
+  }
+  .food-med-grid{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .food-med-item{
+    display:flex;
+    gap: 10px;
+    align-items:flex-start;
+    background: #ffffffc7;
+    border: 1px solid #f2eee5;
+    border-radius: 14px;
+    padding: 10px;
+  }
+  .food-med-item .ic{font-size:18px; line-height: 1.1;}
+  .food-med-item .t{font-size: 12.5px; color: var(--ink-3);}
+  .food-med-item .v{font-size: 13.5px; font-weight: 700; color: var(--ink); margin-top: 2px; line-height: 1.5;}
+  .food-med-tip{
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: #7c6534;
+    background:#ffffffb5;
+    border-radius: 12px;
+    padding: 8px 10px;
+    border-left: 3px solid #c9a24a;
+  }
+
+  .food-lists{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 420px){
+    .food-lists{ grid-template-columns: 1fr; }
+    .food-tab{ min-width: 0; }
+  }
+  .food-col-title{font-size: 13px; font-weight: 800; margin: 2px 2px 10px;}
+  .food-subcard{
+    border-radius: 14px;
+    padding: 10px;
+    border: 1px solid #f2eee5;
+    background: var(--card-soft);
+  }
+  .food-subcard + .food-subcard{ margin-top: 10px; }
+  .food-subcard.no{ background:#fff5f5; border-color:#ffe5e5; }
+  .food-subcard.yes{ background:#f0faf3; border-color:#d5f0dd; }
+  .food-subcard .head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .food-subcard .cat{font-size: 13px; font-weight: 800; color: var(--ink);}
+  .food-subcard .badge{font-size: 12px; color: var(--ink-3);}
+  .food-items{
+    display:flex;
+    flex-wrap:wrap;
+    gap: 6px;
+  }
+  .food-chip{
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background:#fff;
+    border: 1px solid #f2eee5;
+    color: var(--ink-2);
+    line-height: 1.1;
+  }
+  .food-subcard.no .food-chip{ background:#fff; border-color:#ffd3d3; }
+  .food-subcard.yes .food-chip{ background:#fff; border-color:#bfe8ca; }
+
+  .menu-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 10px;
+    flex-wrap:wrap;
+    margin-bottom: 10px;
+  }
+  .menu-note{
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+  .menu-copy-btn{
+    border: none;
+    background: #fff2d1;
+    color: #7a5a15;
+    border: 1px solid #f0dea3;
+    padding: 8px 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .12s ease;
+  }
+  .menu-copy-btn:active{ transform: scale(.98); }
+
+  .menu-grid{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .menu-card{
+    background: #fff7e6;
+    border: 1px solid #f2e4c8;
+    border-radius: 16px;
+    padding: 12px;
+  }
+  .menu-head{display:flex; align-items:center; justify-content:space-between; gap: 8px; margin-bottom: 8px;}
+  .menu-day{font-size: 14px; font-weight: 900; color:#6c5a2f;}
+  .menu-emoji{font-size: 18px;}
+  .menu-row{display:flex; gap: 8px; align-items:flex-start; padding: 6px 0; border-top: 1px dashed #f0e0c2;}
+  .menu-row:first-of-type{ border-top: none; }
+  .menu-row .k{flex:0 0 44px; font-size: 12.5px; color:#8a7440; font-weight: 700;}
+  .menu-row .v{flex:1; font-size: 13.5px; color: var(--ink); line-height: 1.6;}
+  .menu-remind{margin-top: 8px; font-size: 12.5px; color:#a97c1f; background:#ffffffb3; border:1px solid #f2eee5; padding: 8px 10px; border-radius: 12px;}
+
+  /* ===== 每日亲子英语 ===== */
+  .eng-card{
+    background: linear-gradient(180deg, #eaf1ff 0%, #f0e8ff 100%);
+    border: 1px solid #d9e3fb;
+  }
+  .eng-head{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom: 10px; flex-wrap: wrap; gap: 8px;
+  }
+  .eng-scene{
+    display:flex; align-items:center; gap:10px;
+  }
+  .eng-scene .em{
+    width: 42px; height: 42px; border-radius: 12px;
+    background: #ffffff; display:flex; align-items:center; justify-content:center;
+    font-size: 22px;
+    box-shadow: 0 2px 6px rgba(60,80,140,.10);
+    flex: 0 0 42px;
+  }
+  .eng-scene .t-zh{
+    font-size: 15px; font-weight: 700; color:#3a4a7a;
+    line-height: 1.2;
+  }
+  .eng-scene .t-en{
+    font-size: 12px; color:#7080ab; margin-top:2px;
+    font-style: italic;
+  }
+  .eng-switch{
+    background: #ffffff; border:1px solid #d9e3fb;
+    color:#4a5c8f; font-size: 12px;
+    padding: 5px 10px; border-radius: 999px;
+    cursor: pointer;
+    display:inline-flex; align-items:center; gap:4px;
+    transition: all .18s ease;
+  }
+  .eng-switch:active{transform: scale(.96);}
+  .eng-lines{
+    display:flex; flex-direction: column; gap:8px;
+  }
+  .eng-line{
+    background: #ffffffc9;
+    border-radius: 12px;
+    padding: 10px 12px;
+    border: 1px solid #e6ecfb;
+  }
+  .eng-line .en{
+    font-size: 15px; color:#2b3a66; font-weight:600;
+    line-height: 1.45;
+    letter-spacing: .1px;
+  }
+  .eng-line .zh{
+    font-size: 12.5px; color:#7080ab; margin-top:3px;
+    line-height: 1.45;
+  }
+  .eng-tip{
+    margin-top: 10px; font-size: 12px; color:#7080ab;
+    text-align: center;
+  }
+
+  /* ===== 通用：一键复制按钮 ===== */
+  .copy-btn{
+    background: #ffffff; border:1px solid #ecebe6;
+    color: var(--ink-2); font-size: 12px;
+    padding: 4px 10px; border-radius: 999px;
+    cursor: pointer;
+    display:inline-flex; align-items:center; gap:4px;
+    transition: all .18s ease;
+  }
+  .copy-btn:active{transform: scale(.96);}
+  .copy-btn.ok{background:#e4f3e1; color:#4a7a41; border-color:#c8e2c0;}
+
+  /* ===== 英文儿歌 ===== */
+  .song-card{
+    background: linear-gradient(180deg, #fff2f6 0%, #ffe8f0 100%);
+    border: 1px solid #fbd5e0;
+  }
+  .song-top{
+    display:flex; align-items:center; gap:12px;
+  }
+  .song-cover{
+    width: 56px; height: 56px; border-radius: 14px;
+    background: #fff; display:flex; align-items:center; justify-content:center;
+    font-size: 30px; flex:0 0 56px;
+    box-shadow: 0 3px 8px rgba(180,80,120,.15);
+  }
+  .song-info{flex:1; min-width:0;}
+  .song-title{
+    font-size: 15px; font-weight: 700; color:#8b2f52;
+    line-height: 1.3;
+  }
+  .song-sub{
+    font-size: 12px; color:#b56d8a; margin-top:2px;
+  }
+  .song-desc{
+    margin-top: 10px; font-size: 13px; color: #7a3e5a;
+    background: #ffffffc9; padding: 8px 10px; border-radius: 10px;
+    border: 1px solid #fbd5e0;
+    line-height: 1.55;
+  }
+  .song-lyrics{
+    margin-top: 8px; font-size: 13.5px; color: #6a2a44;
+    background: #ffffff; padding: 10px 12px; border-radius: 10px;
+    border: 1px solid #fbd5e0;
+    line-height: 1.7;
+    font-style: italic;
+    white-space: pre-line;
+  }
+  .song-links{
+    margin-top: 10px; display:flex; gap:8px; flex-wrap: wrap;
+  }
+  .song-link{
+    flex:1; min-width: 120px;
+    text-decoration:none;
+    background: #ffffff; border: 1px solid #fbd5e0;
+    color: #8b2f52; font-size: 13px; font-weight:600;
+    padding: 8px 10px; border-radius: 10px;
+    text-align:center;
+    transition: all .18s ease;
+  }
+  .song-link:active{transform: scale(.98);}
+  .song-link .ic{margin-right:4px;}
+
+  /* ===== 每日古诗 ===== */
+  .poem-card{
+    background: linear-gradient(180deg, #fdf7ea 0%, #f8ecc9 100%);
+    border: 1px solid #ecd9a0;
+  }
+  .poem-head{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom: 8px;
+  }
+  .poem-title{
+    font-family: "STKaiti","楷体",KaiTi,serif;
+    font-size: 20px; font-weight: 700; color:#7a5a15;
+    letter-spacing: 2px;
+  }
+  .poem-author{
+    font-size: 12.5px; color:#a97c1f;
+  }
+  .poem-body{
+    background: #fffdf5;
+    border-radius: 12px; padding: 14px 12px;
+    border: 1px solid #ecd9a0;
+  }
+  .poem-line{
+    text-align:center;
+    margin: 6px 0;
+  }
+  .poem-line .pinyin{
+    font-size: 12px; color:#b39250; letter-spacing:1px;
+    line-height: 1.4;
+  }
+  .poem-line .han{
+    font-family: "STKaiti","楷体",KaiTi,serif;
+    font-size: 18px; color:#5a3d10;
+    letter-spacing: 4px;
+    line-height: 1.5;
+    margin-top: 1px;
+  }
+  .poem-meaning{
+    margin-top: 10px; font-size: 12.5px; color:#7a5a15;
+    background: #fff8e0;
+    padding: 8px 10px; border-radius: 10px;
+    border-left: 3px solid #d9b45a;
+    line-height: 1.55;
+  }
+
+  /* ===== 亲子小游戏 ===== */
+  .game-card{
+    background: linear-gradient(180deg, #edf7ea 0%, #e0efd6 100%);
+    border: 1px solid #cfe6c4;
+  }
+  .game-top{
+    display:flex; align-items:center; gap:12px;
+  }
+  .game-icon{
+    width: 52px; height: 52px; border-radius: 14px;
+    background: #fff; display:flex; align-items:center; justify-content:center;
+    font-size: 28px; flex:0 0 52px;
+    box-shadow: 0 3px 8px rgba(80,140,80,.15);
+  }
+  .game-info{flex:1; min-width:0;}
+  .game-name{
+    font-size: 15px; font-weight: 700; color:#3d6837;
+    line-height: 1.3;
+  }
+  .game-meta{
+    margin-top: 3px; display:flex; gap:6px; flex-wrap:wrap;
+  }
+  .game-tag{
+    background: #ffffff; color:#4a7a41; font-size:11.5px;
+    padding: 2px 8px; border-radius:999px;
+    border:1px solid #cfe6c4;
+  }
+  .game-tag.time{background:#fff4d1; color:#a97c1f; border-color:#f0dea3;}
+  .game-desc{
+    margin-top: 10px; font-size: 13px; color:#3d6837;
+    background: #ffffffc9; padding: 10px 12px; border-radius: 10px;
+    border:1px solid #cfe6c4; line-height:1.6;
+  }
+  .game-steps{
+    margin: 8px 0 0; padding-left: 22px;
+    color:#3d6837;
+  }
+  .game-steps li{margin: 3px 0;}
+  .game-benefit{
+    margin-top: 8px; font-size: 12.5px; color:#4a7a41;
+    background: #f6fbf1;
+    padding: 6px 10px; border-radius: 10px;
+    border-left: 3px solid #7bab6b;
+  }
+
+  /* ===== 每日灵感分享 ===== */
+  .share-card{
+    background: linear-gradient(180deg, #fff5f0 0%, #fce4d6 100%);
+    border: 1px solid #f6c9b0;
+  }
+  .share-head{
+    display:flex; align-items:center; gap:10px; margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .share-badge{
+    display:inline-flex; align-items:center; gap:4px;
+    padding: 3px 9px; border-radius: 999px;
+    background: #ffffff; border:1px solid #f6c9b0;
+    color: #a24d2a; font-size: 11.5px; font-weight:600;
+  }
+  .share-badge.b-parent{background:#ffe4ec; color:#b24d68; border-color:#f7c7d4;}
+  .share-badge.b-work{background:#e4edf7; color:#3c5b83; border-color:#c7d7ee;}
+  .share-badge.b-life{background:#e4f3e1; color:#4a7a41; border-color:#c8e2c0;}
+  .share-hook{
+    font-size: 16px; font-weight: 700; color:#7a3319;
+    line-height: 1.45;
+    margin-top: 2px;
+  }
+  .share-body{
+    margin-top: 10px;
+    background: #ffffffcc; border-radius: 12px;
+    padding: 12px 13px;
+    font-size: 14px; color: #503020;
+    line-height: 1.75;
+    border: 1px solid #f6c9b0;
+    white-space: pre-line;
+  }
+  .share-tags{
+    margin-top: 8px;
+    font-size: 12.5px; color: #a24d2a;
+    line-height: 1.7;
+  }
+  .share-footer{
+    margin-top: 10px; display:flex; justify-content:space-between;
+    align-items:center; gap: 8px; flex-wrap: wrap;
+    font-size: 12px; color:#a24d2a;
+  }
+  .share-switch{
+    background: #ffffff; border:1px solid #f6c9b0;
+    color:#a24d2a; font-size: 12px;
+    padding: 5px 10px; border-radius: 999px;
+    cursor: pointer;
+    display:inline-flex; align-items:center; gap:4px;
+  }
+  .share-switch:active{transform: scale(.96);}
+
+  /* ===== 核桃今日课堂 Tab ===== */
+  .class-tabs{
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+    margin-bottom: 12px;
+  }
+  .ctab{
+    padding: 9px 4px; border-radius: 12px; text-align:center;
+    font-size: 12.5px; color: var(--ink-2);
+    background: #ffffff; border: 1px solid #ecebe6;
+    cursor: pointer; user-select: none;
+    transition: all .18s ease;
+    line-height: 1.3;
+  }
+  .ctab:active{transform: scale(.97);}
+  .ctab.active{
+    background: #fff2d1; color:#7a5a15; border-color:#f0dea3;
+    box-shadow: inset 0 -2px 0 #d9b45a;
+    font-weight:700;
+  }
+  .class-panel{display:none;}
+  .class-panel.active{display:block;}
+
+  /* ===== 每日玄学提示 ===== */
+  .mystic-card{
+    background: linear-gradient(180deg, #f2ecf9 0%, #e8dff2 100%);
+    border: 1px solid #d9c9ec;
+    position: relative;
+    overflow: hidden;
+  }
+  .mystic-card::before{
+    content:"☯"; position:absolute; right:-10px; top:-14px;
+    font-size: 90px; color: #d9c9ec55; pointer-events:none;
+  }
+  .mystic-head{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom: 8px; flex-wrap: wrap; gap:6px;
+    position:relative;
+  }
+  .mystic-mood{
+    font-size: 14px; font-weight: 700; color:#5a3c8a;
+    line-height: 1.4;
+  }
+  .mystic-profile{
+    font-size: 11.5px; color:#8a72b3;
+    background: #ffffffb0; padding: 3px 8px; border-radius: 999px;
+    border: 1px solid #d9c9ec;
+  }
+  .mystic-row{
+    background: #ffffffcc;
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-top: 8px;
+    border: 1px solid #ece2f5;
+  }
+  .mystic-row .lbl{
+    font-size: 12px; font-weight: 700; color:#7a5aa8;
+    letter-spacing: .2px;
+    margin-bottom: 4px;
+  }
+  .mystic-color-chips{
+    display:flex; gap:8px; flex-wrap:wrap; margin-top: 4px;
+  }
+  .mystic-chip{
+    display:inline-flex; align-items:center; gap:6px;
+    padding: 4px 10px 4px 6px; border-radius: 999px;
+    background: #fff; border:1px solid #ece2f5;
+    font-size:12.5px; color:#503020;
+  }
+  .mystic-chip .dot-c{
+    width:14px; height:14px; border-radius:50%;
+    box-shadow: 0 0 0 1px #ffffff, 0 0 0 2px #ecebe6;
+  }
+  .mystic-tip{
+    font-size:12.5px; color:#5a3c8a; line-height:1.6;
+    margin-top: 4px;
+  }
+  .mystic-list{
+    margin: 4px 0 0; padding-left: 20px;
+    font-size: 13px; color:#5a3c8a; line-height:1.65;
+  }
+  .mystic-list li{margin: 2px 0;}
+  .mystic-list.yes li::marker{color:#4a7a41;}
+  .mystic-list.no li::marker{color:#c05252;}
+  .mystic-row.yes{background:#f2f9ee; border-color:#d3e4c8;}
+  .mystic-row.no{background:#fbeeee; border-color:#f2d3d3;}
+  .mystic-row.yes .lbl{color:#4a7a41;}
+  .mystic-row.no .lbl{color:#a24242;}
+  .mystic-quote{
+    margin-top: 10px;
+    font-size: 13.5px; color:#4a2f7a;
+    background: linear-gradient(90deg, #fff7d6 0%, #f7e9c1 100%);
+    padding: 10px 12px; border-radius: 12px;
+    border-left: 3px solid #c9a24a;
+    font-style: italic;
+    line-height: 1.6;
+  }
+  .mystic-switch{
+    background: #ffffff; border:1px solid #d9c9ec;
+    color:#5a3c8a; font-size: 12px;
+    padding: 5px 10px; border-radius: 999px;
+    cursor: pointer;
+    display:inline-flex; align-items:center; gap:4px;
+  }
+  .mystic-switch:active{transform: scale(.96);}
+  .mystic-foot{
+    margin-top: 10px; display:flex; justify-content:space-between;
+    align-items:center; gap: 8px; flex-wrap: wrap;
+    font-size: 11.5px; color:#8a72b3;
+  }
+
+  /* ===== 全球重大新闻 ===== */
+  .gnews-card{background:#fff;}
+  .gnews-item{
+    display:flex; gap:10px; align-items:flex-start;
+    padding: 10px; border-radius: 12px;
+    background: var(--card-soft);
+    border:1px solid #f2eee5;
+    margin-bottom: 8px;
+  }
+  .gnews-item:last-child{margin-bottom:0;}
+  .gnews-flag{
+    flex:0 0 28px; height:28px; border-radius:8px;
+    background:#fff; border:1px solid #ecebe6;
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px;
+  }
+  .gnews-body{flex:1; min-width:0;}
+  .gnews-cn{font-size:14px; font-weight:700; color:var(--ink); line-height:1.45;}
+  .gnews-cn-desc{font-size:12.5px; color:var(--ink-2); margin-top:3px; line-height:1.55;}
+  .gnews-en{
+    margin-top:6px; font-size:12.5px; color:#4a5c8f;
+    background:#eef3fb; padding:6px 8px; border-radius:8px;
+    line-height:1.55; font-style:italic;
+    border-left: 3px solid #a8c1e5;
+  }
+  .gnews-meta{margin-top:5px; font-size:11.5px; color:var(--ink-3);}
+
+  /* ===== 爆款视频拆解 ===== */
+  .viral-card{
+    background: linear-gradient(180deg, #fff8f2 0%, #f9efe3 100%);
+    border: 1px solid #f0dfca;
+  }
+  .viral-item{
+    background: rgba(255,255,255,.82);
+    border: 1px solid #f1e5d6;
+    border-radius: 14px;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+  .viral-item:last-child{margin-bottom:0;}
+  .viral-title{
+    display:flex; align-items:flex-start; justify-content:space-between;
+    gap:10px; margin-bottom: 8px;
+  }
+  .viral-hook{
+    font-size: 14px; font-weight: 700; color:#6a4022; line-height:1.45;
+  }
+  .viral-tag{
+    display:inline-flex; align-items:center; gap:4px;
+    padding: 3px 9px; border-radius: 999px;
+    background:#fff; border:1px solid #f0dfca;
+    color:#9a6635; font-size:11.5px; font-weight:600;
+    white-space: nowrap;
+  }
+  .viral-dim{
+    margin-top: 8px;
+    background: #fffcf7;
+    border-radius: 12px;
+    border:1px solid #f3eadf;
+    padding: 9px 10px;
+  }
+  .viral-dim .lbl{
+    font-size:12px; color:#9a6635; font-weight:700; margin-bottom:3px;
+  }
+  .viral-dim .cnt{
+    font-size:13px; color:#5e4a37; line-height:1.55;
+  }
+  .viral-tips{
+    margin-top: 9px;
+    background: linear-gradient(90deg, #fff1d8 0%, #fde9c0 100%);
+    border-left: 3px solid #d9b45a;
+    border-radius: 12px;
+    padding: 10px 11px;
+    font-size: 13px; color:#7a5a15; line-height:1.6;
+  }
+  .viral-copy{
+    margin-top: 10px;
+    display:flex; justify-content:flex-end;
+  }
+  /* 视频入口 - B 站 iframe */
+  .viral-video-embed{
+    position:relative;
+    width:100%;
+    aspect-ratio: 16/9;
+    border-radius: 12px;
+    overflow:hidden;
+    background:#000;
+    margin-bottom: 10px;
+    border:1px solid #f0dfca;
+  }
+  .viral-video-embed iframe{
+    width:100%; height:100%;
+    border:0; display:block;
+  }
+  /* 视频入口 - 抖音 / 小红书 跳转卡 */
+  .viral-video-cover{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:6px;
+    width:100%;
+    aspect-ratio: 16/9;
+    border-radius: 12px;
+    padding: 12px;
+    color:#fff;
+    text-decoration:none;
+    text-align:center;
+    margin-bottom: 10px;
+    position:relative;
+    overflow:hidden;
+    box-shadow: 0 4px 14px rgba(0,0,0,.12);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .viral-video-cover:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(0,0,0,.18);
+  }
+  .viral-video-cover::before{
+    content:"";
+    position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.28) 100%);
+    pointer-events:none;
+  }
+  .viral-video-cover .cover-emoji{
+    font-size: 46px;
+    line-height:1;
+    filter: drop-shadow(0 3px 8px rgba(0,0,0,.28));
+    z-index:1;
+  }
+  .viral-video-cover .cover-title{
+    font-size: 13.5px;
+    font-weight: 700;
+    line-height:1.4;
+    max-width: 92%;
+    text-shadow: 0 1px 4px rgba(0,0,0,.28);
+    z-index:1;
+  }
+  .viral-video-cover .cover-cta{
+    display:inline-flex; align-items:center; gap:6px;
+    background: rgba(255,255,255,.92);
+    color:#333;
+    font-size:12px; font-weight:700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    z-index:1;
+  }
+  .viral-video-cover .cover-duration{
+    position:absolute;
+    right:10px; bottom:10px;
+    background: rgba(0,0,0,.55);
+    color:#fff;
+    font-size:11px; font-weight:600;
+    padding: 2px 7px;
+    border-radius: 6px;
+    z-index:2;
+  }
+  @media (max-width: 420px){
+    .viral-video-cover .cover-emoji{ font-size: 38px; }
+    .viral-video-cover .cover-title{ font-size: 12.5px; }
+    .viral-video-cover .cover-cta{ font-size: 11.5px; padding: 3px 8px; }
+  }
+
+  /* ===== AI 学习专区 ===== */
+  .ai-card{
+    background: linear-gradient(180deg, #f8f7f3 0%, #efebe3 100%);
+    border: 1px solid #e8e1d7;
+  }
+  .ai-block{
+    background:#ffffffd9;
+    border:1px solid #ece5da;
+    border-radius: 14px;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+  .ai-block:last-child{margin-bottom:0;}
+  .ai-tool{
+    font-size: 14px; font-weight:700; color:#3d4b5f; line-height:1.45;
+  }
+  .ai-prompt{
+    margin-top: 8px;
+    background: #f6f4ef;
+    border:1px dashed #ddd3c6;
+    border-radius: 12px;
+    padding: 10px;
+    color:#4d4a45;
+    font-size: 12.5px;
+    line-height:1.65;
+    white-space: pre-line;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  }
+  .ai-news{
+    margin-top: 8px;
+    background:#f8f5ef;
+    border-radius: 12px;
+    border:1px solid #ede6da;
+    padding: 9px 10px;
+  }
+  .ai-copy{
+    margin-top: 10px;
+    display:flex; justify-content:flex-end;
+  }
+  .ai-link{
+    display:inline-flex; align-items:center; gap:4px;
+    margin-top: 8px;
+    text-decoration:none;
+    color:#3c5b83; font-size:12.5px; font-weight:600;
+    padding: 5px 10px; border-radius:999px;
+    background:#eef3fb; border:1px solid #d6e1f0;
+  }
+
+  /* ===== 每日账本 ===== */
+  .ledger-card{background:#fff;}
+  .ledger-toolbar{
+    display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+    margin-bottom: 10px;
+  }
+  .ledger-date{
+    padding: 6px 10px; border-radius:10px;
+    border:1px solid #ecebe6; background:#fbf9f4;
+    font-size: 13px; color:var(--ink);
+    font-family: inherit;
+  }
+  .ledger-tabs{display:flex; gap:6px;}
+  .ledger-tab{
+    padding: 6px 12px; border-radius:999px;
+    background:#fbf9f4; border:1px solid #ecebe6;
+    font-size:12.5px; color:var(--ink-2); cursor:pointer;
+    user-select:none;
+  }
+  .ledger-tab.active.income{background:#e4f3e1; color:#4a7a41; border-color:#c8e2c0;}
+  .ledger-tab.active.expense{background:#fbeeee; color:#a24242; border-color:#f2d3d3;}
+  .ledger-form{
+    display:grid; grid-template-columns: 1fr 1fr; gap:6px;
+    background:#fbf9f4; border-radius:12px; padding:10px;
+    border:1px solid #ecebe6;
+  }
+  .ledger-form input, .ledger-form select{
+    padding: 8px 10px; border-radius:8px; border:1px solid #ecebe6;
+    background:#fff; font-size:13px; font-family: inherit;
+    color: var(--ink); outline: none;
+  }
+  .ledger-form input:focus, .ledger-form select:focus{border-color:#d9b45a;}
+  .ledger-note-input{grid-column: 1 / 3;}
+  .ledger-add{
+    grid-column: 1 / 3;
+    padding: 9px; border-radius:10px; border:none;
+    background: linear-gradient(90deg,#e5c274,#c9a24a);
+    color:#fff; font-weight:700; font-size:14px; cursor:pointer;
+  }
+  .ledger-add:active{transform: scale(.98);}
+  .ledger-summary{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+    margin: 12px 0 10px;
+  }
+  .ledger-stat{
+    background:#fbf9f4; border:1px solid #ecebe6;
+    border-radius: 12px; padding: 10px;
+    text-align:center;
+  }
+  .ledger-stat .lbl{font-size:11.5px; color:var(--ink-3);}
+  .ledger-stat .val{font-size:16px; font-weight:700; margin-top:2px;}
+  .ledger-stat.income .val{color:#4a7a41;}
+  .ledger-stat.expense .val{color:#c05252;}
+  .ledger-stat.balance .val{color:#c9a24a;}
+  .ledger-list{display:flex; flex-direction:column; gap:6px;}
+  .ledger-row{
+    display:flex; align-items:center; gap:8px;
+    padding: 8px 10px; border-radius:10px;
+    background:#fbf9f4; border:1px solid #ecebe6;
+  }
+  .ledger-row .cat{
+    padding: 2px 8px; border-radius:999px;
+    font-size:11.5px; font-weight:600;
+    background:#fff; border:1px solid #ecebe6; color:var(--ink-2);
+    flex-shrink: 0;
+  }
+  .ledger-row.income .cat{background:#e4f3e1; color:#4a7a41; border-color:#c8e2c0;}
+  .ledger-row.expense .cat{background:#fbeeee; color:#a24242; border-color:#f2d3d3;}
+  .ledger-row .note{flex:1; font-size:13px; color:var(--ink); min-width:0; overflow:hidden; text-overflow: ellipsis; white-space:nowrap;}
+  .ledger-row .amt{font-size:14px; font-weight:700;}
+  .ledger-row.income .amt{color:#4a7a41;}
+  .ledger-row.expense .amt{color:#c05252;}
+  .ledger-row .del{
+    background:none; border:none; color:var(--ink-3);
+    cursor:pointer; font-size:16px; padding:0 4px; line-height:1;
+  }
+  .ledger-empty{
+    padding: 16px; text-align:center; font-size:12.5px;
+    color: var(--ink-3);
+    background:#fbf9f4; border:1px dashed #ecebe6; border-radius:10px;
+  }
+
+  /* ===== 八段锦 ===== */
+  .bdj-head{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom: 10px;
+  }
+  .bdj-progress{
+    display:flex; align-items:center; gap:8px;
+    font-size:12.5px; color: var(--ink-2);
+  }
+  .bar{
+    width:110px; height:6px; border-radius:999px; background:#efeae1; overflow:hidden;
+  }
+  .bar > i{
+    display:block; height:100%; width:0%;
+    background: linear-gradient(90deg,#e5c274,#c9a24a);
+    transition: width .3s ease;
+  }
+  .bdj-video-card{
+    margin-bottom: 12px;
+    background: #fff;
+    border: 1px solid #f2eee5;
+    border-radius: 16px;
+    box-shadow: 0 4px 14px rgba(60,50,30,0.06);
+    padding: 12px;
+  }
+  .bdj-video-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom: 10px;
+  }
+  .bdj-video-title{
+    font-size:14px;
+    font-weight:700;
+    color: var(--ink);
+  }
+  .bdj-switch-btn{
+    border:none;
+    background:#fff4d1;
+    color:#8a6720;
+    border-radius:999px;
+    padding: 6px 10px;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow: inset 0 0 0 1px #f0dea3;
+    flex-shrink:0;
+  }
+  .bdj-switch-btn:active{transform: scale(.97);}
+  .bdj-video-frame{
+    width:100%;
+    aspect-ratio:16/9;
+    border-radius:12px;
+    border:0;
+    display:block;
+    background:#000;
+  }
+  .bdj-video-info{
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--ink-3);
+    line-height:1.6;
+  }
+  .bdj-video-info a{
+    color:#3c5b83;
+    text-decoration:none;
+    font-weight:600;
+  }
+  .bdj-list{display:grid; grid-template-columns: 1fr 1fr; gap:8px;}
+  @media (min-width: 480px){
+    .bdj-list{grid-template-columns: 1fr 1fr;}
+  }
+  @media (max-width: 420px){
+    .bdj-video-card{padding: 10px;}
+    .bdj-video-header{align-items:flex-start;}
+    .bdj-switch-btn{padding: 5px 9px;}
+    .bdj-video-info{font-size: 11.5px;}
+  }
+  .bdj-item{
+    display:flex; align-items:center; gap:10px;
+    padding: 10px 10px; border-radius: 12px;
+    background: var(--card-soft);
+    border: 1px solid #f2eee5;
+    cursor:pointer;
+    transition: all .18s ease;
+    user-select:none;
+  }
+  .bdj-item:active{transform: scale(.985);}
+  .bdj-item.done{
+    background: #fff8dd;
+    border-color:#f0dea3;
+  }
+  .bdj-item .num{
+    width:22px; height:22px; border-radius:6px;
+    background:#ffffff; border:1px solid #ecebe6;
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; color: var(--ink-3); font-weight:700;
+    flex:0 0 22px;
+  }
+  .bdj-item.done .num{background:#f6d47a; border-color:#e5c274; color:#6b4e12;}
+  .bdj-item .name{
+    font-size:13.5px; color:var(--ink); flex:1; min-width:0;
+    line-height:1.35;
+  }
+  .bdj-item.done .name{color:#6b4e12; font-weight:600;}
+  .bdj-item .chk{
+    width:20px; height:20px; border-radius:6px;
+    border:1.5px solid #d6d0c1; background:#fff;
+    display:flex; align-items:center; justify-content:center;
+    flex:0 0 20px;
+    transition: all .18s;
+  }
+  .bdj-item.done .chk{
+    background: #c9a24a; border-color:#c9a24a; color:#fff;
+  }
+  .bdj-item.done .chk::after{content:"✓"; font-size:13px; line-height:1;}
+  .bdj-tip{
+    margin-top:10px; font-size:12px; color:var(--ink-3); text-align:center;
+  }
+  .bdj-reset{
+    background:transparent; border:none; color:var(--ink-3);
+    font-size:12px; text-decoration:underline; cursor:pointer;
+    padding:0;
+  }
+
+  /* ===== 工作快捷 ===== */
+  .shortcuts{
+    display:grid; grid-template-columns: 1fr 1fr; gap:10px;
+  }
+  .sc{
+    display:flex; flex-direction:column; gap:6px;
+    padding: 12px;
+    border-radius: 14px;
+    background: var(--card-soft);
+    border: 1px solid #f2eee5;
+    color: var(--ink);
+    text-decoration:none;
+    transition: transform .18s ease, box-shadow .18s ease;
+    min-height: 88px;
+  }
+  .sc:active{transform: scale(.98);}
+  .sc .top{
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .sc .ic{
+    width:32px; height:32px; border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px;
+    background:#fff; box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  }
+  .sc .arrow{color:var(--ink-3); font-size:14px;}
+  .sc .t{font-size:14px; font-weight:600; margin-top:2px;}
+  .sc .d{font-size:11.5px; color:var(--ink-3); line-height:1.4;}
+  .sc.blue .ic{background:#e4edf7; color:#3c5b83;}
+  .sc.pink .ic{background:#ffe4ec; color:#b24d68;}
+  .sc.yellow .ic{background:#fff4d1; color:#a97c1f;}
+  .sc.green .ic{background:#e4f3e1; color:#4a7a41;}
+  .sc.purple .ic{background:#ece4f7; color:#6b4d95;}
+
+  /* ===== 目录页 / 路由 ===== */
+  .menu-grid{
+    display:grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px 8px;
+    margin-top: 12px;
+  }
+  .menu-tile{
+    min-height: 88px;
+    padding: 12px 8px 10px;
+    border-radius: 18px;
+    border: 1px solid #efe8dd;
+    background: linear-gradient(180deg, #fffdf9 0%, #f6f2ea 100%);
+    box-shadow: 0 8px 18px rgba(60,50,30,0.06), 0 1px 3px rgba(60,50,30,0.05);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    text-align:center;
+    cursor:pointer;
+    transition: transform .18s ease, box-shadow .18s ease;
+    user-select:none;
+  }
+  .menu-tile:active{transform: scale(.96);}
+  .menu-tile .icon{font-size: 27px; line-height:1;}
+  .menu-tile .name{font-size: 12.5px; font-weight: 700; line-height:1.35; color:var(--ink);}
+  .menu-tile .sub{font-size: 10.5px; line-height:1.2; color:var(--ink-3);}
+  .back-btn{
+    appearance:none;
+    border:none;
+    background:#ffffff;
+    color:var(--ink);
+    font-size:13px;
+    font-weight:600;
+    padding:10px 14px;
+    border-radius:999px;
+    box-shadow: var(--shadow);
+    margin: 2px 0 10px;
+    cursor:pointer;
+  }
+  .back-btn:active{transform: scale(.97);}
+  .page-detail .section{margin-top:0;}
+
+  /* ===== 页脚 ===== */
+  .footer{
+    text-align:center; color: var(--ink-3);
+    font-size: 12px; margin-top: 22px; padding: 8px 0 4px;
+  }
+  .footer .tip{
+    display:inline-block; margin-top:6px;
+    background:#ffffff; padding:6px 10px; border-radius:999px;
+    border:1px solid #ecebe6;
+  }
+
+  /* 加宽 */
+  @media (min-width: 640px){
+    .baby-grid{grid-template-columns: 1fr 1fr 1fr;}
+  }
+  @media (max-width: 430px){
+    .wrap{padding: 12px;}
+    .hero{padding: 15px 14px 13px; border-radius: 20px;}
+    .hero-top{align-items:flex-start;}
+    .hello{font-size: 19px;}
+    .weather{padding: 5px 8px; font-size: 12px; gap:4px;}
+    .weather .ic{font-size:14px;}
+    .date-line{margin-top: 8px; font-size: 12.5px; gap:8px;}
+    .date-line .chip{font-size: 11.5px; padding: 3px 8px;}
+    .quote{margin-top: 10px; font-size: 12px; padding: 7px 9px;}
+    .menu-grid{gap:8px 7px; margin-top: 10px;}
+    .menu-tile{min-height: 78px; padding: 10px 6px 9px; border-radius:16px; gap:5px;}
+    .menu-tile .icon{font-size: 24px;}
+    .menu-tile .name{font-size: 12px;}
+    .menu-tile .sub{font-size: 10px;}
+  }
+
+  /* ==== 新布局：置顶头部 + 左侧竖导航 + 右侧内容 ==== */
+  .app-root{
+    max-width: 720px; margin: 0 auto;
+    min-height: 100vh;
+    display:flex; flex-direction:column;
+  }
+  .app-top{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0; z-index: 20;
+    background: rgba(245,241,234,0.94);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    padding: 12px 12px 10px;
+    border-bottom: 1px solid #ecebe6;
+  }
+  .app-top .hero{border-radius: 18px; padding: 14px 14px 12px;}
+  .app-top .hero-top .hello{font-size: 18px;}
+  .app-top .weather{font-size:12px; padding:5px 9px;}
+  .pinned-row{
+    display:grid; grid-template-columns: repeat(3, 1fr);
+    gap: 8px; margin-top: 10px;
+  }
+  .pinned-card{
+    appearance:none; border:none;
+    text-align:left;
+    padding: 10px 10px 9px;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(60,50,30,0.06);
+    border:1px solid #efe8dd;
+    min-height: 68px;
+    cursor: pointer;
+    display:flex; flex-direction:column; gap:2px; justify-content:center;
+    transition: transform .18s ease;
+  }
+  .pinned-card:active{transform: scale(.97);}
+  .pinned-card .pc-title{font-size:13px; font-weight:700; color:var(--ink); line-height:1.3;}
+  .pinned-card .pc-sub{font-size:11px; color:var(--ink-3); line-height:1.35;}
+  .pinned-card .pc-emoji{font-size:14px; margin-right:2px;}
+  .app-body{
+    display:flex; flex:1; align-items:stretch;
+    padding: 10px 8px 20px;
+    gap: 8px;
+  }
+  .side-nav{
+    flex:0 0 68px;
+    display:flex; flex-direction:column;
+    gap: 8px;
+    padding: 8px 6px;
+    background: linear-gradient(180deg, #faf3e2 0%, #f2ead4 100%);
+    border-radius: 18px;
+    border: 1px solid #efe4c8;
+    box-shadow: 0 2px 8px rgba(60,50,30,0.04);
+    align-self: flex-start;
+    position: -webkit-sticky;
+    position: sticky;
+    top: calc(env(safe-area-inset-top) + 180px);
+  }
+  .nav-item{
+    appearance:none;
+    background: #ffffff;
+    border: 1px solid #efe8dd;
+    border-radius: 12px;
+    padding: 8px 4px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap: 3px;
+    cursor: pointer;
+    min-height: 56px;
+    transition: transform .18s ease, background .18s ease;
+    position: relative;
+    color: inherit;
+  }
+  .nav-item:active{transform: scale(.95);}
+  .nav-item .n-emoji{font-size: 22px; line-height:1;}
+  .nav-item .n-name{font-size: 12px; color:var(--ink-2); font-weight:600; line-height:1.1;}
+  .nav-item.active{
+    background: linear-gradient(135deg, #fff5d9 0%, #fce6b4 100%);
+    border-color: #f0dea3;
+    box-shadow: inset 0 0 0 1px #f0dea3, 0 2px 8px rgba(210,170,60,0.18);
+  }
+  .nav-item.active::before{
+    content:""; position:absolute; left:-6px; top:10px; bottom:10px;
+    width: 3px; border-radius:2px; background: linear-gradient(180deg,#e5c274,#c9a24a);
+  }
+  .nav-item.active .n-name{color:#7a5a15; font-weight:700;}
+  .content-area{
+    flex:1; min-width:0;
+    overflow-x: hidden;
+  }
+  .content-area .page{padding: 0;}
+  .content-area .page.active{display:block;}
+  .content-area .section{margin-top: 0;}
+  .content-area .section + .section{margin-top: 14px;}
+  .content-area .card{padding:12px;}
+  .back-btn{display:none !important;}
+  .content-area .section-head{padding: 0 2px 8px;}
+
+  /* ==== 核桃专区 ==== */
+  .baby-header{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom: 10px;
+    background: linear-gradient(180deg, #fff8ec 0%, #ffeef2 100%);
+    border-radius: 14px; padding: 10px 12px;
+    border:1px solid #fde3d5;
+  }
+  .baby-header .b-name{font-size:15px; font-weight:700; color:#8b4d3d;}
+  .baby-header .b-age{font-size:12px; color:#b07a63; margin-top:2px;}
+  .baby-header .b-chip{
+    background:#fff0d5; color:#a97c1f;
+    padding: 3px 9px; border-radius:999px; font-size:11.5px; font-weight:600;
+  }
+  .baby-tabs-l1{
+    display:flex; gap:6px; margin-bottom: 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+  }
+  .baby-tabs-l1::-webkit-scrollbar{display:none;}
+  .baby-tab-l1{
+    flex: 0 0 auto;
+    padding: 7px 12px; border-radius: 999px;
+    background: #ffffff; border:1px solid #ecebe6;
+    font-size: 12.5px; color: var(--ink-2);
+    cursor: pointer; user-select:none;
+    white-space: nowrap;
+  }
+  .baby-tab-l1.active{
+    background:#fce6b4; color:#7a5a15; border-color:#f0dea3;
+    font-weight: 700;
+  }
+  .baby-panel-l1{display:none;}
+  .baby-panel-l1.active{display:block;}
+  .baby-chips{
+    display:flex; gap:6px; flex-wrap:wrap;
+    margin-bottom: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .baby-chip-btn{
+    padding: 5px 10px; border-radius:999px;
+    background: #ffffff; border:1px solid #ecebe6;
+    font-size: 12px; color: var(--ink-2);
+    cursor:pointer; user-select:none;
+    white-space:nowrap;
+  }
+  .baby-chip-btn.active{
+    background: #fff2d1; color:#7a5a15; border-color:#f0dea3;
+    font-weight: 700;
+  }
+  .baby-badge-default{
+    display:inline-block; margin-left:4px;
+    font-size:10px; color:#a97c1f;
+    background:#fff8dd; border:1px solid #f0dea3;
+    padding: 1px 5px; border-radius:6px;
+    vertical-align:middle;
+  }
+
+  /* 儿歌列表 */
+  .song-list{display:flex; flex-direction:column; gap:8px;}
+  .song-item{
+    background:#ffffff; border:1px solid #fbd5e0;
+    border-radius:14px; padding: 10px 12px;
+  }
+  .song-item .si-head{
+    display:flex; align-items:flex-start; justify-content:space-between; gap:8px;
+    margin-bottom: 6px;
+  }
+  .song-item .si-title{font-size:14px; font-weight:700; color:#8b2f52; line-height:1.35;}
+  .song-item .si-cn{font-size:12px; color:#b56d8a; margin-top:2px;}
+  .song-item .si-stage{
+    background:#ffe4ec; color:#b24d68;
+    padding: 2px 7px; border-radius:999px;
+    font-size:10.5px; white-space:nowrap; flex-shrink:0;
+  }
+  .song-item .si-lyric{
+    font-size:12.5px; color:#6a2a44; line-height:1.6;
+    background: #fff5f8; border-radius:10px;
+    padding: 8px 10px; border:1px solid #fbd5e0;
+    white-space: pre-line; font-style: italic;
+    margin-bottom: 8px;
+  }
+  .song-item .si-links{display:flex; gap:6px; flex-wrap:wrap;}
+  .song-item .si-links a, .song-item .si-links button{
+    flex:1; min-width:80px;
+    text-decoration:none;
+    padding: 7px 8px; border-radius:8px;
+    background: #ffffff; border:1px solid #fbd5e0;
+    color:#8b2f52; font-size:12px; font-weight:600;
+    text-align:center;
+    appearance:none; cursor:pointer;
+  }
+
+  /* 每日古诗 */
+  .poem-big{padding: 14px 14px 12px; background:#fdf7ea; border:1px solid #ecd9a0; border-radius:14px;}
+  .poem-big .pb-top{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-bottom: 6px; gap:8px; flex-wrap:wrap;
+  }
+  .poem-big .pb-title{
+    font-family: "STKaiti","楷体",KaiTi,serif;
+    font-size: 22px; letter-spacing: 3px; color:#5a3d10; font-weight:700;
+  }
+  .poem-big .pb-author{font-size:12px; color:#a97c1f;}
+  .poem-lines{
+    background:#fffdf5; border-radius:12px; padding:12px;
+    border:1px solid #ecd9a0;
+  }
+  .poem-lines .pl{
+    text-align:center; margin:8px 0;
+  }
+  .poem-lines .pl .py{font-size:11.5px; color:#b39250; letter-spacing:2px; line-height:1.3;}
+  .poem-lines .pl .han{
+    font-family:"STKaiti","楷体",KaiTi,serif;
+    font-size: 20px; color:#5a3d10; letter-spacing: 5px; line-height:1.5;
+    margin-top:2px;
+  }
+  .poem-meaning-2{
+    margin-top:10px; font-size:12.5px; color:#7a5a15;
+    background:#fff8e0; border-radius:10px; padding:8px 10px;
+    border-left: 3px solid #d9b45a; line-height:1.55;
+  }
+  .poem-actions{
+    margin-top:10px; display:flex; gap:8px;
+  }
+  .poem-actions button{
+    flex:1; padding:8px; border-radius:10px;
+    background:#ffffff; border:1px solid #ecd9a0;
+    color:#7a5a15; font-size:13px; font-weight:600;
+    cursor:pointer;
+  }
+
+  /* 英文学习 */
+  .abc-big{
+    background: linear-gradient(180deg, #ecf3ff 0%, #d9e8fa 100%);
+    border:1px solid #c9dbf3;
+    padding: 14px; text-align:center;
+    border-radius: 14px;
+    margin-bottom: 10px;
+  }
+  .abc-big .letter-line{
+    display:flex; align-items:baseline; justify-content:center;
+    gap: 12px;
+  }
+  .abc-big .letter-up{
+    font-size: 54px; font-weight: 700; color:#2b3a66;
+    line-height:1;
+  }
+  .abc-big .letter-lo{
+    font-size: 36px; color:#4a5c8f; line-height:1;
+  }
+  .abc-big .sound{font-size:13px; color:#4a5c8f; margin-top:6px;}
+  .abc-big .word{font-size:15px; color:#2b3a66; margin-top:8px; font-weight:700;}
+  .abc-big .cnword{font-size:12px; color:#7080ab; margin-left:4px;}
+  .abc-big .example{
+    margin-top:8px; font-size:12.5px; color:#3a4a7a;
+    background:#ffffffcc; border-radius:8px; padding:6px 10px;
+    line-height:1.55;
+  }
+  .abc-grid{
+    display:grid; grid-template-columns: repeat(6, 1fr); gap: 5px;
+    padding: 6px; background:#fffcf7; border-radius:12px;
+    border:1px solid #ecebe6;
+  }
+  .abc-cell{
+    padding: 7px 0; border-radius: 8px; text-align:center;
+    font-size:13px; font-weight:700; color:var(--ink);
+    background:#ffffff; border:1px solid #ecebe6;
+    cursor:pointer; user-select:none;
+    min-height: 30px;
+  }
+  .abc-cell.active{background:#fce6b4; color:#7a5a15; border-color:#f0dea3;}
+  .word-cat-tabs{display:flex; gap:6px; margin-bottom:8px; flex-wrap:wrap;}
+  .word-cat-tab{
+    padding:5px 10px; border-radius:999px;
+    background:#ffffff; border:1px solid #ecebe6;
+    font-size:12px; color:var(--ink-2); cursor:pointer;
+  }
+  .word-cat-tab.active{background:#fce6b4; color:#7a5a15; border-color:#f0dea3; font-weight:700;}
+  .word-grid{
+    display:grid; grid-template-columns: repeat(2, 1fr); gap: 6px;
+  }
+  .word-cell{
+    background:#fff; border:1px solid #ecebe6;
+    border-radius:10px; padding:8px 10px;
+    font-size:13px; color:var(--ink);
+  }
+  .word-cell .en{font-weight:700; color:#2b3a66;}
+  .word-cell .cn{font-size:12px; color:var(--ink-3); margin-left:4px;}
+  .word-cell .ex{font-size:11.5px; color:var(--ink-3); margin-top:2px;}
+  .sent-list{display:flex; flex-direction:column; gap:6px;}
+  .sent-item{
+    background:#fff; border:1px solid #ecebe6;
+    border-radius:10px; padding:8px 10px;
+  }
+  .sent-item .en{font-size:13px; color:#2b3a66; font-weight:600; line-height:1.45;}
+  .sent-item .cn{font-size:12px; color:var(--ink-3); margin-top:2px;}
+  .sent-item .scene{font-size:11px; color:#8a867e; margin-top:2px;}
+  .dial-block{
+    background:#f6f9ff; border:1px solid #d9e3fb;
+    border-radius:12px; padding:10px;
+    margin-bottom:10px;
+  }
+  .dial-block .dt{font-size:13px; font-weight:700; color:#3a4a7a; margin-bottom:6px;
+    display:flex; justify-content:space-between; align-items:center;}
+  .dial-line{margin: 4px 0;}
+  .dial-line .en{font-size:13px; color:#2b3a66;}
+  .dial-line .cn{font-size:12px; color:#7080ab; margin-left:6px;}
+
+  /* 成长建议 */
+  .growth-grid{display:grid; grid-template-columns:1fr; gap:10px;}
+  .growth-block{
+    background:#ffffff; border:1px solid #fce3d5;
+    border-radius:12px; padding:12px;
+  }
+  .growth-block .gb-title{
+    font-size:13px; font-weight:700; color:#a24d68;
+    display:flex; align-items:center; gap:6px; margin-bottom:6px;
+  }
+  .growth-block ul{margin: 4px 0 0; padding-left:20px; font-size:12.5px; color:#5a4432; line-height:1.65;}
+  .growth-block li{margin: 3px 0;}
+
+  /* 亲子游戏 */
+  .game-cat-tabs{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px;}
+  .game-cat-tab{
+    padding:5px 10px; border-radius:999px;
+    background:#ffffff; border:1px solid #cfe6c4;
+    font-size:12px; color:#4a7a41; cursor:pointer;
+  }
+  .game-cat-tab.active{background:#c8e2c0; color:#3d6837; font-weight:700;}
+  .game-list{display:flex; flex-direction:column; gap:8px;}
+  .game-item{
+    background:#ffffff; border:1px solid #cfe6c4;
+    border-radius:12px; padding:10px 12px;
+  }
+  .game-item .gi-head{
+    display:flex; justify-content:space-between; align-items:center; gap:8px;
+    margin-bottom:6px;
+  }
+  .game-item .gi-name{font-size:14px; font-weight:700; color:#3d6837;}
+  .game-item .gi-age{font-size:10.5px; background:#e4f3e1; color:#4a7a41; padding:2px 7px; border-radius:999px; white-space:nowrap;}
+  .game-item .gi-steps{
+    margin: 4px 0 0; padding-left:20px; font-size:12.5px; color:#3d6837; line-height:1.6;
+  }
+  .game-item .gi-value{
+    margin-top:6px; font-size:12px; color:#4a7a41;
+    background:#f6fbf1; border-left:3px solid #7bab6b;
+    padding:5px 8px; border-radius:8px;
+  }
+  .game-item .gi-actions{
+    margin-top:8px; display:flex; justify-content:flex-end;
+  }
+  .action-row{display:flex; justify-content:flex-end; margin-bottom:8px;}
+  .action-row .copy-btn{font-size:12px;}
+  .section-copy{
+    display:flex; justify-content:flex-end; margin-top:8px;
+  }
+
+  /* 响应式 360-420 */
+  @media (max-width: 400px){
+    .app-top{padding: 10px 10px 8px;}
+    .app-top .hero{padding:12px 12px 10px; border-radius:16px;}
+    .app-top .hero-top .hello{font-size: 17px;}
+    .pinned-row{gap:6px; margin-top:8px;}
+    .pinned-card{padding: 8px 8px 7px; min-height:62px;}
+    .pinned-card .pc-title{font-size:12.5px;}
+    .pinned-card .pc-sub{font-size:10.5px;}
+    .side-nav{flex: 0 0 62px; padding:6px 4px; gap:6px;}
+    .nav-item{min-height:54px; padding:6px 2px;}
+    .nav-item .n-emoji{font-size: 20px;}
+    .nav-item .n-name{font-size: 11px;}
+    .app-body{padding: 8px 6px 16px; gap:6px;}
+    .abc-grid{grid-template-columns: repeat(5, 1fr);}
+    .poem-big .pb-title{font-size: 20px;}
+    .poem-lines .pl .han{font-size: 18px; letter-spacing: 4px;}
+    .abc-big .letter-up{font-size: 46px;}
+    .abc-big .letter-lo{font-size: 30px;}
+  }
+</style>
+</head>
+<body>
+<div class="app-root">
+  <!-- ============ 置顶：欢迎条 + 三张卡片 ============ -->
+  <header class="app-top">
+    <section class="hero">
+      <div class="hero-top">
+        <div class="hello">早安，江江 <span class="emoji">💰</span></div>
+        <div class="weather">
+          <span class="ic">⛅</span>
+          <span id="weather-text">上海 · 多云 32° / 27°</span>
+        </div>
+      </div>
+      <div class="date-line">
+        <span id="today-date">加载中…</span>
+        <span class="chip" id="today-week">周一</span>
+        <span class="chip" id="today-lunar">农历</span>
+      </div>
+    </section>
+    <div class="pinned-row" aria-label="置顶入口">
+      <button type="button" class="pinned-card" data-target="news">
+        <div class="pc-title"><span class="pc-emoji">📰</span>每日资讯</div>
+        <div class="pc-sub">互联网 · 餐饮双频道</div>
+      </button>
+      <button type="button" class="pinned-card" data-target="global">
+        <div class="pc-title"><span class="pc-emoji">🌍</span>全球新闻</div>
+        <div class="pc-sub">中英双语 · 5 条</div>
+      </button>
+      <button type="button" class="pinned-card" data-target="bdj">
+        <div class="pc-title"><span class="pc-emoji">🧘</span>八段锦</div>
+        <div class="pc-sub" id="pinned-bdj-sub">今日打卡</div>
+      </button>
+    </div>
+  </header>
+
+  <div class="app-body">
+    <!-- ============ 左侧竖导航 ============ -->
+    <aside class="side-nav" aria-label="侧边导航">
+      <button type="button" class="nav-item" data-target="viral"><span class="n-emoji">🔥</span><span class="n-name">爆款</span></button>
+      <button type="button" class="nav-item" data-target="ai"><span class="n-emoji">🤖</span><span class="n-name">AI学</span></button>
+      <button type="button" class="nav-item" data-target="food"><span class="n-emoji">🥗</span><span class="n-name">饮食</span></button>
+      <button type="button" class="nav-item" data-target="feng"><span class="n-emoji">🔮</span><span class="n-name">玄学</span></button>
+      <button type="button" class="nav-item active" data-target="baby"><span class="n-emoji">🍼</span><span class="n-name">核桃</span></button>
+      <button type="button" class="nav-item" data-target="share"><span class="n-emoji">✍️</span><span class="n-name">灵感</span></button>
+      <button type="button" class="nav-item" data-target="ledger"><span class="n-emoji">💰</span><span class="n-name">账本</span></button>
+    </aside>
+
+    <!-- ============ 右侧内容区 ============ -->
+    <main class="content-area">
+    <div class="page page-detail" id="page-news">
+  <!-- ============ 每日资讯 ============ -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-title"><span class="dot"></span><span class="icon">📰</span>每日资讯</div>
+      <div class="section-note">数据每日更新</div>
+    </div>
+    <div class="card">
+      <div class="news-tabs">
+        <div class="tab active" data-tab="net">互联网</div>
+        <div class="tab" data-tab="food">餐饮行业</div>
+      </div>
+
+      <div class="news-panel active" id="panel-net">
+        <div class="news-list">
+          <div class="news-item hot">
+            <div class="rank">1</div>
+            <div class="body">
+              <div class="title">大模型价格战再升级：多家云厂商推出企业级 Agent 折扣套餐</div>
+              <div class="meta">
+                <span class="tag hot">🔥 热</span>
+                <span>36氪 · 2h 前</span>
+              </div>
+            </div>
+          </div>
+          <div class="news-item">
+            <div class="rank">2</div>
+            <div class="body">
+              <div class="title">短视频电商 GMV Q2 环比 +18%，本地生活成新增长极</div>
+              <div class="meta">
+                <span class="tag">行业</span>
+                <span>虎嗅 · 上午</span>
+              </div>
+            </div>
+          </div>
+          <div class="news-item">
+            <div class="rank">3</div>
+            <div class="body">
+              <div class="title">AI Native App 用户留存报告：工具类 D30 突破 22%</div>
+              <div class="meta">
+                <span class="tag new">新</span>
+                <span>晚点 LatePost</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-panel" id="panel-food">
+        <div class="news-list">
+          <div class="news-item hot">
+            <div class="rank">1</div>
+            <div class="body">
+              <div class="title">西式快餐｜麦当劳、汉堡王同步上线"9.9 早餐"套餐，主打职场早通勤</div>
+              <div class="meta">
+                <span class="tag hot">🍔 快餐</span>
+                <span>餐饮老板内参 · 今日</span>
+              </div>
+            </div>
+          </div>
+          <div class="news-item">
+            <div class="rank">2</div>
+            <div class="body">
+              <div class="title">饮品｜霸王茶姬、茶百道加速布局"轻乳茶+果茶"双主线，客单价上探</div>
+              <div class="meta">
+                <span class="tag">🥤 饮品</span>
+                <span>红餐网</span>
+              </div>
+            </div>
+          </div>
+          <div class="news-item">
+            <div class="rank">3</div>
+            <div class="body">
+              <div class="title">自助餐｜"精致小众自助"门店数同比 +37%，客单 128 元档最热</div>
+              <div class="meta">
+                <span class="tag">🍱 自助</span>
+                <span>窄门餐眼</span>
+              </div>
+            </div>
+          </div>
+          <div class="news-item">
+            <div class="rank">4</div>
+            <div class="body">
+              <div class="title">烘焙｜B&C、爸爸糖开出社区店样板，主打"现烤+早餐场景"</div>
+              <div class="meta">
+                <span class="tag new">🥐 烘焙</span>
+                <span>咖门</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+    </div>
+
+    <div class="page page-detail" id="page-global">
+  <!-- ============ 每日全球重大新闻 ============ -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-title"><span class="dot"></span><span class="icon">🌍</span>每日全球重大新闻</div>
+      <div class="section-note">中英双语 · 数据每日更新</div>
+    </div>
+    <div class="card gnews-card">
+      <div class="gnews-item">
+        <div class="gnews-flag">🇺🇸</div>
+        <div class="gnews-body">
+          <div class="gnews-cn">美联储再度暗示年内可能小幅降息</div>
+          <div class="gnews-cn-desc">最新会议纪要显示官员对通胀降温更有信心，市场押注 9 月降息 25 个基点。</div>
+          <div class="gnews-en">The Fed's latest minutes signal growing confidence that inflation is cooling, opening the door to a possible 25-bp rate cut in September.</div>
+          <div class="gnews-meta">Reuters · 2 小时前</div>
+        </div>
+      </div>
+      <div class="gnews-item">
+        <div class="gnews-flag">🇪🇺</div>
+        <div class="gnews-body">
+          <div class="gnews-cn">欧盟就 AI 通用模型出台细化合规指引</div>
+          <div class="gnews-cn-desc">《人工智能法案》下的通用模型（GPAI）需在 8 月起披露训练数据摘要，Meta、OpenAI 等已陆续跟进。</div>
+          <div class="gnews-en">The EU has finalized detailed compliance guidance for general-purpose AI models under the AI Act, requiring training-data summaries from August.</div>
+          <div class="gnews-meta">Financial Times · 上午</div>
+        </div>
+      </div>
+      <div class="gnews-item">
+        <div class="gnews-flag">🇨🇳</div>
+        <div class="gnews-body">
+          <div class="gnews-cn">中国上半年餐饮零售总额同比 +7.8%</div>
+          <div class="gnews-cn-desc">国家统计局数据：饮品、烘焙、快餐三大赛道贡献主要增量，人均客单价小幅回落。</div>
+          <div class="gnews-en">China's H1 F&B retail revenue grew 7.8% YoY, driven mainly by beverages, bakery and QSR; average check ticked slightly down.</div>
+          <div class="gnews-meta">Xinhua · 今日</div>
+        </div>
+      </div>
+      <div class="gnews-item">
+        <div class="gnews-flag">🇯🇵</div>
+        <div class="gnews-body">
+          <div class="gnews-cn">日本央行维持利率不变，日元继续走弱</div>
+          <div class="gnews-cn-desc">植田行长表示将继续观察薪资与通胀数据，市场关注下一轮加息窗口。</div>
+          <div class="gnews-en">The BoJ held rates steady, keeping the yen under pressure; markets watch wage and CPI data for the next hike window.</div>
+          <div class="gnews-meta">Bloomberg · 上午</div>
+        </div>
+      </div>
+      <div class="gnews-item">
+        <div class="gnews-flag">🌐</div>
+        <div class="gnews-body">
+          <div class="gnews-cn">WHO 发出高温健康预警：全球多城破历史极值</div>
+          <div class="gnews-cn-desc">建议减少户外剧烈运动、关注老人与幼儿补水，热浪预计延续至 8 月中旬。</div>
+          <div class="gnews-en">WHO issued a heat-health alert as several cities broke all-time highs; the heatwave is expected to persist into mid-August.</div>
+          <div class="gnews-meta">WHO · 今日</div>
+        </div>
+      </div>
+    </div>
+  </section>
+    </div>
+
+    <div class="page page-detail" id="page-viral">
+  <!-- ============ 抖音 & 小红书爆款视频拆解 ============ -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-title"><span class="dot"></span><span class="icon">🔥</span>B 站 / 抖音 / 小红书爆款视频拆解</div>
+      <div class="section-note">每日更新</div>
+    </div>
+    <div class="card viral-card" id="viral-list"></div>
+  </section>
+    </div>
+
+    <div class="page page-detail" id="page-ai">
+  <!-- ============ AI 学习专区 ============ -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-title"><span class="dot"></span><span class="icon">🤖</span>AI 学习专区</div>
+      <div class="section-note">每日更新</div>
+    </div>
+    <div class="card ai-card">
+      <div class="ai-block">
+        <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:10px;">
+          <div style="flex:1; min-width:0;">
+            <div style="font-size:12px; color:var(--ink-3);">每日 AI 工具推荐</div>
+            <div class="ai-tool" id="ai-tool-name">加载中…</div>
+            <div style="margin-top:6px; font-size:13px; color:var(--ink-2); line-height:1.6;" id="ai-tool-desc"></div>
+            <a class="ai-link" id="ai-tool-link" href="#" target="_blank" rel="noopener noreferrer">🔗 打开教程入口</a>
+          </div>
+        </div>
+        <div class="ai-copy">
+          <button class="copy-btn" data-copy="ai-tool">📋 复制工具卡</button>
+        </div>
+      </div>
+
+      <div class="ai-block">
+        <div style="font-size:12px; color:var(--ink-3);">每日 Prompt 技巧</div>
+        <div class="ai-tool" id="ai-prompt-title">加载中…</div>
+        <div class="ai-prompt" id="ai-prompt-text"></div>
+        <div style="margin-top:8px; font-size:12.5px; color:var(--ink-2); line-height:1.6;" id="ai-prompt-effect"></div>
+        <div class="ai-copy">
+          <button class="copy-btn" data-copy="ai-prompt">📋 复制 Prompt</button>
+        </div>
+      </div>
+
+      <div class="ai-block">
+        <div style="font-size:12px; color:var(--ink-3);">AI 行业动态</div>
+        <div id="ai-news-list"></div>
+      </div>
+    </div>
+  </section>
+    </div>
+
+    <div class="page page-detail" id="page-food">
+  <!-- ============ 健康饮食（中药期） ============ -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-title"><span class="dot"></span><span class="icon">🥗</span>健康饮食</div>
+      <div class="section-note">忌口清单 + 一周菜单</div>
+    </div>
+
+    <div class="card food-card">
+      <div class="food-tabs" role="tablist" aria-label="健康饮食一级 Tab" id="food-tabs">
+        <button type="button" class="food-tab active" data-ftab="med">📋 用药提醒</button>
+        <button type="button" class="food-tab" data-ftab="list">✅ 可以吃 / ❌ 不能吃</button>
+        <button type="button" class="food-tab" data-ftab="menu">📅 一周菜单</button>
+      </div>
+
+      <div class="food-panel active" id="food-panel-med"></div>
+      <div class="food-panel" id="food-panel-list"></div>
+      <div class="food-panel" id="food-panel-menu"></div>
+    </div>
+  </section>
+    </div>
+
+    <div class="page page-detail" id="page-bdj">
+  <!-- ============ 八段锦打卡 ============ -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-title"><span class="dot"></span><span class="icon">🧘</span>八段锦打卡</div>
+      <div class="section-note"><button class="bdj-reset" id="bdj-reset">重置今日</button></div>
+    </div>
+    <div class="card">
+      <div class="bdj-head">
+        <div style="font-size:13px; color:var(--ink-2);">今日进度</div>
+        <div class="bdj-progress">
+          <span id="bdj-count">0/8</span>
+          <div class="bar"><i id="bdj-bar"></i></div>
+        </div>
+      </div>
+      <div class="bdj-video-card">
+        <div class="bdj-video-header">
+          <div class="bdj-video-title">📺 今日跟练视频</div>
+          <button type="button" class="bdj-switch-btn" id="bdj-switch-btn">🔄 换版本</button>
+        </div>
+        <iframe
+          id="bdj-video-frame"
+          src="//player.bilibili.com/player.html?bvid=BV1Uy411z7kF&page=1&autoplay=0&high_quality=1&danmaku=0"
+          allowfullscreen="true"
+          scrolling="no"
+          frameborder="0"
+          loading="lazy"
+          class="bdj-video-frame"
+          title="八段锦跟练视频"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+        <div class="bdj-video-info" id="bdj-video-info">
+          📌 UP 主：从三十岁开始学拳 · 健身气功八段锦完整版-带呼吸法口令版 · <a id="bdj-video-link" href="https://www.bilibili.com/video/BV1Uy411z7kF/" target="_blank" rel="noopener noreferrer">B站原页面 ↗</a>
+        </div>
+      </div>
+      <div class="bdj-list" id="bdj-list"></div>
+      <div class="bdj-tip" id="bdj-tip">开始第一式吧～轻轻点一下卡片即可打卡 ✨</div>
+    </div>
+  </section>
+    </div>
+
+    <div class="page page-detail" id="page-feng">
+  <!-- ============ 每日玄学提示 ============ -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-title"><span class="dot"></span><span class="icon">🔮</span>每日玄学提示</div>
+      <div class="section-note">
+        <button class="copy-btn" data-copy="mystic">📋 复制</button>
+      </div>
+    </div>
+    <div class="card mystic-card">
+      <div class="mystic-head">
+        <div class="mystic-mood" id="mystic-mood">今日基调加载中…</div>
+        <div class="mystic-profile" title="1992-03-20 申时 · 春分 · 属猴">庚金日主 · 壬申年 · 春分生</div>
+      </div>
+
+      <div class="mystic-row">
+        <div class="lbl">🎨 幸运色</div>
+        <div class="mystic-color-chips" id="mystic-colors"></div>
+        <div class="mystic-tip" id="mystic-color-tip"></div>
+      </div>
+
+      <div class="mystic-row">
+        <div class="lbl">💎 幸运配饰 / 材质</div>
+        <div class="mystic-tip" id="mystic-jewel"></div>
+      </div>
+
+      <div class="mystic-row yes">
+        <div class="lbl">✅ 今日宜</div>
+        <ul class="mystic-list yes" id="mystic-yes"></ul>
+      </div>
+
+      <div class="mystic-row no">
+        <div class="lbl">🚫 今日忌</div>
+        <ul class="mystic-list no" id="mystic-no"></ul>
+      </div>
+
+      <div class="mystic-quote" id="mystic-quote">加载中…</div>
+
+      <div class="mystic-foot">
+        <span>命理仅供参考 · 主要靠自己 💪</span>
+        <button class="mystic-switch" id="mystic-switch">🔄 换一签</button>
+      </div>
+    </div>
+  </section>
+    </div>
+
+    <div class="page page-detail active" id="page-baby">
+  <!-- ============ 核桃专区（合并成长+课堂+大扩展） ============ -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-title"><span class="dot"></span><span class="icon">🍼</span>核桃专区</div>
+      <div class="section-note" id="baby-age-note">出生于 2025-02-06</div>
+    </div>
+
+    <div class="baby-header">
+      <div>
+        <div class="b-name">🌰 核桃</div>
+        <div class="b-age" id="baby-age-detail">17 个月 · 学步小飞人</div>
+      </div>
+      <div class="b-chip" id="baby-today-chip">Today</div>
+    </div>
+
+    <div class="baby-tabs-l1" role="tablist" aria-label="核桃专区一级导航">
+      <div class="baby-tab-l1 active" data-btab="growth">👶 成长建议</div>
+      <div class="baby-tab-l1" data-btab="song">🎵 英文儿歌</div>
+      <div class="baby-tab-l1" data-btab="poem">📖 每日古诗</div>
+      <div class="baby-tab-l1" data-btab="english">🔤 英文学习</div>
+      <div class="baby-tab-l1" data-btab="game">🎮 亲子游戏</div>
+    </div>
+
+    <!-- ===== 成长建议 ===== -->
+    <div class="baby-panel-l1 active" id="bpanel-growth">
+      <div class="baby-chips" id="growth-stage-chips"></div>
+      <div class="growth-grid" id="growth-grid"></div>
+      <div class="section-copy">
+        <button class="copy-btn" id="growth-copy">📋 复制本段成长建议</button>
+      </div>
+    </div>
+
+    <!-- ===== 英文儿歌 ===== -->
+    <div class="baby-panel-l1" id="bpanel-song">
+      <div class="baby-chips" id="song-stage-chips"></div>
+      <div class="song-list" id="song-list"></div>
+    </div>
+
+    <!-- ===== 每日古诗 ===== -->
+    <div class="baby-panel-l1" id="bpanel-poem">
+      <div class="baby-chips" id="poem-level-chips"></div>
+      <div class="poem-big" id="poem-big">
+        <div class="pb-top">
+          <div>
+            <span class="pb-title" id="poem-title-new">加载中…</span>
+          </div>
+          <div class="pb-author" id="poem-author-new"></div>
+        </div>
+        <div class="poem-lines" id="poem-lines"></div>
+        <div class="poem-meaning-2" id="poem-meaning-new"></div>
+        <div class="poem-actions">
+          <button type="button" id="poem-copy-new">📋 复制这首</button>
+          <button type="button" id="poem-shuffle-new">🔄 换一首</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 英文学习 ===== -->
+    <div class="baby-panel-l1" id="bpanel-english">
+      <div class="baby-chips" id="english-stage-chips"></div>
+      <div id="english-content"></div>
+      <div class="section-copy">
+        <button class="copy-btn" id="english-copy">📋 复制本段内容</button>
+      </div>
+    </div>
+
+    <!-- ===== 亲子游戏 ===== -->
+    <div class="baby-panel-l1" id="bpanel-game">
+      <div class="game-cat-tabs" id="game-cat-tabs"></div>
+      <div class="game-list" id="game-list-new"></div>
+    </div>
+  </section>
+    </div>
+
+    <div class="page page-detail" id="page-share">
+  <!-- ============ 每日灵感分享 ============ -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-title"><span class="dot"></span><span class="icon">✍️</span>每日灵感分享</div>
+      <div class="section-note">
+        <button class="copy-btn" data-copy="share">📋 复制</button>
+      </div>
+    </div>
+    <div class="card share-card">
+      <div class="share-head">
+        <span class="share-badge" id="share-badge">主题</span>
+        <span style="font-size:12px; color:#a24d2a;" id="share-sub">写给自己 · 也写给愿意看的姐妹</span>
+      </div>
+      <div class="share-hook" id="share-hook">加载中…</div>
+      <div class="share-body" id="share-body"></div>
+      <div class="share-tags" id="share-tags"></div>
+      <div class="share-footer">
+        <span>发小红书 / 朋友圈 / 微博皆可 · 记得改成自己的语气 💛</span>
+        <button class="share-switch" id="share-switch">🔄 换一篇</button>
+      </div>
+    </div>
+  </section>
+    </div>
+
+    <div class="page page-detail" id="page-ledger">
+  <!-- ============ 每日账本 ============ -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-title"><span class="dot"></span><span class="icon">💰</span>每日账本</div>
+      <div class="section-note" id="ledger-today-tip">今日流水</div>
+    </div>
+    <div class="card ledger-card">
+      <div class="ledger-toolbar">
+        <input type="date" id="ledger-date" class="ledger-date">
+        <div class="ledger-tabs">
+          <div class="ledger-tab expense active" data-lt="expense">💸 支出</div>
+          <div class="ledger-tab income" data-lt="income">💵 收入</div>
+        </div>
+      </div>
+      <div class="ledger-form">
+        <input type="number" id="ledger-amt" placeholder="金额（元）" inputmode="decimal" step="0.01">
+        <select id="ledger-cat">
+          <option value="餐饮">🍜 餐饮</option>
+          <option value="交通">🚕 交通</option>
+          <option value="购物">🛍️ 购物</option>
+          <option value="娱乐">🎬 娱乐</option>
+          <option value="宝宝">🍼 宝宝</option>
+          <option value="居家">🏠 居家</option>
+          <option value="医疗">💊 医疗</option>
+          <option value="人情">🎁 人情</option>
+          <option value="其他">📌 其他</option>
+        </select>
+        <input type="text" id="ledger-note" class="ledger-note-input" placeholder="备注（可选，例如：星巴克拿铁）" maxlength="30">
+        <button class="ledger-add" id="ledger-add">＋ 记一笔</button>
+      </div>
+      <div class="ledger-summary">
+        <div class="ledger-stat income"><div class="lbl">收入</div><div class="val" id="ledger-sum-in">¥0</div></div>
+        <div class="ledger-stat expense"><div class="lbl">支出</div><div class="val" id="ledger-sum-out">¥0</div></div>
+        <div class="ledger-stat balance"><div class="lbl">结余</div><div class="val" id="ledger-sum-bal">¥0</div></div>
+      </div>
+      <div class="ledger-list" id="ledger-list"></div>
+    </div>
+  </section>
+    </div>
+    </main>
+  </div>
+</div>
+
+<script>
+/* ============ 顶部日期 & 农历（简单静态） ============ */
+(function(){
+  const weekMap = ["周日","周一","周二","周三","周四","周五","周六"];
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = (now.getMonth()+1).toString().padStart(2,"0");
+  const d = now.getDate().toString().padStart(2,"0");
+  document.getElementById("today-date").textContent = `${y} 年 ${m} 月 ${d} 日`;
+  document.getElementById("today-week").textContent = weekMap[now.getDay()];
+  // 静态示例农历（示意，不做精确计算）
+  document.getElementById("today-lunar").textContent = "农历 六月十五";
+
+  // 计算宝宝月龄（相对当前日期）
+  const birth = new Date(2025,1,6); // 2025-02-06
+  let months = (now.getFullYear()-birth.getFullYear())*12 + (now.getMonth()-birth.getMonth());
+  if(now.getDate() < birth.getDate()) months -= 1;
+  const el = document.getElementById("baby-age-detail");
+  if(el){
+    el.textContent = `核桃 · ${months} 个月 · 学步小飞人`;
+  }
+})();
+
+/* ============ 资讯 tab 切换 ============ */
+document.querySelectorAll(".tab").forEach(t=>{
+  t.addEventListener("click", ()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+    document.querySelectorAll(".news-panel").forEach(x=>x.classList.remove("active"));
+    t.classList.add("active");
+    document.getElementById("panel-"+t.dataset.tab).classList.add("active");
+  });
+});
+
+/* ============ 八段锦打卡 ============ */
+const BDJ_VIDEOS = [
+  { bvid: "BV1Uy411z7kF", title: "健身气功八段锦完整版-带呼吸法口令版", up: "从三十岁开始学拳", plays: "366万+" },
+  { bvid: "BV1pge8zoEhq", title: "八段锦12分钟完整版跟练 镜像+正反面+呼吸引导", up: "小陈同学爱太极", plays: "72.8万" },
+  { bvid: "BV1X4oKB7E17", title: "国家体育总局版八段锦 12分钟完整跟练 口令精讲+正反面", up: "太极养生", plays: "高播" }
+];
+let BDJ_VIDEO_INDEX = 0;
+const BDJ_MOVES = [
+  "双手托天理三焦",
+  "左右开弓似射雕",
+  "调理脾胃须单举",
+  "五劳七伤往后瞧",
+  "摇头摆尾去心火",
+  "两手攀足固肾腰",
+  "攒拳怒目增气力",
+  "背后七颠百病消"
+];
+function renderBDJVideo(){
+  const video = BDJ_VIDEOS[BDJ_VIDEO_INDEX];
+  const frame = document.getElementById("bdj-video-frame");
+  const info = document.getElementById("bdj-video-info");
+  const link = document.getElementById("bdj-video-link");
+  if(!video || !frame || !info || !link) return;
+  frame.src = `//player.bilibili.com/player.html?bvid=${video.bvid}&page=1&autoplay=0&high_quality=1&danmaku=0`;
+  link.href = `https://www.bilibili.com/video/${video.bvid}/`;
+  info.innerHTML = `📌 UP 主：${video.up} · ${video.title} · <a id="bdj-video-link" href="https://www.bilibili.com/video/${video.bvid}/" target="_blank" rel="noopener noreferrer">B站原页面 ↗</a>`;
+}
+function switchBdjVideo(){
+  BDJ_VIDEO_INDEX = (BDJ_VIDEO_INDEX + 1) % BDJ_VIDEOS.length;
+  renderBDJVideo();
+}
+function todayKey(){
+  const n = new Date();
+  return `bdj_${n.getFullYear()}_${n.getMonth()+1}_${n.getDate()}`;
+}
+function loadState(){
+  try{
+    const raw = localStorage.getItem(todayKey());
+    if(!raw) return Array(8).fill(false);
+    const arr = JSON.parse(raw);
+    if(Array.isArray(arr) && arr.length===8) return arr;
+  }catch(e){}
+  return Array(8).fill(false);
+}
+function saveState(st){
+  try{ localStorage.setItem(todayKey(), JSON.stringify(st)); }catch(e){}
+}
+function renderBDJ(){
+  const list = document.getElementById("bdj-list");
+  const state = loadState();
+  list.innerHTML = "";
+  BDJ_MOVES.forEach((name,i)=>{
+    const item = document.createElement("div");
+    item.className = "bdj-item" + (state[i] ? " done":"");
+    item.innerHTML = `
+      <div class="num">${i+1}</div>
+      <div class="name">${name}</div>
+      <div class="chk"></div>
+    `;
+    item.addEventListener("click", ()=>{
+      const st = loadState();
+      st[i] = !st[i];
+      saveState(st);
+      renderBDJ();
+    });
+    list.appendChild(item);
+  });
+  const done = state.filter(Boolean).length;
+  document.getElementById("bdj-count").textContent = `${done}/8`;
+  document.getElementById("bdj-bar").style.width = (done/8*100)+"%";
+  const tip = document.getElementById("bdj-tip");
+  if(done===0) tip.textContent = "开始第一式吧～轻轻点一下卡片即可打卡 ✨";
+  else if(done<8) tip.textContent = `继续加油！还差 ${8-done} 式就完成今日全套 💪`;
+  else tip.textContent = "🎉 今日八段锦已全部完成，元气满满一整天！";
+}
+document.getElementById("bdj-reset").addEventListener("click", ()=>{
+  if(confirm("确认重置今日打卡吗？")){
+    localStorage.removeItem(todayKey());
+    renderBDJ();
+  }
+});
+document.getElementById("bdj-switch-btn").addEventListener("click", switchBdjVideo);
+renderBDJVideo();
+renderBDJ();
+
+/* ============ 通用：dayOfYear ============ */
+function dayOfYear(){
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  const diff = now - start;
+  return Math.floor(diff / (1000 * 60 * 60 * 24));
+}
+
+/* ============ 健康饮食（中药期）· 数据 & 渲染 ============ */
+const FOOD_DATA = {
+  med: {
+    course: "14 剂 · 每剂 10 味药",
+    method: "每天 2 次 · 每次 150ml · 饭后 1 小时",
+    temp: "温热服用（不要凉服）",
+    tip: "药需要慢慢喝，配合饮食忌口效果更好呀 💛"
+  },
+  cannotEat: [
+    { cat: "甜", emoji: "🍬", items: ["糖", "巧克力", "酒酿"] },
+    { cat: "腻", emoji: "🥛", items: ["奶及奶制品", "奶茶", "糯米年糕", "甲鱼", "鳗鱼", "蹄膀"] },
+    { cat: "酸", emoji: "🍋", items: ["醋", "酸菜", "番茄"] },
+    { cat: "涩", emoji: "☕", items: ["红酒", "咖啡"] },
+    { cat: "冷/凉性", emoji: "❄️", items: ["生鱼片", "蟹", "贝", "螺", "鸭", "黄瓜", "藕", "菱", "芹菜", "银耳", "绿豆", "百合", "薏米", "青菜", "白菜", "菠菜", "白豆腐", "啤酒及绿茶等凉茶"] },
+    { cat: "其他", emoji: "🍎", items: ["一切水果"] }
+  ],
+  canEat: [
+    { cat: "主食", emoji: "🍚", items: ["白米饭", "燕麦（少量温热）", "小米粥", "山药糊", "南瓜粥", "面条", "馒头", "糙米饭"] },
+    { cat: "蔬菜（温性/平性）", emoji: "🥕", items: ["胡萝卜", "南瓜", "山药", "土豆", "香菇", "金针菇", "平菇", "四季豆", "豆角", "洋葱", "大葱", "韭菜", "卷心菜（可少量）", "木耳", "竹笋（少量）"] },
+    { cat: "肉类", emoji: "🍗", items: ["鸡肉", "牛肉", "猪肉（瘦）", "羊肉（少量）", "鸡蛋", "鹌鹑蛋", "淡水鱼（鲈鱼/鳕鱼/黄鱼/带鱼）", "淡水虾"] },
+    { cat: "豆类", emoji: "🫘", items: ["黄豆", "豆浆（自制、不加糖）", "豆干", "腐竹", "豆皮"] },
+    { cat: "汤饮", emoji: "🍵", items: ["温开水", "红枣水", "生姜水", "桂圆水", "姜枣茶", "陈皮水", "山楂水（少量）", "麦冬水"] },
+    { cat: "调味", emoji: "🧂", items: ["盐（少）", "酱油", "料酒（少）", "姜", "蒜", "葱", "花椒", "八角"] }
+  ],
+  weekMenu: [
+    { day: "周一", emoji: "🌤️", breakfast: "小米南瓜粥 + 白煮蛋 + 山药馒头（饭后 1 小时喝药 💊）", snack: "温红枣水一杯", lunch: "白米饭 + 香菇鸡肉 + 清炒胡萝卜土豆丝 + 紫菜蛋花汤", dinner: "清汤面（鸡蛋 + 平菇）+ 蒸南瓜一小块（饭后 1 小时喝药 💊）" },
+    { day: "周二", emoji: "🌞", breakfast: "燕麦糊（不加奶不加糖，可加少许红枣桂圆）+ 蒸蛋（饭后 1 小时喝药 💊）", snack: "陈皮水一杯", lunch: "山药排骨汤 + 白米饭 + 清炒四季豆", dinner: "韭菜鸡蛋饺子（清淡少油）+ 金针菇鸡蛋汤（饭后 1 小时喝药 💊）" },
+    { day: "周三", emoji: "🌥️", breakfast: "山药糊（温热）+ 白煮蛋 + 馒头（饭后 1 小时喝药 💊）", snack: "姜枣茶一杯", lunch: "糙米饭 + 洋葱牛肉片（少油）+ 清炒卷心菜（少量）+ 香菇豆皮汤", dinner: "小米粥 + 清蒸鲈鱼 + 胡萝卜木耳炒蛋（饭后 1 小时喝药 💊）" },
+    { day: "周四", emoji: "☀️", breakfast: "小米粥 + 蒸南瓜 + 鹌鹑蛋 3-4 个（饭后 1 小时喝药 💊）", snack: "桂圆水一杯", lunch: "白米饭 + 清炖瘦肉冬菇（香菇）+ 清炒豆角 + 山药胡萝卜汤", dinner: "鸡丝面汤（加大葱少许）+ 蒸土豆块（饭后 1 小时喝药 💊）" },
+    { day: "周五", emoji: "🌈", breakfast: "南瓜粥 + 蒸蛋羹 + 山药馒头（饭后 1 小时喝药 💊）", snack: "麦冬水一杯", lunch: "白米饭 + 清炖牛肉萝卜（胡萝卜）+ 清炒香菇金针菇 + 紫菜蛋花汤", dinner: "山药排骨汤（少油）+ 馒头半个（饭后 1 小时喝药 💊）" },
+    { day: "周六", emoji: "🌸", breakfast: "温面条（清汤）+ 鸡蛋 + 香菇（饭后 1 小时喝药 💊）", snack: "山楂水（少量）一杯", lunch: "糙米饭 + 清蒸黄鱼 + 洋葱土豆丝 + 木耳豆皮汤", dinner: "小米粥 + 清炒四季豆 + 清炖鸡腿肉（去皮少油）（饭后 1 小时喝药 💊）" },
+    { day: "周日", emoji: "💚", breakfast: "山药南瓜粥 + 白煮蛋 + 馒头（饭后 1 小时喝药 💊）", snack: "温开水 / 红枣水任选一杯", lunch: "白米饭 + 清炖瘦肉土豆块 + 清炒胡萝卜木耳 + 金针菇汤", dinner: "清蒸鳕鱼 + 山药糊（温热）+ 清炒豆角（饭后 1 小时喝药 💊）" }
+  ]
+};
+
+const FOOD_STATE = { tab: 'med' };
+
+function renderFood(){
+  const tabs = Array.from(document.querySelectorAll('#food-tabs .food-tab'));
+  const med = document.getElementById('food-panel-med');
+  const list = document.getElementById('food-panel-list');
+  const menu = document.getElementById('food-panel-menu');
+  if(!tabs.length || !med || !list || !menu) return;
+
+  tabs.forEach(b=>b.classList.toggle('active', b.dataset.ftab===FOOD_STATE.tab));
+  document.querySelectorAll('#page-food .food-panel').forEach(p=>p.classList.remove('active'));
+  const activePanel = document.getElementById(`food-panel-${FOOD_STATE.tab}`);
+  if(activePanel) activePanel.classList.add('active');
+
+  // 用药提醒
+  med.innerHTML = `
+    <div class="food-med-card">
+      <div style="font-size:14px; font-weight:900; color:#6c5a2f;">💊 用药信息</div>
+      <div class="food-med-grid">
+        <div class="food-med-item"><div class="ic">💊</div><div><div class="t">总疗程</div><div class="v">${FOOD_DATA.med.course}</div></div></div>
+        <div class="food-med-item"><div class="ic">⏰</div><div><div class="t">服用方式</div><div class="v">${FOOD_DATA.med.method}</div></div></div>
+        <div class="food-med-item"><div class="ic">🌡️</div><div><div class="t">温度</div><div class="v">${FOOD_DATA.med.temp}</div></div></div>
+      </div>
+      <div class="food-med-tip">${FOOD_DATA.med.tip}</div>
+    </div>
+  `;
+
+  // 可以吃 / 不能吃
+  const cannotHtml = FOOD_DATA.cannotEat.map(g=>`
+    <div class="food-subcard no">
+      <div class="head"><div class="cat">${g.emoji} ${g.cat}</div><div class="badge">${g.items.length} 条</div></div>
+      <div class="food-items">${g.items.map(x=>`<span class="food-chip">${x}</span>`).join('')}</div>
+    </div>
+  `).join('');
+
+  const canHtml = FOOD_DATA.canEat.map(g=>`
+    <div class="food-subcard yes">
+      <div class="head"><div class="cat">${g.emoji} ${g.cat}</div><div class="badge">${g.items.length} 条</div></div>
+      <div class="food-items">${g.items.map(x=>`<span class="food-chip">${x}</span>`).join('')}</div>
+    </div>
+  `).join('');
+
+  list.innerHTML = `
+    <div class="food-lists">
+      <div>
+        <div class="food-col-title">❌ 不能吃（严格忌口）</div>
+        ${cannotHtml}
+      </div>
+      <div>
+        <div class="food-col-title">✅ 推荐吃（温性/平性 · 清淡少油少盐）</div>
+        ${canHtml}
+      </div>
+    </div>
+  `;
+
+  // 一周菜单
+  const menuCards = FOOD_DATA.weekMenu.map(d=>`
+    <div class="menu-card">
+      <div class="menu-head">
+        <div class="menu-day">${d.day}</div>
+        <div class="menu-emoji">${d.emoji}</div>
+      </div>
+      <div class="menu-row"><div class="k">🍚 早</div><div class="v">${d.breakfast}</div></div>
+      <div class="menu-row"><div class="k">🍵 加餐</div><div class="v">${d.snack}</div></div>
+      <div class="menu-row"><div class="k">🥢 午</div><div class="v">${d.lunch}</div></div>
+      <div class="menu-row"><div class="k">🍜 晚</div><div class="v">${d.dinner}</div></div>
+    </div>
+  `).join('');
+
+  menu.innerHTML = `
+    <div class="menu-top">
+      <button type="button" class="menu-copy-btn" id="food-menu-copy">📋 复制本周菜单</button>
+      <div class="menu-note">仅供日常点餐/做饭参考，遵医嘱为先。</div>
+    </div>
+    <div class="menu-grid">${menuCards}</div>
+  `;
+
+  const copyBtn = document.getElementById('food-menu-copy');
+  if(copyBtn){
+    copyBtn.onclick = ()=>{
+      const txt = FOOD_DATA.weekMenu.map(d=>{
+        return `${d.day} ${d.emoji}\n🍚 早：${d.breakfast}\n🍵 加餐：${d.snack}\n🥢 午：${d.lunch}\n🍜 晚：${d.dinner}`;
+      }).join('\n\n');
+      doCopy(`【江江 · 中药期一周菜单】\n\n${txt}`, copyBtn);
+    };
+  }
+}
+
+(function bindFoodTabs(){
+  const box = document.getElementById('food-tabs');
+  if(!box) return;
+  box.querySelectorAll('.food-tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      FOOD_STATE.tab = btn.dataset.ftab || 'med';
+      renderFood();
+    });
+  });
+})();
+renderFood();
+
+
+/* ============ 核桃专区 · 数据 & 渲染 ============ */
+const BABY_DATA = {
+  songs: [
+    // 0-12 月：旋律简单、慢节奏、适合聆听
+    {name:"Twinkle Twinkle Little Star", cnName:"一闪一闪亮晶晶", stage:"0-12",
+     lyric:"Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky."},
+    {name:"Row Row Row Your Boat", cnName:"划船歌", stage:"0-12",
+     lyric:"Row, row, row your boat,\nGently down the stream.\nMerrily, merrily, merrily, merrily,\nLife is but a dream."},
+    {name:"Rain Rain Go Away", cnName:"下雨下雨快走开", stage:"0-12",
+     lyric:"Rain, rain, go away,\nCome again another day.\nLittle Hetao wants to play,\nRain, rain, go away."},
+    {name:"Hello Song", cnName:"你好歌", stage:"0-12",
+     lyric:"Hello, hello, hello, how are you?\nI'm fine, I'm fine,\nI hope that you are too."},
+    {name:"Are You Sleeping (Brother John)", cnName:"两只老虎/你在睡觉吗", stage:"0-12",
+     lyric:"Are you sleeping, are you sleeping,\nBrother John? Brother John?\nMorning bells are ringing,\nDing ding dong, ding ding dong."},
+    {name:"Mary Had a Little Lamb", cnName:"玛丽有只小羊羔", stage:"0-12",
+     lyric:"Mary had a little lamb,\nLittle lamb, little lamb.\nMary had a little lamb,\nIts fleece was white as snow."},
+    // 12-18 月（默认）：可跟随做动作
+    {name:"Baby Shark", cnName:"鲨鱼宝宝", stage:"12-18",
+     lyric:"Baby shark, doo doo doo doo doo doo,\nBaby shark, doo doo doo doo doo doo,\nBaby shark!\nMommy shark, doo doo doo doo doo doo…"},
+    {name:"Old MacDonald Had a Farm", cnName:"王老先生有块地", stage:"12-18",
+     lyric:"Old MacDonald had a farm, E-I-E-I-O.\nAnd on his farm he had a cow, E-I-E-I-O.\nWith a moo moo here, and a moo moo there,\nHere a moo, there a moo, everywhere a moo moo."},
+    {name:"The Wheels on the Bus", cnName:"公交车的轮子转呀转", stage:"12-18",
+     lyric:"The wheels on the bus go round and round,\nRound and round, round and round.\nThe wheels on the bus go round and round,\nAll through the town."},
+    {name:"Head, Shoulders, Knees and Toes", cnName:"头肩膝脚趾", stage:"12-18",
+     lyric:"Head, shoulders, knees and toes,\nKnees and toes.\nHead, shoulders, knees and toes,\nKnees and toes.\nEyes and ears and mouth and nose."},
+    {name:"If You're Happy and You Know It", cnName:"如果感到幸福你就拍拍手", stage:"12-18",
+     lyric:"If you're happy and you know it, clap your hands.\nIf you're happy and you know it, clap your hands.\nIf you're happy and you know it, and you really want to show it,\nIf you're happy and you know it, clap your hands."},
+    {name:"Baa Baa Black Sheep", cnName:"咩咩小黑羊", stage:"12-18",
+     lyric:"Baa, baa, black sheep,\nHave you any wool?\nYes sir, yes sir,\nThree bags full."},
+    {name:"Open Shut Them", cnName:"张开合上小手", stage:"12-18",
+     lyric:"Open, shut them, open, shut them,\nGive a little clap, clap, clap.\nOpen, shut them, open, shut them,\nPut them in your lap, lap, lap."},
+    {name:"The Alphabet Song", cnName:"字母歌 ABC", stage:"12-18",
+     lyric:"A B C D E F G,\nH I J K L M N O P,\nQ R S, T U V,\nW X Y and Z.\nNow I know my ABCs."},
+    // 18-36 月：复杂动作与故事性儿歌
+    {name:"Five Little Ducks", cnName:"五只小鸭子", stage:"18-36",
+     lyric:"Five little ducks went out one day,\nOver the hill and far away.\nMother duck said, Quack quack quack quack,\nBut only four little ducks came back."},
+    {name:"Bingo", cnName:"宾果小狗", stage:"18-36",
+     lyric:"There was a farmer had a dog,\nAnd Bingo was his name-o.\nB-I-N-G-O, B-I-N-G-O, B-I-N-G-O,\nAnd Bingo was his name-o."},
+    {name:"Five Little Monkeys Jumping on the Bed", cnName:"五只小猴子跳床", stage:"18-36",
+     lyric:"Five little monkeys jumping on the bed,\nOne fell off and bumped his head.\nMama called the doctor and the doctor said,\nNo more monkeys jumping on the bed!"}
+  ],
+
+  poems: [
+    // ⭐ 入门（10 首）
+    {title:"静夜思", author:"李白", dynasty:"唐", level:1,
+     content:["床前明月光","疑是地上霜","举头望明月","低头思故乡"],
+     pinyin:["chuáng qián míng yuè guāng","yí shì dì shàng shuāng","jǔ tóu wàng míng yuè","dī tóu sī gù xiāng"],
+     meaning:"床前洒下明亮的月光，好像地上铺了一层霜。抬头看看天上的月亮，低下头就想起了远方的家乡。"},
+    {title:"咏鹅", author:"骆宾王", dynasty:"唐", level:1,
+     content:["鹅，鹅，鹅","曲项向天歌","白毛浮绿水","红掌拨清波"],
+     pinyin:["é，é，é","qū xiàng xiàng tiān gē","bái máo fú lǜ shuǐ","hóng zhǎng bō qīng bō"],
+     meaning:"大白鹅弯着脖子对着天空叫，白色的羽毛浮在绿水上，红红的脚掌轻轻拨动着清清的水波。"},
+    {title:"春晓", author:"孟浩然", dynasty:"唐", level:1,
+     content:["春眠不觉晓","处处闻啼鸟","夜来风雨声","花落知多少"],
+     pinyin:["chūn mián bù jué xiǎo","chù chù wén tí niǎo","yè lái fēng yǔ shēng","huā luò zhī duō shǎo"],
+     meaning:"春天睡得香甜，不知不觉天就亮了。到处都能听到小鸟唱歌，昨夜下了一场风雨，不知有多少花瓣被吹落。"},
+    {title:"登鹳雀楼", author:"王之涣", dynasty:"唐", level:1,
+     content:["白日依山尽","黄河入海流","欲穷千里目","更上一层楼"],
+     pinyin:["bái rì yī shān jìn","huáng hé rù hǎi liú","yù qióng qiān lǐ mù","gèng shàng yì céng lóu"],
+     meaning:"太阳靠着山慢慢落下，黄河向着大海奔流而去。想要看得更远，就要再往上登一层楼。"},
+    {title:"悯农", author:"李绅", dynasty:"唐", level:1,
+     content:["锄禾日当午","汗滴禾下土","谁知盘中餐","粒粒皆辛苦"],
+     pinyin:["chú hé rì dāng wǔ","hàn dī hé xià tǔ","shuí zhī pán zhōng cān","lì lì jiē xīn kǔ"],
+     meaning:"农民在中午的太阳下锄地，汗水一滴一滴掉在禾苗下的泥土里。谁知道盘子里的饭啊，每一粒都是辛苦劳作换来的。"},
+    {title:"画", author:"王维", dynasty:"唐", level:1,
+     content:["远看山有色","近听水无声","春去花还在","人来鸟不惊"],
+     pinyin:["yuǎn kàn shān yǒu sè","jìn tīng shuǐ wú shēng","chūn qù huā hái zài","rén lái niǎo bù jīng"],
+     meaning:"远远看去山有颜色，走近却听不到流水的声音；春天过去了花还在，人走过来鸟儿也不害怕——原来这是一幅画呀！"},
+    {title:"池上", author:"白居易", dynasty:"唐", level:1,
+     content:["小娃撑小艇","偷采白莲回","不解藏踪迹","浮萍一道开"],
+     pinyin:["xiǎo wá chēng xiǎo tǐng","tōu cǎi bái lián huí","bù jiě cáng zōng jì","fú píng yí dào kāi"],
+     meaning:"小娃娃撑着小船，偷偷地去采白莲回来，还不知道藏好自己的踪迹，浮萍就在水面留下了一道明显的痕迹。"},
+    {title:"江雪", author:"柳宗元", dynasty:"唐", level:1,
+     content:["千山鸟飞绝","万径人踪灭","孤舟蓑笠翁","独钓寒江雪"],
+     pinyin:["qiān shān niǎo fēi jué","wàn jìng rén zōng miè","gū zhōu suō lì wēng","dú diào hán jiāng xuě"],
+     meaning:"所有的山上都看不到飞鸟，所有的路上都看不到人影。江面上有一只小船，一个披着蓑衣、戴着斗笠的老翁，独自在寒冷的江雪中钓鱼。"},
+    {title:"寻隐者不遇", author:"贾岛", dynasty:"唐", level:1,
+     content:["松下问童子","言师采药去","只在此山中","云深不知处"],
+     pinyin:["sōng xià wèn tóng zǐ","yán shī cǎi yào qù","zhǐ zài cǐ shān zhōng","yún shēn bù zhī chù"],
+     meaning:"在松树下问小童子，他说师父采药去了；就在这座山里，可是云雾太深不知道具体在哪儿。"},
+    {title:"相思", author:"王维", dynasty:"唐", level:1,
+     content:["红豆生南国","春来发几枝","愿君多采撷","此物最相思"],
+     pinyin:["hóng dòu shēng nán guó","chūn lái fā jǐ zhī","yuàn jūn duō cǎi xié","cǐ wù zuì xiāng sī"],
+     meaning:"红豆生长在温暖的南国，春天来时它又长出多少新枝呢？希望你多多采摘一些，因为它最能寄托思念之情。"},
+
+    // ⭐⭐ 进阶（10 首）
+    {title:"绝句", author:"杜甫", dynasty:"唐", level:2,
+     content:["两个黄鹂鸣翠柳","一行白鹭上青天","窗含西岭千秋雪","门泊东吴万里船"],
+     pinyin:["liǎng gè huáng lí míng cuì liǔ","yì háng bái lù shàng qīng tiān","chuāng hán xī lǐng qiān qiū xuě","mén bó dōng wú wàn lǐ chuán"],
+     meaning:"两只黄鹂在翠绿的柳枝上唱歌，一行白鹭飞上蓝蓝的天空。透过窗户能看见西岭上常年不化的雪，门前停着从遥远东吴驶来的船。"},
+    {title:"早发白帝城", author:"李白", dynasty:"唐", level:2,
+     content:["朝辞白帝彩云间","千里江陵一日还","两岸猿声啼不住","轻舟已过万重山"],
+     pinyin:["zhāo cí bái dì cǎi yún jiān","qiān lǐ jiāng líng yí rì huán","liǎng àn yuán shēng tí bú zhù","qīng zhōu yǐ guò wàn chóng shān"],
+     meaning:"早上从彩云缭绕的白帝城出发，千里之外的江陵一天就能到达。两岸猿猴的叫声还没停下，轻快的小船已经越过重重山峦。"},
+    {title:"望庐山瀑布", author:"李白", dynasty:"唐", level:2,
+     content:["日照香炉生紫烟","遥看瀑布挂前川","飞流直下三千尺","疑是银河落九天"],
+     pinyin:["rì zhào xiāng lú shēng zǐ yān","yáo kàn pù bù guà qián chuān","fēi liú zhí xià sān qiān chǐ","yí shì yín hé luò jiǔ tiān"],
+     meaning:"阳光照着香炉峰升起紫色的云烟，远远看去瀑布像挂在前面的山川。飞奔的水流直落三千尺，让人怀疑是银河从九重天上落下来了。"},
+    {title:"赠汪伦", author:"李白", dynasty:"唐", level:2,
+     content:["李白乘舟将欲行","忽闻岸上踏歌声","桃花潭水深千尺","不及汪伦送我情"],
+     pinyin:["lǐ bái chéng zhōu jiāng yù xíng","hū wén àn shàng tà gē shēng","táo huā tán shuǐ shēn qiān chǐ","bù jí wāng lún sòng wǒ qíng"],
+     meaning:"李白坐上小船正要离开，忽然听到岸上传来踏着节拍的歌声。桃花潭的水虽然有千尺深，也比不上汪伦送我的这份情谊。"},
+    {title:"春夜喜雨", author:"杜甫", dynasty:"唐", level:2,
+     content:["好雨知时节","当春乃发生","随风潜入夜","润物细无声"],
+     pinyin:["hǎo yǔ zhī shí jié","dāng chūn nǎi fā shēng","suí fēng qián rù yè","rùn wù xì wú shēng"],
+     meaning:"好雨懂得季节变化，正好在春天悄悄降临。它随着夜风悄悄进入夜晚，静静地滋润万物却没有一点声音。"},
+    {title:"悯农（其一）", author:"李绅", dynasty:"唐", level:2,
+     content:["春种一粒粟","秋收万颗子","四海无闲田","农夫犹饿死"],
+     pinyin:["chūn zhòng yí lì sù","qiū shōu wàn kē zǐ","sì hǎi wú xián tián","nóng fū yóu è sǐ"],
+     meaning:"春天种下一粒谷子，秋天就能收获万颗种子。天下没有闲置的田地，可农民却仍然会挨饿而死。"},
+    {title:"山行", author:"杜牧", dynasty:"唐", level:2,
+     content:["远上寒山石径斜","白云生处有人家","停车坐爱枫林晚","霜叶红于二月花"],
+     pinyin:["yuǎn shàng hán shān shí jìng xié","bái yún shēng chù yǒu rén jiā","tíng chē zuò ài fēng lín wǎn","shuāng yè hóng yú èr yuè huā"],
+     meaning:"沿着弯弯的石头小路走上寒冷的山峰，白云飘起的地方有几户人家。停下车是因为喜爱傍晚的枫林，被霜打过的叶子比二月的花还要红。"},
+    {title:"枫桥夜泊", author:"张继", dynasty:"唐", level:2,
+     content:["月落乌啼霜满天","江枫渔火对愁眠","姑苏城外寒山寺","夜半钟声到客船"],
+     pinyin:["yuè luò wū tí shuāng mǎn tiān","jiāng fēng yú huǒ duì chóu mián","gū sū chéng wài hán shān sì","yè bàn zhōng shēng dào kè chuán"],
+     meaning:"月亮落下，乌鸦啼叫，霜气弥漫整个天空。江边的枫树和渔火陪伴着我这忧愁的旅人入睡。姑苏城外的寒山寺，半夜里传来的钟声传到了我的船上。"},
+    {title:"忆江南", author:"白居易", dynasty:"唐", level:2,
+     content:["江南好，风景旧曾谙","日出江花红胜火","春来江水绿如蓝","能不忆江南"],
+     pinyin:["jiāng nán hǎo，fēng jǐng jiù céng ān","rì chū jiāng huā hóng shèng huǒ","chūn lái jiāng shuǐ lǜ rú lán","néng bú yì jiāng nán"],
+     meaning:"江南多美啊，那里的风景我从前就非常熟悉。太阳出来时江边的花红得比火焰还艳，春天到来时江水绿得像蓝草染过一样。怎么能不怀念江南呢？"},
+    {title:"小池", author:"杨万里", dynasty:"宋", level:2,
+     content:["泉眼无声惜细流","树阴照水爱晴柔","小荷才露尖尖角","早有蜻蜓立上头"],
+     pinyin:["quán yǎn wú shēng xī xì liú","shù yīn zhào shuǐ ài qíng róu","xiǎo hé cái lù jiān jiān jiǎo","zǎo yǒu qīng tíng lì shàng tóu"],
+     meaning:"泉眼默默流出细细的水流，仿佛在珍惜它；树荫倒映在水面上，喜爱这晴天里的柔和。小荷叶刚刚露出尖尖的角，就已经有蜻蜓立在上面了。"},
+
+    // ⭐⭐⭐ 挑战（10 首）
+    {title:"登高", author:"杜甫", dynasty:"唐", level:3,
+     content:["风急天高猿啸哀","渚清沙白鸟飞回","无边落木萧萧下","不尽长江滚滚来"],
+     pinyin:["fēng jí tiān gāo yuán xiào āi","zhǔ qīng shā bái niǎo fēi huí","wú biān luò mù xiāo xiāo xià","bú jìn cháng jiāng gǔn gǔn lái"],
+     meaning:"风急天高，猿猴啼叫悲哀；小洲清净、沙滩雪白，鸟儿飞回。无边的落叶萧萧飘落，不尽的长江滚滚东流。"},
+    {title:"黄鹤楼", author:"崔颢", dynasty:"唐", level:3,
+     content:["昔人已乘黄鹤去","此地空余黄鹤楼","黄鹤一去不复返","白云千载空悠悠"],
+     pinyin:["xī rén yǐ chéng huáng hè qù","cǐ dì kōng yú huáng hè lóu","huáng hè yí qù bú fù fǎn","bái yún qiān zǎi kōng yōu yōu"],
+     meaning:"传说中的仙人已经乘着黄鹤离去，此地只剩下这一座黄鹤楼。黄鹤一去再也不返回，白云千百年来还在悠悠地飘。"},
+    {title:"送杜少府之任蜀州", author:"王勃", dynasty:"唐", level:3,
+     content:["城阙辅三秦","风烟望五津","海内存知己","天涯若比邻"],
+     pinyin:["chéng què fǔ sān qín","fēng yān wàng wǔ jīn","hǎi nèi cún zhī jǐ","tiān yá ruò bǐ lín"],
+     meaning:"长安城被三秦地区拱卫，透过风烟望向蜀地五个渡口。四海之内只要有知己朋友，即使远在天涯也像近邻一样。"},
+    {title:"望岳", author:"杜甫", dynasty:"唐", level:3,
+     content:["岱宗夫如何","齐鲁青未了","造化钟神秀","阴阳割昏晓"],
+     pinyin:["dài zōng fū rú hé","qí lǔ qīng wèi liǎo","zào huà zhōng shén xiù","yīn yáng gē hūn xiǎo"],
+     meaning:"泰山到底怎么样呢？在齐鲁大地上，它的青色一望无际。大自然把神奇秀丽都集中在这里，山南山北阴阳分明如同分开了黄昏与清晨。"},
+    {title:"泊秦淮", author:"杜牧", dynasty:"唐", level:3,
+     content:["烟笼寒水月笼沙","夜泊秦淮近酒家","商女不知亡国恨","隔江犹唱后庭花"],
+     pinyin:["yān lóng hán shuǐ yuè lóng shā","yè bó qín huái jìn jiǔ jiā","shāng nǚ bù zhī wáng guó hèn","gé jiāng yóu chàng hòu tíng huā"],
+     meaning:"烟雾笼罩着寒冷的江水，月光照着江边的沙。夜晚我把船停在秦淮河边，靠近酒家。卖唱的女子不懂亡国的哀恨，还在江对岸唱着《后庭花》这样的靡靡之音。"},
+    {title:"山居秋暝", author:"王维", dynasty:"唐", level:3,
+     content:["空山新雨后","天气晚来秋","明月松间照","清泉石上流"],
+     pinyin:["kōng shān xīn yǔ hòu","tiān qì wǎn lái qiū","míng yuè sōng jiān zhào","qīng quán shí shàng liú"],
+     meaning:"空旷的山中刚下过一场雨，傍晚的天气凉爽像秋天来了一样。明月照在松树之间，清清的泉水在石头上流淌。"},
+    {title:"春望", author:"杜甫", dynasty:"唐", level:3,
+     content:["国破山河在","城春草木深","感时花溅泪","恨别鸟惊心"],
+     pinyin:["guó pò shān hé zài","chéng chūn cǎo mù shēn","gǎn shí huā jiàn lèi","hèn bié niǎo jīng xīn"],
+     meaning:"国都虽然沦陷但山河依旧，长安城里春天到来草木茂密。我感慨时局，看到花也流泪；痛恨别离，听见鸟叫也心惊。"},
+    {title:"江南春", author:"杜牧", dynasty:"唐", level:3,
+     content:["千里莺啼绿映红","水村山郭酒旗风","南朝四百八十寺","多少楼台烟雨中"],
+     pinyin:["qiān lǐ yīng tí lǜ yìng hóng","shuǐ cūn shān guō jiǔ qí fēng","nán cháo sì bǎi bā shí sì","duō shǎo lóu tái yān yǔ zhōng"],
+     meaning:"辽阔的江南到处莺歌燕舞、绿树红花相映；水乡山城酒旗随风招展。南朝留下的四百八十座寺庙，如今有多少楼台掩映在烟雨之中。"},
+    {title:"乌衣巷", author:"刘禹锡", dynasty:"唐", level:3,
+     content:["朱雀桥边野草花","乌衣巷口夕阳斜","旧时王谢堂前燕","飞入寻常百姓家"],
+     pinyin:["zhū què qiáo biān yě cǎo huā","wū yī xiàng kǒu xī yáng xié","jiù shí wáng xiè táng qián yàn","fēi rù xún cháng bǎi xìng jiā"],
+     meaning:"朱雀桥边长满了野草野花，乌衣巷口斜挂着夕阳。当年王导、谢安家高堂前的燕子，如今飞进了普通人家。"},
+    {title:"水调歌头·明月几时有（节选）", author:"苏轼", dynasty:"宋", level:3,
+     content:["明月几时有","把酒问青天","不知天上宫阙","今夕是何年"],
+     pinyin:["míng yuè jǐ shí yǒu","bǎ jiǔ wèn qīng tiān","bù zhī tiān shàng gōng què","jīn xī shì hé nián"],
+     meaning:"明亮的月亮从什么时候开始就有了呢？我端着酒杯，向青天发问。不知道天上的宫殿里，今夜是哪一年。"}
+  ],
+
+  english: {
+    letters: [
+      {letter:"A", lower:"a", sound:"/eɪ/ 挨", word:"Apple", cnWord:"苹果", example:"A is for Apple. Apples are red. — A 代表苹果，苹果是红色的。"},
+      {letter:"B", lower:"b", sound:"/biː/ 币", word:"Bear", cnWord:"熊", example:"B is for Bear. The bear is big. — B 代表熊，熊很大。"},
+      {letter:"C", lower:"c", sound:"/siː/ 西", word:"Cat", cnWord:"猫", example:"C is for Cat. The cat says meow. — C 代表猫，猫喵喵叫。"},
+      {letter:"D", lower:"d", sound:"/diː/ 迪", word:"Dog", cnWord:"狗", example:"D is for Dog. The dog says woof. — D 代表狗，狗汪汪叫。"},
+      {letter:"E", lower:"e", sound:"/iː/ 一", word:"Egg", cnWord:"鸡蛋", example:"E is for Egg. Yummy egg! — E 代表鸡蛋，好吃的鸡蛋！"},
+      {letter:"F", lower:"f", sound:"/ef/ 艾夫", word:"Fish", cnWord:"鱼", example:"F is for Fish. Fish swim in the water. — F 代表鱼，鱼在水里游。"},
+      {letter:"G", lower:"g", sound:"/dʒiː/ 举", word:"Grape", cnWord:"葡萄", example:"G is for Grape. Grapes are sweet. — G 代表葡萄，葡萄很甜。"},
+      {letter:"H", lower:"h", sound:"/eɪtʃ/ 艾曲", word:"Hat", cnWord:"帽子", example:"H is for Hat. I wear a hat. — H 代表帽子，我戴一顶帽子。"},
+      {letter:"I", lower:"i", sound:"/aɪ/ 爱", word:"Ice cream", cnWord:"冰淇淋", example:"I is for Ice cream. I love ice cream. — I 代表冰淇淋，我爱冰淇淋。"},
+      {letter:"J", lower:"j", sound:"/dʒeɪ/ 街", word:"Juice", cnWord:"果汁", example:"J is for Juice. Drink your juice. — J 代表果汁，喝你的果汁。"},
+      {letter:"K", lower:"k", sound:"/keɪ/ 凯", word:"Kite", cnWord:"风筝", example:"K is for Kite. The kite flies high. — K 代表风筝，风筝飞得高。"},
+      {letter:"L", lower:"l", sound:"/el/ 艾勒", word:"Lion", cnWord:"狮子", example:"L is for Lion. The lion roars. — L 代表狮子，狮子会吼。"},
+      {letter:"M", lower:"m", sound:"/em/ 艾姆", word:"Moon", cnWord:"月亮", example:"M is for Moon. Good night, moon. — M 代表月亮，晚安月亮。"},
+      {letter:"N", lower:"n", sound:"/en/ 艾恩", word:"Nose", cnWord:"鼻子", example:"N is for Nose. Where is your nose? — N 代表鼻子，你的鼻子在哪里？"},
+      {letter:"O", lower:"o", sound:"/oʊ/ 欧", word:"Orange", cnWord:"橙子", example:"O is for Orange. The orange is juicy. — O 代表橙子，橙子多汁。"},
+      {letter:"P", lower:"p", sound:"/piː/ 匹", word:"Panda", cnWord:"熊猫", example:"P is for Panda. The panda is cute. — P 代表熊猫，熊猫真可爱。"},
+      {letter:"Q", lower:"q", sound:"/kjuː/ 酷", word:"Queen", cnWord:"女王", example:"Q is for Queen. The queen wears a crown. — Q 代表女王，女王戴着王冠。"},
+      {letter:"R", lower:"r", sound:"/ɑːr/ 啊", word:"Rabbit", cnWord:"兔子", example:"R is for Rabbit. The rabbit hops. — R 代表兔子，兔子在跳。"},
+      {letter:"S", lower:"s", sound:"/es/ 艾斯", word:"Sun", cnWord:"太阳", example:"S is for Sun. The sun is bright. — S 代表太阳，太阳很明亮。"},
+      {letter:"T", lower:"t", sound:"/tiː/ 提", word:"Tiger", cnWord:"老虎", example:"T is for Tiger. The tiger is strong. — T 代表老虎，老虎很强壮。"},
+      {letter:"U", lower:"u", sound:"/juː/ 优", word:"Umbrella", cnWord:"雨伞", example:"U is for Umbrella. Open the umbrella. — U 代表雨伞，打开雨伞。"},
+      {letter:"V", lower:"v", sound:"/viː/ 维", word:"Van", cnWord:"面包车", example:"V is for Van. The van is big. — V 代表面包车，面包车很大。"},
+      {letter:"W", lower:"w", sound:"/ˈdʌbəl.juː/ 打不溜", word:"Water", cnWord:"水", example:"W is for Water. Drink some water. — W 代表水，喝点水。"},
+      {letter:"X", lower:"x", sound:"/eks/ 艾克斯", word:"Xylophone", cnWord:"木琴", example:"X is for Xylophone. Play the xylophone. — X 代表木琴，敲木琴。"},
+      {letter:"Y", lower:"y", sound:"/waɪ/ 歪", word:"Yellow", cnWord:"黄色", example:"Y is for Yellow. The banana is yellow. — Y 代表黄色，香蕉是黄色的。"},
+      {letter:"Z", lower:"z", sound:"/ziː/ 兹", word:"Zebra", cnWord:"斑马", example:"Z is for Zebra. The zebra has stripes. — Z 代表斑马，斑马有条纹。"}
+    ],
+    words: {
+      animals: [
+        {en:"cat", cn:"猫", ex:"a little cat"},
+        {en:"dog", cn:"狗", ex:"a big dog"},
+        {en:"bird", cn:"鸟", ex:"a flying bird"},
+        {en:"fish", cn:"鱼", ex:"a red fish"},
+        {en:"duck", cn:"鸭子", ex:"a yellow duck"},
+        {en:"cow", cn:"牛", ex:"a milk cow"},
+        {en:"pig", cn:"猪", ex:"a pink pig"},
+        {en:"sheep", cn:"羊", ex:"a white sheep"},
+        {en:"rabbit", cn:"兔子", ex:"a cute rabbit"},
+        {en:"bear", cn:"熊", ex:"a big bear"}
+      ],
+      food: [
+        {en:"apple", cn:"苹果", ex:"a sweet apple"},
+        {en:"banana", cn:"香蕉", ex:"a yellow banana"},
+        {en:"milk", cn:"牛奶", ex:"a cup of milk"},
+        {en:"bread", cn:"面包", ex:"a slice of bread"},
+        {en:"egg", cn:"鸡蛋", ex:"an egg"},
+        {en:"rice", cn:"米饭", ex:"a bowl of rice"},
+        {en:"water", cn:"水", ex:"a glass of water"},
+        {en:"juice", cn:"果汁", ex:"orange juice"},
+        {en:"cake", cn:"蛋糕", ex:"a piece of cake"},
+        {en:"cookie", cn:"饼干", ex:"a small cookie"}
+      ],
+      colors: [
+        {en:"red", cn:"红色", ex:"a red apple"},
+        {en:"yellow", cn:"黄色", ex:"a yellow banana"},
+        {en:"blue", cn:"蓝色", ex:"a blue sky"},
+        {en:"green", cn:"绿色", ex:"green grass"},
+        {en:"orange", cn:"橙色", ex:"an orange fruit"},
+        {en:"pink", cn:"粉色", ex:"pink flower"},
+        {en:"purple", cn:"紫色", ex:"a purple grape"},
+        {en:"white", cn:"白色", ex:"a white cloud"},
+        {en:"black", cn:"黑色", ex:"a black cat"},
+        {en:"brown", cn:"棕色", ex:"a brown bear"}
+      ],
+      body: [
+        {en:"head", cn:"头", ex:"touch your head"},
+        {en:"eye", cn:"眼睛", ex:"two big eyes"},
+        {en:"nose", cn:"鼻子", ex:"a little nose"},
+        {en:"mouth", cn:"嘴巴", ex:"open your mouth"},
+        {en:"ear", cn:"耳朵", ex:"listen with your ears"},
+        {en:"hand", cn:"手", ex:"wash your hands"},
+        {en:"foot", cn:"脚", ex:"little feet"},
+        {en:"hair", cn:"头发", ex:"long hair"},
+        {en:"face", cn:"脸", ex:"a happy face"},
+        {en:"tummy", cn:"肚子", ex:"tummy hungry"}
+      ]
+    },
+    sentences: {
+      greeting: [
+        {en:"Hello!", cn:"你好！", scene:"打招呼时使用"},
+        {en:"Good morning!", cn:"早上好！", scene:"早晨见面"},
+        {en:"Good night!", cn:"晚安！", scene:"睡前说"},
+        {en:"How are you?", cn:"你怎么样？", scene:"关心对方"},
+        {en:"Nice to meet you!", cn:"很高兴认识你！", scene:"初次见面"},
+        {en:"See you!", cn:"再见！", scene:"简短告别"},
+        {en:"Bye-bye!", cn:"拜拜！", scene:"和宝宝告别"}
+      ],
+      commands: [
+        {en:"Come here.", cn:"过来。", scene:"呼唤宝宝"},
+        {en:"Sit down, please.", cn:"请坐下。", scene:"让宝宝坐下"},
+        {en:"Give me, please.", cn:"给我，谢谢。", scene:"请宝宝递东西"},
+        {en:"Look at this!", cn:"看这个！", scene:"引起注意"},
+        {en:"Let's go.", cn:"我们走吧。", scene:"准备出门"},
+        {en:"Wash your hands.", cn:"洗手。", scene:"饭前"},
+        {en:"Time to eat.", cn:"该吃饭了。", scene:"开饭"}
+      ],
+      emotions: [
+        {en:"I love you.", cn:"我爱你。", scene:"日常表达爱"},
+        {en:"I'm happy.", cn:"我很开心。", scene:"分享情绪"},
+        {en:"Are you okay?", cn:"你还好吗？", scene:"宝宝跌倒/难过"},
+        {en:"Don't cry.", cn:"别哭啦。", scene:"安慰"},
+        {en:"Good job!", cn:"做得好！", scene:"鼓励"},
+        {en:"Well done!", cn:"太棒了！", scene:"表扬"}
+      ]
+    },
+    dialogues: [
+      {scene:"起床时光 Wake Up", emoji:"☀️", lines:[
+        {en:"Good morning, Hetao!", cn:"早上好，核桃！"},
+        {en:"Did you sleep well?", cn:"睡得好吗？"},
+        {en:"Time to get up.", cn:"该起床啦。"},
+        {en:"Let's have breakfast.", cn:"我们去吃早饭吧。"}
+      ]},
+      {scene:"吃饭时间 Meal Time", emoji:"🥣", lines:[
+        {en:"Are you hungry?", cn:"你饿了吗？"},
+        {en:"Open your mouth, ah~", cn:"张开嘴巴，啊～"},
+        {en:"Yummy! This is delicious.", cn:"真好吃呀！"},
+        {en:"One more bite, please.", cn:"再来一口哦。"},
+        {en:"All done! Good job!", cn:"吃完啦，真棒！"}
+      ]},
+      {scene:"洗澡时间 Bath Time", emoji:"🛁", lines:[
+        {en:"Bath time, Hetao!", cn:"核桃，该洗澡啦！"},
+        {en:"The water is warm.", cn:"水是温温的哦。"},
+        {en:"Let's wash your little hands.", cn:"我们洗洗小手。"},
+        {en:"Splash splash, so much fun!", cn:"啪嗒啪嗒，好好玩！"},
+        {en:"All clean and cozy!", cn:"洗得干干净净啦！"}
+      ]},
+      {scene:"出门散步 Going Out", emoji:"🚶", lines:[
+        {en:"Let's go outside.", cn:"我们出去玩吧。"},
+        {en:"Put on your shoes.", cn:"来，穿上小鞋子。"},
+        {en:"Look, a doggy!", cn:"看，一只小狗狗！"},
+        {en:"Hold Mommy's hand.", cn:"牵着妈妈的手哦。"}
+      ]},
+      {scene:"睡前时光 Bedtime", emoji:"🌙", lines:[
+        {en:"It's bedtime, sweetie.", cn:"宝贝，该睡觉啦。"},
+        {en:"Let's read a bedtime story.", cn:"我们读个睡前故事吧。"},
+        {en:"Good night, Hetao. I love you.", cn:"晚安，核桃，妈妈爱你。"},
+        {en:"Sweet dreams.", cn:"做个好梦。"}
+      ]},
+      {scene:"亲子玩耍 Play Time", emoji:"🧸", lines:[
+        {en:"Let's play together!", cn:"我们一起玩吧！"},
+        {en:"What color is this?", cn:"这是什么颜色呀？"},
+        {en:"Wow, you did it!", cn:"哇，你做到啦！"},
+        {en:"Peek-a-boo! I see you!", cn:"躲猫猫～看到你啦！"},
+        {en:"Give me a high five!", cn:"来，击个掌！"}
+      ]}
+    ]
+  },
+
+  growth: {
+    "0-6": {
+      food:["纯母乳/配方奶（按需喂养，2-3 小时一次）","4 月龄后可少量米糊尝试（一勺开始，观察便便）","含铁米粉是加辅食第一口好选择","严格避免蜂蜜、盐、糖、坚果"],
+      toys:["黑白/彩色卡片（视觉刺激）","牙胶咬咬乐","布制摇铃（听觉/抓握）","柔软手偶（视觉追视）","仰卧健身架（挥手蹬腿）"],
+      milestones:["能追视人脸和移动物体","会对熟悉的人微笑","可以趴着抬头 45-90°","会咯咯笑、发出咿咿呀呀声","4 月龄开始尝试翻身"],
+      caution:["坚持仰卧睡姿，不用枕头","严禁摇晃宝宝（易致脑损伤）","不给 6 月龄内宝宝喝水（母乳/奶中已含）","出门务必戴防晒帽或婴儿车遮阳"]
+    },
+    "6-12": {
+      food:["7 月：肉泥/蛋黄/蔬菜泥（补铁补锌）","8-9 月：加软颗粒/蔬菜条尝试手指食物","10-12 月：小丁状食物，一天 2-3 顿辅食","无糖酸奶 8 月后可少量","一周至少 1-2 次红肉泥"],
+      toys:["布书（撕不烂）","叠叠杯/嵌套碗","软胶球（可咬可抓）","按压出声的音乐盒","镜子玩具（认自己）"],
+      milestones:["能独坐 30 秒以上","可以爬行/匍匐前进","会发 mama/baba 等音节","开始会指物、拜拜、鼓掌","扶站，尝试迈步"],
+      caution:["家具尖角贴防护条","小物件（豆子/纽扣/硬币）严格远离","洗澡水温≤38℃，绝不离开视线","不长时间放学步车（影响腿型）"]
+    },
+    "12-18": {
+      food:["肉末青菜粥（一小碗，锻炼咀嚼）","香蕉土司卷（可自主抓握）","番茄鸡蛋面（面条剪短）","蒸蛋羹配菠菜碎（补铁补蛋白）","小块蒸南瓜/红薯（软糯好消化）"],
+      toys:["形状配对积木（认识圆方三角）","套圈玩具（大小顺序概念）","推拉玩具（走路更稳）","布书/翻翻书（语言启蒙）","简单拼图（2-4 片）"],
+      milestones:["能扶物站立并独立迈步","能说 5-10 个单词（爸妈/水/要）","能用拇食指精准捏起小物","能识别照片中的家人","能理解简单指令（拿给妈妈、拜拜）"],
+      caution:["家具尖角包起来（走路易撞）","防止小物件入口（葡萄要切四瓣）","每天保证 12-14 小时睡眠","减少电子屏幕（≤15 分钟/天）","不吃整颗坚果、果冻、糖果"]
+    },
+    "18-24": {
+      food:["常规三餐 + 2 加餐（水果/酸奶）","肉丁蔬菜面（自主用勺）","青菜猪肉小饺子（切小）","水果酸奶杯","一天奶量 400-500ml 即可"],
+      toys:["磁力片/大颗粒积木","涂鸦板/无毒蜡笔","过家家餐具/娃娃","简单绘本（可跟读）","小滑板车（配头盔）"],
+      milestones:["跑起来更稳，可上下楼梯（扶栏）","会说 30-50 个词，双词句","能自主使用勺子进食","能配合大小便信号（尚不稳定）","模仿家务动作（扫地、擦桌子）"],
+      caution:["强化如厕训练准备（引入小马桶）","警惕坠落风险（会爬窗台）","家中药品/清洁剂锁高柜","出门必戴防晒（皮肤薄易晒伤）","注意情绪管理，进入 Terrible Two"]
+    },
+    "24-36": {
+      food:["和大人餐 90% 一样（清淡少盐）","早餐要有蛋白（蛋/牛奶/豆制品）","一天蔬菜 100-150g，水果 100g","加坚果粉/芝麻粉补钙铁锌","每天奶量 300-400ml"],
+      toys:["拼图（10-20 片）","橡皮泥/黏土","故事绘本/复读机","三轮车/平衡车","角色扮演玩具（医生/厨师）"],
+      milestones:["能跑跳自如，双脚跳离地","能说完整句子，10+ 词组合","会数 1-10，认识基本颜色形状","开始自己穿脱简单衣物","能表达情绪：开心/难过/生气"],
+      caution:["建立规律作息（午睡不超过 2h）","开始社交训练（分享/等待）","不用威胁式管教，多正面引导","定期测视力（近距离用眼要控制）","每年做一次全面体检"]
+    }
+  },
+
+  games: {
+    motor: [
+      {name:"追爬爬", steps:["妈妈爬在前面，说 come to Mommy","让核桃跟着爬过来","可以设置绕圈或钻桌子","抓到就抱抱夸奖"], value:"锻炼四肢协调、大肌肉群、亲子互动。", ageTag:"9-24 月"},
+      {name:"障碍爬行", steps:["用抱枕/软垫堆一条障碍路","妈妈鼓励核桃爬过去","可以让他钻过桥洞（拱形垫子）","过关就击掌"], value:"锻炼平衡感、空间感知与勇气。", ageTag:"12-24 月"},
+      {name:"沙发登山", steps:["把 2-3 个软垫叠成小坡","妈妈坐坡顶招手 come here","让核桃自己爬上来","抱他一下再放回起点，重复 3-5 次"], value:"发展腿部力量、平衡与自信心。", ageTag:"12-24 月"},
+      {name:"大球滚滚", steps:["妈妈和核桃面对面坐（1 米距离）","妈妈把大球滚向核桃：Roll to Hetao!","让他滚回来","边玩边数 One, two, three!"], value:"锻炼手眼协调、轮流概念、双侧配合。", ageTag:"10-24 月"},
+      {name:"抱抱蹲起", steps:["核桃站定，妈妈蹲下张开双手","说 Come to Mommy for a hug","抱起核桃向上举一下","再放下来，重复 5-8 次"], value:"锻炼腿部力量、亲密感与安全感。", ageTag:"12-24 月"},
+      {name:"跟着音乐跳", steps:["放一首熟悉的儿歌（如 If You're Happy）","妈妈示范拍手/跺脚/转圈","鼓励核桃跟着做","累了就抱起来一起晃"], value:"锻炼节奏感、身体协调、语言理解。", ageTag:"12-36 月"}
+    ],
+    fine: [
+      {name:"珠子入瓶", steps:["准备大颗粒珠子和宽口瓶（≥3cm）","示范：捏起一颗，放进瓶口","让核桃试着重复","全程妈妈全程盯着，防止入口"], value:"锻炼拇食指精细捏取、专注力。", ageTag:"12-24 月"},
+      {name:"撕纸游戏", steps:["找一些废旧宣传单/报纸","示范撕成小片","鼓励核桃自己撕","可以把撕好的纸放进小碗里"], value:"锻炼手部肌肉、感官探索。", ageTag:"12-24 月"},
+      {name:"贴贴纸", steps:["准备宝宝专用贴纸和白纸","示范撕下贴纸","让核桃贴到指定位置","可以贴出简单图案（花朵/汽车）"], value:"锻炼手指灵活性、审美启蒙。", ageTag:"12-24 月"},
+      {name:"抓抓豆子（谨慎版）", steps:["用大颗粒豆子/或棉花球代替","盛在大碗里，让核桃用手抓","准备两个碗，示范倒来倒去","全程紧盯，避免入口"], value:"感官刺激、精细动作、双手协作。", ageTag:"18-30 月"},
+      {name:"拧盖子", steps:["准备几个不同大小的空瓶","示范拧开、盖上","让核桃自己试","可以在瓶子里藏小惊喜"], value:"锻炼腕部旋转、因果关系认知。", ageTag:"18-30 月"},
+      {name:"涂鸦时间", steps:["准备大张纸+无毒蜡笔（粗）","妈妈先画一笔示范","让核桃随便涂","把作品贴墙上，做小画展"], value:"发展手部控制、艺术表达、创造力。", ageTag:"12-36 月"}
+    ],
+    lang: [
+      {name:"躲猫猫叫名字", steps:["妈妈用双手遮脸","问 Where is Mommy?","拿开手大喊 Peek-a-boo!","换核桃遮脸，妈妈找他"], value:"物体恒存概念、社交互动、语言表达。", ageTag:"9-24 月"},
+      {name:"认水果游戏", steps:["把几种水果摆在托盘上","指着说：This is an apple. 苹果。","问：Where is the banana?","让核桃指认，答对就一起吃一口"], value:"扩展词汇、认知分类、味觉认知。", ageTag:"12-24 月"},
+      {name:"指身体部位", steps:["妈妈说：眼睛在哪里？","自己指眼睛示范","拉着核桃小手一起指","循环 5 个部位：眼睛、鼻子、嘴巴、耳朵、肚子"], value:"身体认知、语言理解、亲子肌肤接触。", ageTag:"12-24 月"},
+      {name:"动物叫声模仿", steps:["妈妈：小狗怎么叫？汪汪！","让核桃跟着叫一声","换 5 种动物：猫、羊、牛、鸭、青蛙","最后一起大合唱"], value:"词汇量、发音练习、中英双语启蒙。", ageTag:"12-24 月"},
+      {name:"绘本猜物", steps:["翻开动物绘本","指着图问：这是什么呀？","核桃说对就欢呼","说不出来妈妈重复三次"], value:"词汇量、图文对应、阅读兴趣。", ageTag:"12-36 月"},
+      {name:"颜色配对", steps:["拿出彩色积木和相同色卡","示范：红色配红色","让核桃自己尝试","答对就说 Well done!"], value:"颜色识别、分类思维、专注力。", ageTag:"18-30 月"}
+    ],
+    social: [
+      {name:"打招呼互动", steps:["家人回家时，妈妈示范：Say hi to Daddy!","拉核桃小手挥一挥","离别时说 Bye-bye!","重复养成习惯"], value:"社交礼貌、语言使用、家庭情感。", ageTag:"12-24 月"},
+      {name:"假装喝水", steps:["拿一个空杯子","妈妈假装喝一口，说 Yum!","递给核桃，让他也喝一口","然后一起假装满足地叹气"], value:"假想游戏、模仿能力、想象力启蒙。", ageTag:"12-24 月"},
+      {name:"哄娃娃睡觉", steps:["拿一个玩偶","妈妈说：宝宝困了，我们哄哄他","一起轻拍玩偶，唱摇篮曲","盖上小毯子，说 Good night"], value:"共情能力、角色扮演、语言表达。", ageTag:"18-30 月"},
+      {name:"分享零食", steps:["核桃吃小饼干时","妈妈伸手：Give Mommy one?","核桃递过来一块","妈妈假装大口吃，说 Yummy! Thank you!"], value:"分享意识、社交回应、语言互动。", ageTag:"12-24 月"},
+      {name:"亲亲抱抱", steps:["妈妈张开双臂：Hug time!","跑过去互相拥抱","轻轻亲一下小脸","说 I love you, Hetao"], value:"情感连接、安全感、爱的表达。", ageTag:"0-36 月"},
+      {name:"情绪脸游戏", steps:["妈妈做开心的表情：I'm happy!","让核桃看着模仿","换难过、生气、惊讶等 4 种情绪","让核桃猜妈妈是什么情绪"], value:"情绪识别、共情能力、面部表情觉察。", ageTag:"18-36 月"}
+    ]
+  }
+};
+
+function babyAgeMonths(){
+  const now = new Date();
+  const birth = new Date(2025,1,6);
+  let m = (now.getFullYear()-birth.getFullYear())*12 + (now.getMonth()-birth.getMonth());
+  if(now.getDate()<birth.getDate()) m -= 1;
+  return m;
+}
+
+const BABY_STATE = {
+  tab: 'growth',
+  growthStage: '12-18',
+  songStage: '12-18',
+  poemLevel: 1,
+  englishStage: 'abc',
+  englishAbcIndex: 0,
+  englishWordCat: 'animals',
+  gameCat: 'motor'
+};
+
+(function initBabyDefaults(){
+  const m = babyAgeMonths();
+  // 成长建议默认
+  if(m<6) BABY_STATE.growthStage='0-6';
+  else if(m<12) BABY_STATE.growthStage='6-12';
+  else if(m<18) BABY_STATE.growthStage='12-18';
+  else if(m<24) BABY_STATE.growthStage='18-24';
+  else BABY_STATE.growthStage='24-36';
+  // 儿歌默认
+  if(m<12) BABY_STATE.songStage='0-12';
+  else if(m<18) BABY_STATE.songStage='12-18';
+  else BABY_STATE.songStage='18-36';
+  // 古诗默认
+  BABY_STATE.poemLevel = m<24 ? 1 : (m<36 ? 2 : 3);
+  // 英文学习默认
+  BABY_STATE.englishStage = m<18 ? 'abc' : (m<24 ? 'words' : (m<30 ? 'sentences' : 'dialogues'));
+  // 字母默认按 dayOfYear 轮播
+  BABY_STATE.englishAbcIndex = dayOfYear() % 26;
+})();
+
+/* --- 渲染：成长建议 --- */
+function renderBabyGrowthChips(){
+  const box = document.getElementById('growth-stage-chips'); if(!box) return;
+  const stages = [
+    {key:'0-6', label:'0-6 月'},
+    {key:'6-12', label:'6-12 月'},
+    {key:'12-18', label:'12-18 月'},
+    {key:'18-24', label:'18-24 月'},
+    {key:'24-36', label:'24-36 月'}
+  ];
+  const cur = BABY_STATE.growthStage;
+  box.innerHTML = stages.map(s=>{
+    const isDefault = s.key===defaultGrowthByAge();
+    return `<span class="baby-chip-btn ${s.key===cur?'active':''}" data-stage="${s.key}">${s.label}${isDefault?'<span class="baby-badge-default">默认</span>':''}</span>`;
+  }).join('');
+  box.querySelectorAll('.baby-chip-btn').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      BABY_STATE.growthStage = el.dataset.stage;
+      renderBabyGrowth();
+    });
+  });
+}
+function defaultGrowthByAge(){
+  const m = babyAgeMonths();
+  if(m<6) return '0-6';
+  if(m<12) return '6-12';
+  if(m<18) return '12-18';
+  if(m<24) return '18-24';
+  return '24-36';
+}
+function renderBabyGrowth(){
+  renderBabyGrowthChips();
+  const g = BABY_DATA.growth[BABY_STATE.growthStage];
+  const box = document.getElementById('growth-grid'); if(!box || !g) return;
+  const blocks = [
+    {t:'🥣 辅食食谱建议', items:g.food},
+    {t:'🧸 推荐玩具类型', items:g.toys},
+    {t:'🌱 发展里程碑', items:g.milestones},
+    {t:'⚠️ 注意事项', items:g.caution}
+  ];
+  box.innerHTML = blocks.map(b=>`
+    <div class="growth-block">
+      <div class="gb-title">${b.t}</div>
+      <ul>${b.items.map(x=>`<li>${x}</li>`).join('')}</ul>
+    </div>
+  `).join('');
+}
+
+/* --- 渲染：英文儿歌 --- */
+function renderBabySongsChips(){
+  const box = document.getElementById('song-stage-chips'); if(!box) return;
+  const stages = [
+    {key:'0-12', label:'0-12 月'},
+    {key:'12-18', label:'12-18 月'},
+    {key:'18-36', label:'18-36 月'}
+  ];
+  const def = (babyAgeMonths()<12 ? '0-12' : (babyAgeMonths()<18 ? '12-18' : '18-36'));
+  box.innerHTML = stages.map(s=>`<span class="baby-chip-btn ${s.key===BABY_STATE.songStage?'active':''}" data-stage="${s.key}">${s.label}${s.key===def?'<span class="baby-badge-default">默认</span>':''}</span>`).join('');
+  box.querySelectorAll('.baby-chip-btn').forEach(el=>{
+    el.addEventListener('click', ()=>{ BABY_STATE.songStage = el.dataset.stage; renderBabySongs(); });
+  });
+}
+function biliSearchUrl(q){
+  return 'https://search.bilibili.com/all?keyword=' + encodeURIComponent(q).replace(/%20/g,'+');
+}
+function renderBabySongs(){
+  renderBabySongsChips();
+  const list = document.getElementById('song-list'); if(!list) return;
+  const filtered = BABY_DATA.songs.filter(s=>s.stage===BABY_STATE.songStage);
+  list.innerHTML = filtered.map((s,i)=>`
+    <div class="song-item">
+      <div class="si-head">
+        <div>
+          <div class="si-title">🎵 ${s.name}</div>
+          <div class="si-cn">${s.cnName}</div>
+        </div>
+        <div class="si-stage">${s.stage} 月</div>
+      </div>
+      <div class="si-lyric">${s.lyric.replace(/</g,'&lt;')}</div>
+      <div class="si-links">
+        <a href="${biliSearchUrl('Super Simple Songs '+s.name)}" target="_blank" rel="noopener">📺 B 站搜索</a>
+        <button type="button" class="song-copy-btn" data-idx="${i}">📋 复制歌词</button>
+      </div>
+    </div>
+  `).join('');
+  list.querySelectorAll('.song-copy-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const idx = Number(btn.dataset.idx);
+      const s = filtered[idx];
+      const txt = `【英文儿歌】${s.name} · ${s.cnName}（${s.stage} 月）\n\n${s.lyric}\n\n🔎 搜索：Super Simple Songs ${s.name}`;
+      doCopy(txt, btn);
+    });
+  });
+}
+
+/* --- 渲染：每日古诗 --- */
+function renderBabyPoemChips(){
+  const box = document.getElementById('poem-level-chips'); if(!box) return;
+  const levels = [
+    {key:1, label:'⭐ 入门'},
+    {key:2, label:'⭐⭐ 进阶'},
+    {key:3, label:'⭐⭐⭐ 挑战'}
+  ];
+  const def = (babyAgeMonths()<24 ? 1 : (babyAgeMonths()<36 ? 2 : 3));
+  box.innerHTML = levels.map(s=>`<span class="baby-chip-btn ${s.key===BABY_STATE.poemLevel?'active':''}" data-lv="${s.key}">${s.label}${s.key===def?'<span class="baby-badge-default">默认</span>':''}</span>`).join('');
+  box.querySelectorAll('.baby-chip-btn').forEach(el=>{
+    el.addEventListener('click', ()=>{ BABY_STATE.poemLevel = Number(el.dataset.lv); BABY_STATE.poemOffset = 0; renderBabyPoem(); });
+  });
+}
+BABY_STATE.poemOffset = 0;
+function renderBabyPoem(){
+  renderBabyPoemChips();
+  const pool = BABY_DATA.poems.filter(p=>p.level===BABY_STATE.poemLevel);
+  if(!pool.length) return;
+  const idx = (dayOfYear() + BABY_STATE.poemOffset) % pool.length;
+  const p = pool[idx];
+  document.getElementById('poem-title-new').textContent = `《${p.title}》`;
+  document.getElementById('poem-author-new').textContent = `${p.dynasty} · ${p.author}`;
+  const lines = document.getElementById('poem-lines');
+  lines.innerHTML = p.content.map((h,i)=>`
+    <div class="pl">
+      <div class="py">${p.pinyin[i]||''}</div>
+      <div class="han">${h}</div>
+    </div>
+  `).join('');
+  document.getElementById('poem-meaning-new').textContent = '🌸 ' + p.meaning;
+  document.getElementById('poem-copy-new').onclick = (e)=>{
+    let txt = `【每日启蒙古诗】《${p.title}》—— ${p.dynasty} · ${p.author}\n\n`;
+    p.content.forEach((h,i)=>{ txt += `${h}（${p.pinyin[i]||''}）\n`; });
+    txt += `\n🌸 释义：${p.meaning}`;
+    doCopy(txt, e.target);
+  };
+  document.getElementById('poem-shuffle-new').onclick = ()=>{
+    BABY_STATE.poemOffset += 1;
+    renderBabyPoem();
+  };
+}
+
+/* --- 渲染：英文学习 --- */
+function renderBabyEnglishChips(){
+  const box = document.getElementById('english-stage-chips'); if(!box) return;
+  const stages = [
+    {key:'abc', label:'① 字母 ABC'},
+    {key:'words', label:'② 常用单词'},
+    {key:'sentences', label:'③ 简单句型'},
+    {key:'dialogues', label:'④ 亲子对话'}
+  ];
+  const def = 'abc';
+  box.innerHTML = stages.map(s=>`<span class="baby-chip-btn ${s.key===BABY_STATE.englishStage?'active':''}" data-stage="${s.key}">${s.label}${s.key===def?'<span class="baby-badge-default">默认</span>':''}</span>`).join('');
+  box.querySelectorAll('.baby-chip-btn').forEach(el=>{
+    el.addEventListener('click', ()=>{ BABY_STATE.englishStage = el.dataset.stage; renderBabyEnglish(); });
+  });
+}
+function renderBabyEnglish(){
+  renderBabyEnglishChips();
+  const cont = document.getElementById('english-content'); if(!cont) return;
+  const stage = BABY_STATE.englishStage;
+  if(stage === 'abc'){
+    const letters = BABY_DATA.english.letters;
+    const cur = letters[BABY_STATE.englishAbcIndex];
+    cont.innerHTML = `
+      <div class="abc-big">
+        <div class="letter-line">
+          <div class="letter-up">${cur.letter}</div>
+          <div class="letter-lo">${cur.lower}</div>
+        </div>
+        <div class="sound">${cur.sound}</div>
+        <div class="word">${cur.word}<span class="cnword">（${cur.cnWord}）</span></div>
+        <div class="example">${cur.example}</div>
+      </div>
+      <div class="abc-grid" id="abc-grid"></div>
+    `;
+    const grid = document.getElementById('abc-grid');
+    grid.innerHTML = letters.map((l,i)=>`<div class="abc-cell ${i===BABY_STATE.englishAbcIndex?'active':''}" data-i="${i}">${l.letter}</div>`).join('');
+    grid.querySelectorAll('.abc-cell').forEach(c=>{
+      c.addEventListener('click', ()=>{ BABY_STATE.englishAbcIndex = Number(c.dataset.i); renderBabyEnglish(); });
+    });
+  } else if(stage === 'words'){
+    const cats = [
+      {key:'animals', label:'🐾 动物'},
+      {key:'food', label:'🍎 食物'},
+      {key:'colors', label:'🎨 颜色'},
+      {key:'body', label:'👋 身体'}
+    ];
+    let html = `<div class="word-cat-tabs">`;
+    html += cats.map(c=>`<span class="word-cat-tab ${c.key===BABY_STATE.englishWordCat?'active':''}" data-cat="${c.key}">${c.label}</span>`).join('');
+    html += `</div>`;
+    const items = BABY_DATA.english.words[BABY_STATE.englishWordCat] || [];
+    html += `<div class="word-grid">` + items.map(w=>`
+      <div class="word-cell">
+        <div><span class="en">${w.en}</span><span class="cn">${w.cn}</span></div>
+        <div class="ex">${w.ex}</div>
+      </div>
+    `).join('') + `</div>`;
+    cont.innerHTML = html;
+    cont.querySelectorAll('.word-cat-tab').forEach(el=>{
+      el.addEventListener('click', ()=>{ BABY_STATE.englishWordCat = el.dataset.cat; renderBabyEnglish(); });
+    });
+  } else if(stage === 'sentences'){
+    const groups = [
+      {key:'greeting', label:'👋 打招呼'},
+      {key:'commands', label:'📣 常用指令'},
+      {key:'emotions', label:'❤️ 情感表达'}
+    ];
+    let html = '';
+    groups.forEach(g=>{
+      const items = BABY_DATA.english.sentences[g.key] || [];
+      html += `<div class="dial-block"><div class="dt">${g.label}</div><div class="sent-list">` +
+        items.map(s=>`<div class="sent-item"><div class="en">${s.en}</div><div class="cn">${s.cn}</div><div class="scene">📍 ${s.scene}</div></div>`).join('') +
+        `</div></div>`;
+    });
+    cont.innerHTML = html;
+  } else {
+    // dialogues
+    let html = '';
+    BABY_DATA.english.dialogues.forEach((d,i)=>{
+      html += `<div class="dial-block"><div class="dt">${d.emoji} ${d.scene}<button type="button" class="copy-btn" data-dial-i="${i}">📋 复制</button></div>` +
+        d.lines.map(l=>`<div class="dial-line"><span class="en">${l.en}</span><span class="cn">${l.cn}</span></div>`).join('') +
+        `</div>`;
+    });
+    cont.innerHTML = html;
+    cont.querySelectorAll('[data-dial-i]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const d = BABY_DATA.english.dialogues[Number(btn.dataset.dialI)];
+        const txt = `【亲子对话】${d.scene}\n\n` + d.lines.map(l=>`${l.en}\n${l.cn}`).join('\n\n');
+        doCopy(txt, btn);
+      });
+    });
+  }
+}
+
+/* --- 渲染：亲子游戏 --- */
+function renderBabyGameChips(){
+  const box = document.getElementById('game-cat-tabs'); if(!box) return;
+  const cats = [
+    {key:'motor', label:'🏃 大运动'},
+    {key:'fine', label:'✋ 精细动作'},
+    {key:'lang', label:'🗣️ 语言认知'},
+    {key:'social', label:'❤️ 社交情感'}
+  ];
+  box.innerHTML = cats.map(c=>`<span class="game-cat-tab ${c.key===BABY_STATE.gameCat?'active':''}" data-cat="${c.key}">${c.label}</span>`).join('');
+  box.querySelectorAll('.game-cat-tab').forEach(el=>{
+    el.addEventListener('click', ()=>{ BABY_STATE.gameCat = el.dataset.cat; renderBabyGames(); });
+  });
+}
+function renderBabyGames(){
+  renderBabyGameChips();
+  const list = document.getElementById('game-list-new'); if(!list) return;
+  const items = BABY_DATA.games[BABY_STATE.gameCat] || [];
+  list.innerHTML = items.map((g,i)=>`
+    <div class="game-item">
+      <div class="gi-head">
+        <div class="gi-name">${g.name}</div>
+        <div class="gi-age">${g.ageTag}</div>
+      </div>
+      <ol class="gi-steps">${g.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+      <div class="gi-value">🌱 ${g.value}</div>
+      <div class="gi-actions"><button type="button" class="copy-btn" data-game-i="${i}">📋 复制玩法</button></div>
+    </div>
+  `).join('');
+  list.querySelectorAll('[data-game-i]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const g = items[Number(btn.dataset.gameI)];
+      let txt = `【亲子游戏】${g.name}（${g.ageTag}）\n\n玩法：\n`;
+      g.steps.forEach((s,i)=>{ txt += `${i+1}. ${s}\n`; });
+      txt += `\n🌱 发展价值：${g.value}`;
+      doCopy(txt, btn);
+    });
+  });
+}
+
+/* --- 成长建议 复制 --- */
+(function bindGrowthCopy(){
+  const btn = document.getElementById('growth-copy'); if(!btn) return;
+  btn.addEventListener('click', ()=>{
+    const g = BABY_DATA.growth[BABY_STATE.growthStage];
+    let txt = `【核桃 · ${BABY_STATE.growthStage} 月成长建议】\n\n`;
+    txt += `🥣 辅食食谱：\n` + g.food.map(x=>' · '+x).join('\n') + '\n\n';
+    txt += `🧸 推荐玩具：\n` + g.toys.map(x=>' · '+x).join('\n') + '\n\n';
+    txt += `🌱 发展里程碑：\n` + g.milestones.map(x=>' · '+x).join('\n') + '\n\n';
+    txt += `⚠️ 注意事项：\n` + g.caution.map(x=>' · '+x).join('\n');
+    doCopy(txt, btn);
+  });
+})();
+
+/* --- 英文学习 复制 --- */
+(function bindEnglishCopy(){
+  const btn = document.getElementById('english-copy'); if(!btn) return;
+  btn.addEventListener('click', ()=>{
+    const s = BABY_STATE.englishStage;
+    let txt = '';
+    if(s==='abc'){
+      const l = BABY_DATA.english.letters[BABY_STATE.englishAbcIndex];
+      txt = `【核桃 · 字母学习】\n${l.letter} ${l.lower}   ${l.sound}\n${l.word}（${l.cnWord}）\n\n${l.example}`;
+    } else if(s==='words'){
+      const cat = BABY_STATE.englishWordCat;
+      const items = BABY_DATA.english.words[cat] || [];
+      txt = `【核桃 · 常用单词 · ${cat}】\n\n` + items.map(w=>`${w.en}（${w.cn}）→ ${w.ex}`).join('\n');
+    } else if(s==='sentences'){
+      const gs = BABY_DATA.english.sentences;
+      txt = `【核桃 · 简单句型】\n\n打招呼：\n` + gs.greeting.map(x=>`  ${x.en}（${x.cn}）`).join('\n');
+      txt += `\n\n常用指令：\n` + gs.commands.map(x=>`  ${x.en}（${x.cn}）`).join('\n');
+      txt += `\n\n情感表达：\n` + gs.emotions.map(x=>`  ${x.en}（${x.cn}）`).join('\n');
+    } else {
+      txt = `【核桃 · 亲子对话】\n\n`;
+      BABY_DATA.english.dialogues.forEach(d=>{
+        txt += `${d.emoji} ${d.scene}\n`;
+        d.lines.forEach(l=>{ txt += `  ${l.en}\n  ${l.cn}\n`; });
+        txt += '\n';
+      });
+    }
+    doCopy(txt, btn);
+  });
+})();
+
+/* --- 一级 Tab 切换 --- */
+document.querySelectorAll('.baby-tab-l1').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('.baby-tab-l1').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.baby-panel-l1').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const k = t.dataset.btab;
+    BABY_STATE.tab = k;
+    const panel = document.getElementById('bpanel-'+k);
+    if(panel) panel.classList.add('active');
+    if(k==='growth') renderBabyGrowth();
+    else if(k==='song') renderBabySongs();
+    else if(k==='poem') renderBabyPoem();
+    else if(k==='english') renderBabyEnglish();
+    else if(k==='game') renderBabyGames();
+  });
+});
+
+// 初始渲染
+renderBabyGrowth();
+renderBabySongs();
+renderBabyPoem();
+renderBabyEnglish();
+renderBabyGames();
+
+
+/* ============ 每日灵感分享 ============ */
+const SHARES = [
+  {
+    theme:"parent", themeLabel:"🍼 育儿碎碎念",
+    hook:"今天核桃把我 300 块的口红当蜡笔用了，全涂她自己脸上。",
+    body:"我：宝贝，那是妈妈的口红。\n核桃：（继续涂）\n我：（心疼）宝贝，那是妈妈的 300 块。\n核桃：（笑得像刚拿到诺贝尔文学奖）\n\n问：她是我女儿，还是我的画板？\n答：不清楚，但我的口红肯定是她的了。\n\n以前刷小红书看别人晒娃创作力，觉得妈妈们真会拍。当妈之后才知道——不是妈妈会拍，是妈妈的口红都不够涂了。\n\n明天买一支便宜的给她当画笔，剩下的给自己藏严实点。",
+    tags:"#带娃日常 #17个月宝宝 #家里有神兽 #口红刺客"
+  },
+  {
+    theme:"work", themeLabel:"💼 职场女性日常",
+    hook:"中午在公司茶水间热母乳，被同事撞见。全办公室最大的秘密就此曝光——我还在喂奶。",
+    body:"她一脸震惊：\"你还在喂啊？\"\n我笑：\"对啊，是不是很有母爱？\"\n她：\"你...一直都是这样加班的吗？\"\n我：\"对啊，一手写方案一手挤奶，多任务处理已经是我的核心竞争力。\"\n\n回到工位，同事们看我的眼神变了——从\"卷王\"变成\"卷王 · 尊贵的哺乳版\"。\n\n我以为我的秘密武器是 PPT，\n没想到是这台奶瓶。\n\n反正 KPI 也没耽误，怕啥。",
+    tags:"#职场妈妈 #哺乳期打工 #打工人真实一面 #多任务处理"
+  },
+  {
+    theme:"life", themeLabel:"🌿 生活方式",
+    hook:"花 800 块买了个\"精致妈妈\"的包，装进去的第一件东西是——尿不湿。",
+    body:"产前我：出门只带钥匙 + 手机 + 口红。\n产后我：尿不湿 3 片、湿巾 1 包、小饼干 2 袋、水杯 1 个、备用衣服 1 套、退烧药、体温计、防晒霜、我的口红（后来被涂了她脸上，见另一篇）。\n\n包越背越大，人越背越结实。\n\n以前追求\"轻装出门\"，现在追求\"备齐弹药\"。\n妈妈不是选包，是选装备。\n\n最近爱的是某宝 89 块的托特包，能装能背能塞，比 800 块的实用 10 倍。\n（心痛的那 800 块的包在家里吃灰。）",
+    tags:"#妈妈包推荐 #实用主义 #带娃出门装备 #血亏 800"
+  },
+  {
+    theme:"parent", themeLabel:"🍼 育儿碎碎念",
+    hook:"昨晚哄核桃睡觉，我睡着了，她还醒着。",
+    body:"睁眼看她坐床上，眼睛发亮。\n我：\"...你怎么不睡？\"\n她：\"妈——\"\n我：\"妈妈想睡。\"\n她：\"妈——\"（笑）\n我：\"妈妈真的想睡。\"\n她：\"爸——\"\n\n好的，我懂了。\n我把她抱给隔壁躺着的爸爸。\n两秒后传来爸爸绝望的\"啊\"。\n\n这一刻我理解了什么叫接力赛。\n今晚我要睡到自然醒。\n（不可能。）",
+    tags:"#哄睡失败 #带娃日常 #接力育儿 #队友快接锅"
+  },
+  {
+    theme:"work", themeLabel:"💼 职场女性日常",
+    hook:"今天 KPI 定好了。第二天，核桃发烧。",
+    body:"我：（拍胸脯）本季度冲一冲。\n核桃：（37.8°）来啊，冲啊。\n\n请假条：因家中神兽罢工，人类同事需临时下线。\n\n领导：\"辛苦了。\"\n我：\"不辛苦。\"\n（内心 OS：辛苦到想哭，但哭了 KPI 也不会自动完成，所以还是不哭。）\n\n带娃教会我最重要的一件事——**Plan B 才是主线剧情**。\n\n坐在儿科走廊的塑料椅上，一边回消息、一边写方案、一边开电话会。\n\n妈妈的战场从来不在写字楼，是在儿科走廊。",
+    tags:"#职场妈妈 #Plan B 女王 #带娃就是抢时间 #发烧儿科走廊"
+  },
+  {
+    theme:"life", themeLabel:"🌿 生活方式",
+    hook:"花 200 块买了个可以边带娃边喝的保温杯，感觉自己非常智能。",
+    body:"特点：吸管、防漏、单手操作。\n用途：让我在追着核桃跑的时候还能喝上一口热的。\n\n结果：核桃看到吸管就要抢。\n现在这个杯子是她的了。\n我又买了一个（原价，无折扣）。\n\n结论：**妈妈没有属于自己的物品，只有暂时被允许使用的物品。**\n\n推荐给同类姐妹们：吸管保温杯 · 200 ml · 妈妈专用（如果你能守住的话）。",
+    tags:"#妈妈好物 #实用推荐 #带娃神器 #守不住的杯子"
+  },
+  {
+    theme:"parent", themeLabel:"🍼 育儿碎碎念",
+    hook:"核桃第一次说\"mama\"，我激动得转圈；转完发现她已经在跟猫叫\"mama\"了。",
+    body:"我：（哽咽）她叫我妈妈了。\n（转身喂猫）\n核桃：mama——\n（对着猫）\n我：..............\n\n原来\"mama\"在核桃的语言体系里，可能只是一个感叹词。\n就像\"哇\"或者\"嗯\"。\n\n好的。我妈妈的名分暂时挂空。\n但我依然愿意继续喂她饭、擦她屁股、送她上学一直到她 22 岁——\n\n只要她愿意在某个瞬间，把这个感叹词再送我一次。",
+    tags:"#带娃碎碎念 #第一次叫妈妈 #血亏但值得 #猫也是妈"
+  },
+  {
+    theme:"work", themeLabel:"💼 职场女性日常",
+    hook:"开会开到一半，胸开始不舒服——奶胀了。",
+    body:"主持人：\"吕江，你的看法呢？\"\n我脑子里同时在处理三件事：\n1. 这个方案要不要 push 一下\n2. 我该找哪个空会议室挤奶\n3. 会议还有 15 分钟能撑到吗\n\n我（表面淡定）：\"我建议我们从 XX 维度切入，会更聚焦。\"\n（内心：我建议现在马上给我 20 分钟。）\n\n散会后飞奔茶水间，插上吸奶器的那一刻——\n我感觉自己完成了一次哺乳期打工人的高级修炼。\n\n**分身、多任务、按点回奶。**\n简历上应该写上这些。",
+    tags:"#职场妈妈 #哺乳期日常 #高级打工人 #会议室战神"
+  },
+  {
+    theme:"life", themeLabel:"🌿 生活方式",
+    hook:"减肥？不存在的。我现在追求的是\"能穿\"。",
+    body:"昨天翻出去年买的一条裤子，拉链能拉上——\n我心里已经放烟花了。\n\n产后姐妹们的减肥观是这样的：\n· 上称：暂时不了\n· 拍照：只拍上半身\n· 穿旧衣服：能扣上就是胜利\n· 逛街：直接买大一码，主打宽容\n\n以前追\"身材\"，现在追\"松弛感\"。\n以前买\"S 码显瘦\"，现在买\"M 码不勒\"。\n\n**允许自己变化，是妈妈给自己最好的礼物之一。**\n\n（明天开始减肥，不是今天。今天先吃个蛋糕，庆祝我裤子还能穿。）",
+    tags:"#产后自我 #松弛感 #妈妈生活方式 #先吃蛋糕再说"
+  }
+];
+const SHARE_THEME_CLASS = {parent:"b-parent", work:"b-work", life:"b-life"};
+let SHARE_INDEX = dayOfYear() % SHARES.length;
+function renderShare(){
+  const s = SHARES[SHARE_INDEX];
+  const badge = document.getElementById("share-badge");
+  badge.className = "share-badge " + (SHARE_THEME_CLASS[s.theme] || "");
+  badge.textContent = s.themeLabel;
+  document.getElementById("share-hook").textContent = s.hook;
+  document.getElementById("share-body").textContent = s.body;
+  document.getElementById("share-tags").textContent = s.tags;
+}
+document.getElementById("share-switch").addEventListener("click", ()=>{
+  SHARE_INDEX = (SHARE_INDEX + 1) % SHARES.length;
+  renderShare();
+});
+renderShare();
+
+/* ============ 每日玄学提示 ============ */
+/*
+  江江八字简析：
+  1992-03-20 申时（15:00-17:00）· 春分
+  年 壬申 / 月 癸卯 / 日 庚申 / 时 甲申
+  日主：庚金；金3申+庚共4，金极旺；水2、木2、火0、土0
+  用神：火（炼金成器）为主，木、水为辅
+  忌神：土（生金）、金（帮身太过）
+  → 幸运色：红/橙/紫/绿；忌全身白、银、金色叠戴
+  → 材质喜：木、红玛瑙、石榴石、南红、琥珀；忌全银全金
+*/
+const MYSTIC_MOOD = [];
+const MYSTIC_DAYS = [
+  {
+    mood:"今日火气宜燃 · 主动破局",
+    colors:[{n:"珊瑚红", c:"#ff7a6b"},{n:"樱花粉", c:"#f7b7c5"}],
+    colorTip:"上衣挑一件带红的，能量拉满。避免全身银白，会让金气过盛显冷。",
+    jewel:"南红玛瑙手串 · 或一颗石榴石耳钉，火系材质补日主最爱",
+    yes:["主动约人开会、争取表达机会","穿有腰线设计，显气场","中午吃点辛香类食物暖气血"],
+    no:["全身银饰叠戴","把手机静音（今天有通话运）","跟人说'算了'"],
+    quote:"庚金遇丁火，方能成器。今天你天生就有把事情办漂亮的能力。"
+  },
+  {
+    mood:"藏青日 · 柔中带韧",
+    colors:[{n:"藏青蓝", c:"#2f406a"},{n:"深紫", c:"#5a3c8a"}],
+    colorTip:"用深色系压场，配一点亮色点缀（唇色/耳钉），比全暗更聚气。",
+    jewel:"紫水晶小吊坠 · 主情绪清明，让人愿意听你说话",
+    yes:["多喝温水","下午 3 点起做重要决策","写字前先深呼吸三次"],
+    no:["戴大金链子叠 3 层","正午暴晒不擦防晒","开会时抬杠到底"],
+    quote:"水能泄金，情绪也能。今天允许自己柔一点，反而更有力量。"
+  },
+  {
+    mood:"森系绿日 · 木旺生发",
+    colors:[{n:"豆沙绿", c:"#a3c489"},{n:"抹茶绿", c:"#c5cf8e"}],
+    colorTip:"绿色是你的贵人色系。裙装/衬衫/包包挑一样带绿，运势顺。",
+    jewel:"小叶紫檀手串 · 或一枚翡翠戒面",
+    yes:["靠窗办公，多看绿植","把午饭换成有汤水的","跟朋友主动打招呼"],
+    no:["吃过多干货类零食（土助金）","穿一身米黄","反复走西门方位"],
+    quote:"甲木立于金旁，是花，也是刀。今天做那个'温柔而坚定'的自己。"
+  },
+  {
+    mood:"火焰橙日 · 出圈见人",
+    colors:[{n:"暖橙", c:"#f39a5b"},{n:"火焰红", c:"#e35d3e"}],
+    colorTip:"哪怕只是口红或包挂上带一抹橙红，都能让贵人一眼记住你。",
+    jewel:"琥珀吊坠 或 红玛瑙耳钉，温暖火气补日主",
+    yes:["主动 Say hi","点一杯热美式（火气+）","约见 1 位老同事"],
+    no:["全身银饰无点缀","走西南方向长距离","开会全程不发言"],
+    quote:"命里缺火，也别缺笑。你笑起来的样子就是火。"
+  },
+  {
+    mood:"墨蓝日 · 静水深流",
+    colors:[{n:"墨蓝", c:"#243855"},{n:"冰蓝", c:"#a8c7e3"}],
+    colorTip:"以蓝为主+一件白衬衫作衬，专业感直接拉满，适合谈客户。",
+    jewel:"蓝晶石手链 或 一颗黑玛瑙戒指",
+    yes:["早起 15 分钟","写 3 条待办","下午给自己泡一杯茶"],
+    no:["白鞋 + 白裤 + 白包全套","连说 3 次'算了'","熬夜追剧"],
+    quote:"水生木，你在滋养自己的时候，宇宙也在悄悄回礼。"
+  },
+  {
+    mood:"玫粉日 · 桃花与合作运",
+    colors:[{n:"玫粉", c:"#e688a1"},{n:"陶土粉", c:"#d8a89a"}],
+    colorTip:"今天很吃'柔和感'。选粉调唇色 + 有腰线上衣，人缘会好。",
+    jewel:"粉水晶手串 或 珊瑚耳饰，主人缘与合作机会",
+    yes:["主动约老同学/老同事","大笑一次","化个正经妆"],
+    no:["素颜灰扑扑出门","穿全灰全白","忽略腹部保暖"],
+    quote:"庚金遇桃花，事业和情谊，一样能开花。"
+  },
+  {
+    mood:"深森绿日 · 疗愈归位",
+    colors:[{n:"森林绿", c:"#3d6837"},{n:"苔藓绿", c:"#7b9865"}],
+    colorTip:"今天适合把颜色调低饱和，用深绿系找回稳。运动服也行。",
+    jewel:"檀木手串 或 小翡翠平安扣",
+    yes:["走进公园 20 分钟","买一支绿植","见朋友聊天"],
+    no:["戴金饰超过 2 件","听人抱怨 30 分钟以上","一整天久坐"],
+    quote:"木旺则花开，庚金收敛就好。今天，让自己放软。"
+  },
+  {
+    mood:"枣红日 · 谈钱不伤感情",
+    colors:[{n:"枣红", c:"#8f2d2d"},{n:"醇酒红", c:"#b04b3a"}],
+    colorTip:"暖红是你今天的谈判色。围巾、外套或包挑一件带红，气场硬。",
+    jewel:"南红玛瑙串 · 或红珊瑚戒指，主财气与决断",
+    yes:["谈钱谈合作","发出压箱底的方案","拍照/出镜"],
+    no:["金饰叠戴超过 3 件","开口说'随便'","饮酒过量"],
+    quote:"火克金而成大器。今天该出手的别犹豫。"
+  },
+  {
+    mood:"淡紫日 · 允许发呆",
+    colors:[{n:"丁香紫", c:"#c9b6dc"},{n:"雾霾紫", c:"#a48fb8"}],
+    colorTip:"选一件轻透紫色的针织或围巾，视觉降温，情绪也降温。",
+    jewel:"紫水晶手链 或 石榴石戒指",
+    yes:["写日记","听音乐慢走一段","做一次面膜"],
+    no:["熬夜过 23 点","佩戴全银首饰出门","跟人置气"],
+    quote:"庚金也需要独处的紫烟一缕。今天允许自己发呆。"
+  }
+];
+let MYSTIC_INDEX = dayOfYear() % MYSTIC_DAYS.length;
+function renderMystic(){
+  const m = MYSTIC_DAYS[MYSTIC_INDEX];
+  document.getElementById("mystic-mood").textContent = "🌟 " + m.mood;
+  const cc = document.getElementById("mystic-colors");
+  cc.innerHTML = "";
+  m.colors.forEach(c=>{
+    const chip = document.createElement("span");
+    chip.className = "mystic-chip";
+    chip.innerHTML = `<span class="dot-c" style="background:${c.c}"></span>${c.n}`;
+    cc.appendChild(chip);
+  });
+  document.getElementById("mystic-color-tip").textContent = m.colorTip;
+  document.getElementById("mystic-jewel").textContent = m.jewel;
+  const yes = document.getElementById("mystic-yes"); yes.innerHTML = "";
+  m.yes.forEach(t=>{ const li=document.createElement("li"); li.textContent=t; yes.appendChild(li); });
+  const no = document.getElementById("mystic-no"); no.innerHTML = "";
+  m.no.forEach(t=>{ const li=document.createElement("li"); li.textContent=t; no.appendChild(li); });
+  document.getElementById("mystic-quote").textContent = "🪞 " + m.quote;
+}
+document.getElementById("mystic-switch").addEventListener("click", ()=>{
+  MYSTIC_INDEX = (MYSTIC_INDEX + 1) % MYSTIC_DAYS.length;
+  renderMystic();
+});
+renderMystic();
+
+/* ============ 一键复制 ============ */
+function buildCopyText(kind){
+  const dateStr = new Date().toLocaleDateString("zh-CN");
+  if(kind === "ai-tool"){
+    const toolList = [
+      { name:"豆包", scene:"周报/会议纪要快速整理", desc:"把聊天记录或会议录音摘要丢进去，可快速提炼重点、待办和汇报口径。", url:"https://www.doubao.com/" },
+      { name:"Kimi", scene:"长文档总结与竞品信息梳理", desc:"适合把招商方案、品牌资料、活动复盘一次喂进去，快速做结构化摘要。", url:"https://kimi.moonshot.cn/" },
+      { name:"通义", scene:"门店巡检报告改写成管理层版本", desc:"把一线问题清单转成“现状-风险-建议”三段式，方便你直接汇报。", url:"https://tongyi.aliyun.com/" },
+      { name:"秘塔 AI 搜索", scene:"查行业案例与品牌动作", desc:"适合快速搜餐饮、饮品、烘焙品牌近期营销动作，再整理成竞品观察。", url:"https://metaso.cn/" },
+      { name:"Notion AI", scene:"社群运营内容排期", desc:"可把月度主题拆成每周社群话题、素材清单和发布时间建议。", url:"https://www.notion.so/product/ai" },
+      { name:"Gamma", scene:"做月度复盘汇报 PPT", desc:"输入提纲即可快速生成可讲述的页面结构，适合先出初稿再微调。", url:"https://gamma.app/" },
+      { name:"Canva Magic Write", scene:"活动海报文案和朋友圈配文", desc:"适合给新品上市、门店活动、社群招募生成多版本短文案。", url:"https://www.canva.com/magic-write/" },
+      { name:"腾讯元宝", scene:"服务商沟通话术润色", desc:"把你原始想法变成更礼貌、更清晰的通知口径，适合对内对外沟通。", url:"https://yuanbao.tencent.com/" }
+    ];
+    const tool = toolList[dayOfYear() % toolList.length];
+    return `【AI 工具推荐 · ${dateStr}】\n【${tool.name}】\n场景：${tool.scene}\n简介：${tool.desc}\n链接：${tool.url}`;
+  }
+  if(kind === "ai-prompt"){
+    const promptList = [
+      { title:"把周工作总结成领导能秒懂的版本", prompt:"你是我的业务汇报助手。请把下面这周工作内容，整理成适合发给领导的周报：1）按“本周完成 / 关键进展 / 风险问题 / 下周计划”四段输出；2）每段不超过 3 条；3）语言简洁、偏结果导向；4）保留关键数字与品牌名；5）最后补一句需要领导支持的事项。原始内容：{{粘贴你的工作记录}}" },
+      { title:"把服务商聊天记录整理成待办清单", prompt:"请把下面的微信群/企微聊天记录整理成执行清单：1）按“待我推进 / 待服务商处理 / 需品牌确认”分类；2）每条写清事项、负责人、截止时间、风险点；3）如果原文信息不完整，请标记“待补充”；4）最后输出一段可直接转发群里的跟进总结。聊天记录：{{粘贴聊天内容}}" },
+      { title:"生成门店巡检问题汇报话术", prompt:"你是连锁餐饮渠道经理助理。请根据下面的巡检问题，输出一版给品牌负责人的汇报：1）先概括共性问题；2）再列出 Top3 高风险门店；3）每个问题给出“现象-影响-建议动作”；4）语气专业但不过度批评；5）最后补充建议复盘时间。巡检记录：{{粘贴巡检笔记}}" },
+      { title:"快速做竞品活动拆解", prompt:"请把下面这条竞品活动信息，拆成一份渠道视角分析：1）活动主题；2）目标人群；3）优惠设计；4）传播动作；5）门店执行要点；6）我们可借鉴的 3 条建议。要求语言口语化一点，方便我转发给服务商。活动信息：{{粘贴活动详情}}" },
+      { title:"把零散想法整理成社群通知", prompt:"请把下面这些零散信息整理成一条适合发服务商社群的通知：要求 1）先说重点，再说动作，再说截止时间；2）语言清楚、有礼貌、不啰嗦；3）结尾补一句提醒回复；4）如果有多个动作，用序号列出。原始信息：{{粘贴碎片信息}}" },
+      { title:"把会议纪要压缩成 1 分钟口头汇报", prompt:"请把下面会议纪要整理成一段 1 分钟内可口头汇报的话术：1）先说会议结论；2）再说关键分工和截止时间；3）最后说风险提醒；4）语言自然、像真人说话。会议纪要：{{粘贴纪要}}" },
+      { title:"生成新品上市的服务商赋能提纲", prompt:"你是一名餐饮渠道经理，请围绕“新品上市前一周”输出服务商赋能提纲：1）培训重点；2）门店执行检查项；3）短视频内容建议；4）社群物料建议；5）需要总部支持的资源。要求简洁实操，每点一句话。" },
+      { title:"把客户抱怨改写成解决方案回复", prompt:"请把下面客户/服务商的抱怨内容，改写成一条专业回复：1）先表达理解；2）再复述问题；3）给出处理动作和时间；4）语气坚定但不强硬；5）不要推责。原始内容：{{粘贴原文}}" }
+    ];
+    const promptItem = promptList[(dayOfYear() + 2) % promptList.length];
+    return promptItem.prompt;
+  }
+  // 注意：eng/song/poem/game 旧 copy 分支已废弃，核桃专区内的复制统一在 baby 模块自行处理
+  if(kind === "share"){
+    const s = SHARES[SHARE_INDEX];
+    return `${s.hook}\n\n${s.body}\n\n${s.tags}`;
+  }
+  if(kind === "mystic"){
+    const m = MYSTIC_DAYS[MYSTIC_INDEX];
+    const colors = m.colors.map(c=>c.n).join(" / ");
+    let txt = `【江江 · 每日玄学提示 · ${dateStr}】\n🌟 ${m.mood}\n\n🎨 幸运色：${colors}\n${m.colorTip}\n\n💎 幸运配饰：${m.jewel}\n\n✅ 今日宜：\n`;
+    m.yes.forEach((s,i)=>{ txt += `${i+1}. ${s}\n`; });
+    txt += `\n🚫 今日忌：\n`;
+    m.no.forEach((s,i)=>{ txt += `${i+1}. ${s}\n`; });
+    txt += `\n🪞 ${m.quote}`;
+    return txt;
+  }
+  return "";
+}
+function doCopy(text, btn){
+  const done = ()=>{
+    const orig = btn.textContent;
+    btn.textContent = "✅ 已复制";
+    btn.classList.add("ok");
+    setTimeout(()=>{
+      btn.textContent = orig;
+      btn.classList.remove("ok");
+    }, 1600);
+  };
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(text).then(done).catch(()=>fallback(text, done));
+  }else{
+    fallback(text, done);
+  }
+}
+function fallback(text, done){
+  const ta = document.createElement("textarea");
+  ta.value = text; ta.style.position="fixed"; ta.style.opacity="0";
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand("copy"); done(); }
+  catch(e){ alert("复制失败，请长按选择文本复制～\n\n"+text); }
+  document.body.removeChild(ta);
+}
+document.querySelectorAll(".copy-btn[data-copy]").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    const kind = btn.getAttribute("data-copy");
+    doCopy(buildCopyText(kind), btn);
+  });
+});
+
+/* ============ 核桃今日课堂 Tab（已废弃：合并进 baby-tab-l1，此处保留空实现） ============ */
+
+/* ============ 每日账本 ============ */
+(function(){
+  const LEDGER_EMOJI_MAP = {
+    "餐饮":"🍜",
+    "交通":"🚕",
+    "购物":"🛍️",
+    "娱乐":"🎬",
+    "宝宝":"🍼",
+    "居家":"🏠",
+    "医疗":"💊",
+    "人情":"🎁",
+    "其他":"📌"
+  };
+  let currentLedgerType = "expense";
+
+  const dateInput = document.getElementById("ledger-date");
+  const amountInput = document.getElementById("ledger-amt");
+  const catInput = document.getElementById("ledger-cat");
+  const noteInput = document.getElementById("ledger-note");
+  const addButton = document.getElementById("ledger-add");
+  const listEl = document.getElementById("ledger-list");
+  const sumInEl = document.getElementById("ledger-sum-in");
+  const sumOutEl = document.getElementById("ledger-sum-out");
+  const sumBalEl = document.getElementById("ledger-sum-bal");
+  const tipEl = document.getElementById("ledger-today-tip");
+  const tabs = Array.from(document.querySelectorAll(".ledger-tab"));
+
+  function formatLedgerDate(date){
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  }
+
+  function getLedgerStorageKey(dateStr){
+    return `ledger_${dateStr}`;
+  }
+
+  function getCurrentLedgerDate(){
+    return dateInput.value || formatLedgerDate(new Date());
+  }
+
+  function readLedgerItems(dateStr){
+    try{
+      const raw = localStorage.getItem(getLedgerStorageKey(dateStr));
+      const list = raw ? JSON.parse(raw) : [];
+      return Array.isArray(list) ? list : [];
+    }catch(e){
+      return [];
+    }
+  }
+
+  function saveLedgerItems(dateStr, items){
+    localStorage.setItem(getLedgerStorageKey(dateStr), JSON.stringify(items));
+  }
+
+  function formatMoney(value){
+    const fixed = Number(value || 0).toFixed(2);
+    return `¥${fixed.replace(/\.00$/, "").replace(/(\.\d)0$/, "$1")}`;
+  }
+
+  function renderLedger(){
+    const dateStr = getCurrentLedgerDate();
+    const items = readLedgerItems(dateStr).slice().sort((a, b) => (b.ts || 0) - (a.ts || 0));
+    let income = 0;
+    let expense = 0;
+
+    listEl.innerHTML = "";
+    items.forEach(item => {
+      if(item.type === "income") income += Number(item.amount) || 0;
+      else expense += Number(item.amount) || 0;
+
+      const row = document.createElement("div");
+      row.className = `ledger-row ${item.type}`;
+
+      const left = document.createElement("div");
+      left.style.flex = "1";
+      left.style.minWidth = "0";
+
+      const cat = document.createElement("div");
+      cat.className = "cat";
+      cat.textContent = `${LEDGER_EMOJI_MAP[item.cat] || "📌"} ${item.cat || "其他"}`;
+      left.appendChild(cat);
+
+      if(item.note){
+        const note = document.createElement("div");
+        note.className = "note";
+        note.style.marginTop = "4px";
+        note.style.fontSize = "12px";
+        note.style.color = "#8a867e";
+        note.style.whiteSpace = "normal";
+        note.style.overflow = "hidden";
+        note.style.textOverflow = "ellipsis";
+        note.textContent = item.note;
+        left.appendChild(note);
+      }
+
+      const right = document.createElement("div");
+      right.style.display = "flex";
+      right.style.alignItems = "center";
+      right.style.gap = "8px";
+      right.style.flexShrink = "0";
+
+      const amt = document.createElement("div");
+      amt.className = "amt";
+      amt.style.color = item.type === "income" ? "#2f9d54" : "#d94a4a";
+      amt.textContent = `${item.type === "income" ? "+" : "-"}${formatMoney(item.amount).replace(/^¥/, "")}`;
+
+      const del = document.createElement("button");
+      del.className = "del";
+      del.type = "button";
+      del.textContent = "×";
+      del.addEventListener("click", ()=>{
+        const nextItems = readLedgerItems(dateStr).filter(entry => entry.id !== item.id);
+        saveLedgerItems(dateStr, nextItems);
+        renderLedger();
+      });
+
+      right.appendChild(amt);
+      right.appendChild(del);
+      row.appendChild(left);
+      row.appendChild(right);
+      listEl.appendChild(row);
+    });
+
+    if(!items.length){
+      listEl.innerHTML = '<div class="ledger-empty">今天还没有记账哦，点上面记一笔吧 ✨</div>';
+    }
+
+    sumInEl.textContent = formatMoney(income);
+    sumOutEl.textContent = formatMoney(expense);
+    sumBalEl.textContent = formatMoney(income - expense);
+    if(tipEl) tipEl.textContent = `${dateStr} 流水`;
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", ()=>{
+      currentLedgerType = tab.dataset.lt === "income" ? "income" : "expense";
+      tabs.forEach(item => item.classList.remove("active"));
+      tab.classList.add("active");
+    });
+  });
+
+  addButton.addEventListener("click", ()=>{
+    const amount = Number(amountInput.value);
+    if(!(amount > 0)){
+      alert("请输入金额哦～");
+      return;
+    }
+
+    const dateStr = getCurrentLedgerDate();
+    const items = readLedgerItems(dateStr);
+    items.push({
+      id: `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+      type: currentLedgerType,
+      amount,
+      cat: catInput.value,
+      note: noteInput.value.trim(),
+      ts: Date.now()
+    });
+    saveLedgerItems(dateStr, items);
+    amountInput.value = "";
+    noteInput.value = "";
+    renderLedger();
+  });
+
+  dateInput.addEventListener("change", renderLedger);
+  dateInput.value = formatLedgerDate(new Date());
+  renderLedger();
+})();
+
+/* ============ B站 / 抖音 / 小红书爆款视频拆解 ============ */
+(function(){
+  const VIRAL_LIST = [
+    {
+      platform:"B站",
+      emoji:"📺",
+      videoUrl:"https://www.bilibili.com/video/BV1Q5rYBjEWK/",
+      bvid:"BV1Q5rYBjEWK",
+      duration:"7:42",
+      title:"勇哥以加盟商身份亲自试局，揭底加盟套路（116 万播放）",
+      hook:"“加盟避坑”是所有想开餐饮店的人共同焦虑点，标题直接给结论最抓人。",
+      start3s:"开头一句“我今天以加盟商身份走进这家店”，瞬间建立第一视角。",
+      structure:"进店实探→和顾问对话→拆合同陷阱→算真实回本周期→给劝退结论。",
+      bgm:"低沉纪录片感 BGM，配合暗访节奏，强化“调查揭底”氛围。",
+      comment:"评论区置顶“你交过哪家品牌的加盟费”，把话题从个案延展到全行业。",
+      method:"用“身份卧底 + 数据算账 + 结论劝退”的三段式，做深度可信的行业向内容。",
+      tips:"服务商可复用“亲自试局”思路，用真实到店体验帮加盟商识别加盟品牌质量。"
+    },
+    {
+      platform:"B站",
+      emoji:"📺",
+      videoUrl:"https://www.bilibili.com/video/BV1NdVm67Eiz/",
+      bvid:"BV1NdVm67Eiz",
+      duration:"6:18",
+      title:"冤种花 17 万接盘咖啡店，前老板做梦都笑醒！",
+      hook:"“接盘 + 前老板笑醒”天然戏剧冲突，咖啡店转让人群立刻点开。",
+      start3s:"上来先摆出转让合同 + 实际客流对比，一秒让观众看到落差。",
+      structure:"接盘决策→到店实探→查真实流水→揭老板套路→给出避坑清单。",
+      bgm:"轻快小剧场 BGM，把纠结经历变得像故事，观众更容易看完整。",
+      comment:"引导评论“你身边有没有踩过转让坑的朋友”，让评论区自然涌入案例。",
+      method:"“数据对比 + 故事复盘 + 避坑清单”让踩坑内容既有情绪，又有干货。",
+      tips:"咖啡/饮品服务商可帮门店客户做“转让前评估四问”，帮他们规避冲动接盘。"
+    },
+    {
+      platform:"B站",
+      emoji:"📺",
+      videoUrl:"https://www.bilibili.com/video/BV16fNv67EXJ/",
+      bvid:"BV16fNv67EXJ",
+      duration:"5:26",
+      title:"咖啡 + 面馆结合体，一个月就要开第二家店！",
+      hook:"“咖啡 + 面馆”这种反常识组合，本身就是餐饮业态创新的爆点。",
+      start3s:"进店先给融合菜单大特写，字幕直接打“咖啡 + 面 一个月开二店”。",
+      structure:"业态介绍→老板算账→客群画像→复盘为何跑通→是否可复制。",
+      bgm:"轻松爵士 BGM，衬托小店温度，也降低干货型内容的枯燥感。",
+      comment:"“你们城市有没有类似组合店”，让本地用户主动补充案例。",
+      method:"“反差业态 + 单店经营账 + 可复制性判断”的模型适合做门店经营向内容。",
+      tips:"服务商可帮西式快餐/饮品/烘焙客户找“非典型组合业态”作为差异化打法。"
+    },
+    {
+      platform:"B站",
+      emoji:"📺",
+      videoUrl:"https://www.bilibili.com/video/BV1tmBPBnENM/",
+      bvid:"BV1tmBPBnENM",
+      duration:"8:03",
+      title:"50 万加盟麒麟燚汉堡，月亏 1 万 8（店员：失业了）",
+      hook:"“50 万加盟 + 月亏 1.8 万”极强反差数字，是标题党的正确用法。",
+      start3s:"前 3 秒直接把亏损数字打上屏幕，配上员工画面，情绪拉满。",
+      structure:"加盟起因→装修投入→真实营收→亏损原因→给潜在加盟商的忠告。",
+      bgm:"低压叙事感 BGM，情绪偏冷，反而让踩坑故事更可信。",
+      comment:"置顶“你会 50 万开汉堡店吗”，让评论区做成态度投票。",
+      method:"用具体数字对比 + 员工侧证词，把踩坑故事讲得又扎实又有共情。",
+      tips:"西快服务商可提前给客户做“投入产出模拟”，避免加盟商拿真金白银试错。"
+    },
+    {
+      platform:"B站",
+      emoji:"📺",
+      videoUrl:"https://www.bilibili.com/video/BV19f421S7cP/",
+      bvid:"BV19f421S7cP",
+      duration:"4:47",
+      title:"一张图找 4 个博主发，小红书刷屏的面包店真的好吃吗？",
+      hook:"揭穿“探店营销真相”本身就是流量密码，尤其对餐饮从业者。",
+      start3s:"开头把 4 位博主的相同图并列出来，观众立刻嗅到问题。",
+      structure:"发现同质内容→实探门店→打分测评→复盘刷屏营销套路。",
+      bgm:"节奏偏快的调查感 BGM，让内容看起来像“行业观察员”。",
+      comment:"评论区引导“你有没有被小红书种草踩雷”，让用户共鸣自发。",
+      method:"“社交媒体现象 + 实地反证 + 行业解读”是很有辨识度的内容打法。",
+      tips:"烘焙品牌可反向学习“素人矩阵铺垫 + 头部博主收口”的合规打法。"
+    },
+    {
+      platform:"抖音",
+      emoji:"📱",
+      videoUrl:"https://www.douyin.com/search/9.9%E5%85%83%E6%97%A9%E9%A4%90%E5%BC%80%E7%AE%B1",
+      keywords:"9.9元早餐 开箱",
+      coverEmoji:"🥐",
+      coverGradient:"linear-gradient(135deg, #ff9966 0%, #ff5e62 100%)",
+      duration:"0:58",
+      title:"9.9 元早餐到底能吃到什么？通勤党实拍开箱",
+      hook:"把价格锚点和真实份量放一起，天然刺激用户点开验证值不值。",
+      start3s:"前 3 秒直接怼脸展示套餐全貌，再补一句“上海地铁口刚买的”。",
+      structure:"先拍袋口热气→逐件拆包装→咬第一口→最后给出饱腹感和复购结论。",
+      bgm:"轻快城市感鼓点，适合通勤节奏，弱化广告感，提升生活记录真实感。",
+      comment:"置顶“你们公司楼下早餐多少”，引导打工人晒价格，评论自然滚起来。",
+      method:"用价格对比 + 第一视角开箱 + 真实口感反馈，制造“我也想试试”的代入感。",
+      tips:"西式快餐服务商可让新品早餐用“地铁口 3 分钟吃什么”脚本，突出出餐快、热食感和职场场景。"
+    },
+    {
+      platform:"抖音",
+      emoji:"📱",
+      videoUrl:"https://www.douyin.com/search/%E8%87%AA%E5%8A%A9%E9%A4%90%2099%E5%85%83%E5%9B%9E%E6%9C%AC%E6%94%BB%E7%95%A5",
+      keywords:"自助餐 99元回本攻略",
+      coverEmoji:"🦞",
+      coverGradient:"linear-gradient(135deg, #f7971e 0%, #ffd200 100%)",
+      duration:"1:12",
+      title:"自助餐 99 元回本挑战，第一盘怎么拿最聪明？",
+      hook:"“回本挑战”自带任务感，用户会跟着看完整套取餐策略。",
+      start3s:"一上来就给满桌海鲜画面，字幕直接打“99 元吃回 160 元”。",
+      structure:"先列回本规则→展示第一盘选择→解释避坑品类→结尾复盘总价。",
+      bgm:"节奏偏快的挑战类 BGM，能把“攻略感”拉满，强化打卡氛围。",
+      comment:"引导评论“你吃自助先拿什么”，让用户贡献自己的回本公式。",
+      method:"用明确目标驱动观看，再用步骤化信息提高收藏率和转发率。",
+      tips:"自助餐服务商可围绕“怎么拿最划算”“新手不踩雷”做系列，帮门店抢攻略型流量。"
+    },
+    {
+      platform:"抖音",
+      emoji:"📱",
+      videoUrl:"https://www.douyin.com/search/%E6%B1%89%E5%A0%A1%20%E6%96%B0%E5%93%81%20%E7%88%86%E7%82%B9%E9%95%9C%E5%A4%B4",
+      keywords:"汉堡 新品 爆点镜头",
+      coverEmoji:"🍔",
+      coverGradient:"linear-gradient(135deg, #ee0979 0%, #ff6a00 100%)",
+      duration:"0:45",
+      title:"新品汉堡上市，为什么我只拍第一口就爆了？",
+      hook:"标题直接揭示“爆了”的结果，再反问原因，适合做经验复盘。",
+      start3s:"前 3 秒只保留手掰汉堡、酱汁流下来的大特写，不讲废话。",
+      structure:"先给爆点镜头→拆解面包肉饼酱料→讲价格档位→补一句适合谁吃。",
+      bgm:"重低音卡点 BGM，配合慢动作掰开镜头，更容易打出食欲冲击。",
+      comment:"评论区引导“鸡腿堡派还是牛肉堡派”，让用户站队提升互动。",
+      method:"把最有食欲的镜头前置，再用简单评价体系降低理解成本。",
+      tips:"西快新品上市期可统一要求门店拍“第一口爆点镜头”，总部提供卡点模板给服务商复用。"
+    },
+    {
+      platform:"抖音",
+      emoji:"📱",
+      videoUrl:"https://www.douyin.com/search/%E4%BA%B2%E5%AD%90%20%E5%84%BF%E7%AB%A5%E5%A5%97%E9%A4%90%20%E5%BF%AB%E9%A4%90",
+      keywords:"亲子 儿童套餐 快餐",
+      coverEmoji:"🧒",
+      coverGradient:"linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+      duration:"1:05",
+      title:"周末亲子快餐局，儿童套餐到底是不是智商税？",
+      hook:"围绕家庭消费做价值判断，能同时吸引宝妈和年轻家庭用户。",
+      start3s:"第一秒先拍玩具，再切餐盘，先抓孩子再抓家长关注点。",
+      structure:"先看套餐内容→拆玩具与餐品→评价动线与等位体验→最后总结值不值。",
+      bgm:"明亮童趣节奏 BGM，能把亲子场景的轻松氛围抬起来。",
+      comment:"评论区鼓励晒“你家娃最爱哪个玩具”，把互动点从价格延伸到体验。",
+      method:"双受众表达法：既讲孩子获得感，也讲家长性价比与省心感。",
+      tips:"西快服务商可围绕儿童套餐、亲子门店、周末家庭场景做内容，帮助门店拿下家庭客群。"
+    },
+    {
+      platform:"小红书",
+      emoji:"📕",
+      videoUrl:"https://www.xiaohongshu.com/search_result?keyword=%E8%8A%8B%E6%B3%A5%E7%9B%92%E5%AD%90%20%E7%83%98%E7%84%99",
+      keywords:"芋泥盒子 烘焙",
+      coverEmoji:"🍰",
+      coverGradient:"linear-gradient(135deg, #ff6b9d 0%, #ffb75e 100%)",
+      duration:"图文",
+      title:"烘焙店 18 元芋泥盒子，切开那一刻我懂排队原因了",
+      hook:"先抛“排队值不值”这种争议判断，用户会带着答案意识看完整条。",
+      start3s:"开头直接用勺子切开爆浆横截面，奶油纹理一出来就很抓眼。",
+      structure:"门头 1 秒定位→横切近景→口感关键词→甜度评价→谁适合买单总结。",
+      bgm:"慵懒奶油感韩系 BGM，和烘焙画面匹配，能放大精致感与治愈感。",
+      comment:"评论区问“你站芋泥还是开心果”，把单品讨论做成口味站队。",
+      method:"高颜值特写 + 口感形容词 + 人群推荐，适合把普通单品拍出种草力。",
+      tips:"烘焙品牌可重点拍切面、拉丝、撒粉等细节，把“早餐/下午茶/送人”三个购买理由说透。"
+    },
+    {
+      platform:"小红书",
+      emoji:"📕",
+      videoUrl:"https://www.xiaohongshu.com/search_result?keyword=%E8%9C%9C%E6%A1%83%E5%A5%B6%E8%8C%B6%20%E6%A8%AA%E8%AF%84",
+      keywords:"蜜桃奶茶 横评",
+      coverEmoji:"🍑",
+      coverGradient:"linear-gradient(135deg, #ffb199 0%, #ff0844 100%)",
+      duration:"图文",
+      title:"我把 3 家连锁奶茶的蜜桃系列一次喝完了",
+      hook:"横评天然适合做决策内容，用户会为了“到底买哪家”停留。",
+      start3s:"三杯并排入镜，字幕直接打“哪杯最像真桃子？”制造判断欲。",
+      structure:"先报品牌和价格→逐杯闻香与甜度→最后出排名和适合人群。",
+      bgm:"清爽少女感 BGM，配粉橘色调画面，更容易形成夏日氛围。",
+      comment:"鼓励评论区补充“你心中第一名”，让内容延伸成口碑榜单。",
+      method:"用横评做选择题，把主观口感翻译成可比较的维度，用户更愿意收藏。",
+      tips:"饮品服务商适合做同城门店新品横评，帮品牌把“甜度、茶感、颜值”卖点讲清楚。"
+    },
+    {
+      platform:"小红书",
+      emoji:"📕",
+      videoUrl:"https://www.xiaohongshu.com/search_result?keyword=%E6%B2%99%E6%8B%89%E5%BA%97%20%E6%89%93%E5%B7%A5%E4%BA%BA%E5%8D%88%E9%A4%90",
+      keywords:"沙拉店 打工人午餐公式",
+      coverEmoji:"🥗",
+      coverGradient:"linear-gradient(135deg, #56ab2f 0%, #a8e063 100%)",
+      duration:"图文",
+      title:"连锁沙拉店的打工人午餐公式，我终于吃明白了",
+      hook:"“公式”让内容显得可复制，天然适合职场轻食与健康餐品类。",
+      start3s:"开头就把蛋白、主食、酱料三格餐盘摆好，信息一秒看懂。",
+      structure:"先给搭配公式→展示三套组合→讲饱腹度与价格→最后给不同需求建议。",
+      bgm:"轻快木吉他 BGM，强化干净、健康、可持续打卡的生活方式感。",
+      comment:"评论区引导“减脂党/增肌党/怕饿党”选阵营，方便用户自报需求。",
+      method:"把复杂选择拆成模板，能显著提高收藏率，适合做长期栏目。",
+      tips:"轻食、饮品、烘焙都能把“点单公式”变成连载内容，服务商培训门店拍摄时更容易标准化。"
+    }
+  ];
+
+  function escapeAttr(s){
+    return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  function renderVideoEntry(item){
+    if(item.platform === "B站" && item.bvid){
+      return `
+        <div class="viral-video-embed">
+          <iframe src="//player.bilibili.com/player.html?bvid=${encodeURIComponent(item.bvid)}&page=1&autoplay=0&high_quality=1&danmaku=0" allowfullscreen="true" scrolling="no" frameborder="0" loading="lazy" referrerpolicy="no-referrer"></iframe>
+        </div>`;
+    }
+    const cta = item.platform === "抖音" ? "🎬 点击跳转到抖音观看" : "🎬 点击跳转到小红书查看";
+    const dur = item.duration ? `<span class="cover-duration">${escapeAttr(item.duration)}</span>` : "";
+    return `
+      <a class="viral-video-cover" href="${escapeAttr(item.videoUrl)}" target="_blank" rel="noopener" style="background:${escapeAttr(item.coverGradient || "linear-gradient(135deg,#ff6b9d,#ffb75e)")};">
+        <span class="cover-emoji">${item.coverEmoji || item.emoji}</span>
+        <span class="cover-title">${escapeAttr(item.title)}</span>
+        <span class="cover-cta">${cta}</span>
+        ${dur}
+      </a>`;
+  }
+
+  const todayIndex = dayOfYear() % VIRAL_LIST.length;
+  const viralItems = [VIRAL_LIST[todayIndex]];
+  if(VIRAL_LIST.length > 1 && dayOfYear() % 2 === 0){
+    viralItems.push(VIRAL_LIST[(todayIndex + 1) % VIRAL_LIST.length]);
+  }
+
+  const listEl = document.getElementById("viral-list");
+  if(!listEl) return;
+  listEl.innerHTML = viralItems.map((item, index)=>{
+    const copyText = `【${item.platform} · ${item.title}】\n视频入口：${item.videoUrl || ""}\n钩子：${item.hook}\n开头3秒：${item.start3s}\n内容结构：${item.structure}\nBGM：${item.bgm}\n评论区：${item.comment}\n方法论：${item.method}\n服务商可借鉴：${item.tips}`;
+    return `
+      <div class="viral-item">
+        ${renderVideoEntry(item)}
+        <div class="viral-title">
+          <div class="viral-hook">${item.emoji} ${item.title}</div>
+          <span class="viral-tag">${item.platform}</span>
+        </div>
+        <div class="viral-dim"><div class="lbl">标题钩子</div><div class="cnt">${item.hook}</div></div>
+        <div class="viral-dim"><div class="lbl">开头 3 秒抓注意力</div><div class="cnt">${item.start3s}</div></div>
+        <div class="viral-dim"><div class="lbl">内容结构</div><div class="cnt">${item.structure}</div></div>
+        <div class="viral-dim"><div class="lbl">BGM 选择</div><div class="cnt">${item.bgm}</div></div>
+        <div class="viral-dim"><div class="lbl">评论区运营</div><div class="cnt">${item.comment}</div></div>
+        <div class="viral-dim"><div class="lbl">可复用方法论</div><div class="cnt">${item.method}</div></div>
+        <div class="viral-tips"><b>服务商可借鉴点：</b>${item.tips}</div>
+        <div class="viral-copy">
+          <button class="copy-btn" data-copy-text="${copyText.replace(/"/g, "&quot;")}" id="viral-copy-${index}">📋 复制拆解</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+})();
+
+/* ============ AI 学习专区 ============ */
+(function(){
+  const AI_TOOLS = [
+    { name:"豆包", scene:"周报/会议纪要快速整理", desc:"把聊天记录或会议录音摘要丢进去，可快速提炼重点、待办和汇报口径。", url:"https://www.doubao.com/" },
+    { name:"Kimi", scene:"长文档总结与竞品信息梳理", desc:"适合把招商方案、品牌资料、活动复盘一次喂进去，快速做结构化摘要。", url:"https://kimi.moonshot.cn/" },
+    { name:"通义", scene:"门店巡检报告改写成管理层版本", desc:"把一线问题清单转成“现状-风险-建议”三段式，方便你直接汇报。", url:"https://tongyi.aliyun.com/" },
+    { name:"秘塔 AI 搜索", scene:"查行业案例与品牌动作", desc:"适合快速搜餐饮、饮品、烘焙品牌近期营销动作，再整理成竞品观察。", url:"https://metaso.cn/" },
+    { name:"Notion AI", scene:"社群运营内容排期", desc:"可把月度主题拆成每周社群话题、素材清单和发布时间建议。", url:"https://www.notion.so/product/ai" },
+    { name:"Gamma", scene:"做月度复盘汇报 PPT", desc:"输入提纲即可快速生成可讲述的页面结构，适合先出初稿再微调。", url:"https://gamma.app/" },
+    { name:"Canva Magic Write", scene:"活动海报文案和朋友圈配文", desc:"适合给新品上市、门店活动、社群招募生成多版本短文案。", url:"https://www.canva.com/magic-write/" },
+    { name:"腾讯元宝", scene:"服务商沟通话术润色", desc:"把你原始想法变成更礼貌、更清晰的通知口径，适合对内对外沟通。", url:"https://yuanbao.tencent.com/" }
+  ];
+  const AI_PROMPTS = [
+    { title:"把周工作总结成领导能秒懂的版本", prompt:"你是我的业务汇报助手。请把下面这周工作内容，整理成适合发给领导的周报：1）按“本周完成 / 关键进展 / 风险问题 / 下周计划”四段输出；2）每段不超过 3 条；3）语言简洁、偏结果导向；4）保留关键数字与品牌名；5）最后补一句需要领导支持的事项。原始内容：{{粘贴你的工作记录}}", effect:"会得到一版可以直接发给领导的精简周报，重点、风险和下周动作都被整理好了。" },
+    { title:"把服务商聊天记录整理成待办清单", prompt:"请把下面的微信群/企微聊天记录整理成执行清单：1）按“待我推进 / 待服务商处理 / 需品牌确认”分类；2）每条写清事项、负责人、截止时间、风险点；3）如果原文信息不完整，请标记“待补充”；4）最后输出一段可直接转发群里的跟进总结。聊天记录：{{粘贴聊天内容}}", effect:"会得到分类清楚的待办表和一段群内跟进话术，适合你快速追项目。" },
+    { title:"生成门店巡检问题汇报话术", prompt:"你是连锁餐饮渠道经理助理。请根据下面的巡检问题，输出一版给品牌负责人的汇报：1）先概括共性问题；2）再列出 Top3 高风险门店；3）每个问题给出“现象-影响-建议动作”；4）语气专业但不过度批评；5）最后补充建议复盘时间。巡检记录：{{粘贴巡检笔记}}", effect:"会产出一版更专业的巡检复盘内容，方便你直接拿去发邮件或做群汇报。" },
+    { title:"快速做竞品活动拆解", prompt:"请把下面这条竞品活动信息，拆成一份渠道视角分析：1）活动主题；2）目标人群；3）优惠设计；4）传播动作；5）门店执行要点；6）我们可借鉴的 3 条建议。要求语言口语化一点，方便我转发给服务商。活动信息：{{粘贴活动详情}}", effect:"会得到偏实战的竞品分析，不只是复述信息，还会直接给你可借鉴建议。" },
+    { title:"把零散想法整理成社群通知", prompt:"请把下面这些零散信息整理成一条适合发服务商社群的通知：要求 1）先说重点，再说动作，再说截止时间；2）语言清楚、有礼貌、不啰嗦；3）结尾补一句提醒回复；4）如果有多个动作，用序号列出。原始信息：{{粘贴碎片信息}}", effect:"会生成一条更像正式运营通知的文案，减少你反复修改的时间。" },
+    { title:"把会议纪要压缩成 1 分钟口头汇报", prompt:"请把下面会议纪要整理成一段 1 分钟内可口头汇报的话术：1）先说会议结论；2）再说关键分工和截止时间；3）最后说风险提醒；4）语言自然、像真人说话。会议纪要：{{粘贴纪要}}", effect:"会输出一段适合当面/语音汇报的话术，不会太书面。" },
+    { title:"生成新品上市的服务商赋能提纲", prompt:"你是一名餐饮渠道经理，请围绕“新品上市前一周”输出服务商赋能提纲：1）培训重点；2）门店执行检查项；3）短视频内容建议；4）社群物料建议；5）需要总部支持的资源。要求简洁实操，每点一句话。", effect:"会得到一份适合开赋能会的提纲，涵盖培训、内容和执行检查。" },
+    { title:"把客户抱怨改写成解决方案回复", prompt:"请把下面客户/服务商的抱怨内容，改写成一条专业回复：1）先表达理解；2）再复述问题；3）给出处理动作和时间；4）语气坚定但不强硬；5）不要推责。原始内容：{{粘贴原文}}", effect:"会生成一条更稳妥的回应话术，减少沟通中的情绪摩擦。" }
+  ];
+  const AI_NEWS = [
+    { title:"多家办公平台把 AI 会议纪要升级为“待办自动分派”", summary:"AI 不再只会总结，而是开始自动生成负责人、截止时间和提醒动作，职场提效更落地。", date:"7 月" },
+    { title:"国内头部模型继续卷“长文本 + 搜索”能力", summary:"对渠道经理最直接的价值，是做竞品资料、招商方案、巡检记录时更省时间。", date:"7 月" },
+    { title:"AI PPT 工具开始支持品牌模板一键套用", summary:"以后做月报、阶段复盘，不必从空白页开始，先出骨架再微调会更高效。", date:"7 月" },
+    { title:"越来越多品牌团队把 Prompt 纳入一线培训", summary:"不是教复杂技术，而是教门店和运营岗位如何更快写文案、做总结、出活动复盘。", date:"7 月" },
+    { title:"AI 搜索产品强化“来源可追溯”能力", summary:"查餐饮行业案例时能直接回看原文出处，适合做服务商赋能和品牌竞品跟踪。", date:"7 月" },
+    { title:"语音转文字工具更适合会议、巡店场景", summary:"边走边说的口述内容可以快速转成结构化纪要，对外勤型岗位尤其友好。", date:"7 月" },
+    { title:"Agent 类产品开始进入项目跟进场景", summary:"从“帮你写”走向“帮你盯”，未来可能自动提醒项目节点、补全沟通材料。", date:"7 月" },
+    { title:"品牌营销团队更爱用 AI 做多版本文案测试", summary:"同一条活动通知可以快速生成社群版、朋友圈版、门店海报版，提高传播效率。", date:"7 月" }
+  ];
+
+  const base = dayOfYear();
+  const tool = AI_TOOLS[base % AI_TOOLS.length];
+  const promptItem = AI_PROMPTS[(base + 2) % AI_PROMPTS.length];
+  const newsItems = [AI_NEWS[(base + 4) % AI_NEWS.length]];
+  if(base % 2 === 1){
+    newsItems.push(AI_NEWS[(base + 5) % AI_NEWS.length]);
+  }
+
+  const toolNameEl = document.getElementById("ai-tool-name");
+  const toolDescEl = document.getElementById("ai-tool-desc");
+  const toolLinkEl = document.getElementById("ai-tool-link");
+  const promptTitleEl = document.getElementById("ai-prompt-title");
+  const promptTextEl = document.getElementById("ai-prompt-text");
+  const promptEffectEl = document.getElementById("ai-prompt-effect");
+  const newsListEl = document.getElementById("ai-news-list");
+  if(!toolNameEl || !toolDescEl || !toolLinkEl || !promptTitleEl || !promptTextEl || !promptEffectEl || !newsListEl) return;
+
+  toolNameEl.textContent = `${tool.name} · ${tool.scene}`;
+  toolDescEl.textContent = tool.desc;
+  toolLinkEl.href = tool.url;
+  toolLinkEl.textContent = `🔗 教程入口：${tool.url.replace(/^https?:\/\//, "")}`;
+
+  promptTitleEl.textContent = promptItem.title;
+  promptTextEl.textContent = promptItem.prompt;
+  promptEffectEl.textContent = `实际效果示例：${promptItem.effect}`;
+
+  newsListEl.innerHTML = newsItems.map(item=>`
+    <div class="ai-news">
+      <div style="font-size:13.5px; font-weight:700; color:var(--ink); line-height:1.5;">${item.title}</div>
+      <div style="margin-top:4px; font-size:12.5px; color:var(--ink-2); line-height:1.6;">${item.summary}</div>
+      <div style="margin-top:5px; font-size:11.5px; color:var(--ink-3);">${item.date} · 每日更新</div>
+    </div>
+  `).join("");
+})();
+
+/* ============ 侧栏导航 + 置顶卡片 路由 ============ */
+const routes = {
+  news: "page-news",
+  global: "page-global",
+  viral: "page-viral",
+  ai: "page-ai",
+  food: "page-food",
+  bdj: "page-bdj",
+  feng: "page-feng",
+  baby: "page-baby",
+  share: "page-share",
+  ledger: "page-ledger"
+};
+// 左侧导航默认展示的模块（顶部三卡片对应 news/global/bdj 不在侧栏）
+const SIDE_KEYS = new Set(["viral","ai","food","feng","baby","share","ledger"]);
+const DEFAULT_ROUTE = "baby";
+let currentRoute = DEFAULT_ROUTE;
+
+function showPage(key){
+  const routeKey = routes[key] ? key : DEFAULT_ROUTE;
+  document.querySelectorAll(".content-area .page").forEach(p=>p.classList.remove("active"));
+  const nextPage = document.getElementById(routes[routeKey]);
+  if(nextPage) nextPage.classList.add("active");
+  currentRoute = routeKey;
+  // 更新侧栏 active 状态：如果是侧栏项就高亮，否则清除
+  document.querySelectorAll(".nav-item").forEach(el=>{
+    el.classList.toggle("active", SIDE_KEYS.has(routeKey) && el.dataset.target === routeKey);
+  });
+  // 顶部三卡片可视反馈（可选）
+  document.querySelectorAll(".pinned-card").forEach(el=>{
+    el.classList.toggle("active", el.dataset.target === routeKey);
+  });
+  // 内容区滚动回顶
+  const cont = document.querySelector(".content-area");
+  if(cont) cont.scrollTop = 0;
+}
+function nav(key, options){
+  const opts = options || {};
+  const routeKey = routes[key] ? key : DEFAULT_ROUTE;
+  const hash = `#${routeKey}`;
+  showPage(routeKey);
+  if(opts.silent) return;
+  if(opts.replace){
+    history.replaceState({ page: routeKey }, "", hash);
+  }else if(location.hash !== hash){
+    history.pushState({ page: routeKey }, "", hash);
+  }else{
+    history.replaceState({ page: routeKey }, "", hash);
+  }
+}
+function initRouter(){
+  const initKey = (location.hash || `#${DEFAULT_ROUTE}`).replace(/^#/, "");
+  nav(initKey, { replace: true });
+  window.addEventListener("popstate", ()=>{
+    const routeKey = (location.hash || `#${DEFAULT_ROUTE}`).replace(/^#/, "");
+    showPage(routeKey);
+  });
+  window.addEventListener("hashchange", ()=>{
+    const routeKey = (location.hash || `#${DEFAULT_ROUTE}`).replace(/^#/, "");
+    if(routeKey !== currentRoute){
+      showPage(routeKey);
+    }
+  });
+  // 侧栏导航
+  document.querySelectorAll(".nav-item").forEach(el=>{
+    el.addEventListener("click", ()=> nav(el.dataset.target || DEFAULT_ROUTE));
+  });
+  // 顶部置顶卡片
+  document.querySelectorAll(".pinned-card").forEach(el=>{
+    el.addEventListener("click", ()=> nav(el.dataset.target || DEFAULT_ROUTE));
+  });
+}
+initRouter();
+
+/* ============ 扩展复制按钮（支持 data-copy-text） ============ */
+(function(){
+  document.querySelectorAll(".copy-btn[data-copy-text]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      doCopy(btn.getAttribute("data-copy-text") || "", btn);
+    });
+  });
+})();
+
+</script>
+</body>
+</html>
