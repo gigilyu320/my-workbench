@@ -390,24 +390,26 @@
   }
   .menu-copy-btn:active{ transform: scale(.98); }
 
-  .menu-grid{
-    display:grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
+  .food-menu-list{
+    display:flex;
+    flex-direction:column;
+    gap: 12px;
   }
   .menu-card{
-    background: #fff7e6;
-    border: 1px solid #f2e4c8;
-    border-radius: 16px;
-    padding: 12px;
+    background: #fff8e9;
+    border: 1px solid #f1dfbd;
+    border-radius: 18px;
+    padding: 13px 13px 12px;
+    box-shadow: 0 6px 16px rgba(120,88,30,.06);
+    overflow:hidden;
   }
-  .menu-head{display:flex; align-items:center; justify-content:space-between; gap: 8px; margin-bottom: 8px;}
-  .menu-day{font-size: 14px; font-weight: 900; color:#6c5a2f;}
-  .menu-emoji{font-size: 18px;}
-  .menu-row{display:flex; gap: 8px; align-items:flex-start; padding: 6px 0; border-top: 1px dashed #f0e0c2;}
+  .menu-head{display:flex; align-items:center; gap: 7px; margin-bottom: 9px;}
+  .menu-day{font-size: 15px; font-weight: 900; color:#6c5a2f; line-height:1.25;}
+  .menu-emoji{font-size: 17px; line-height:1;}
+  .menu-row{display:flex; gap: 8px; align-items:flex-start; padding: 7px 0; border-top: 1px dashed #f0e0c2; min-width:0;}
   .menu-row:first-of-type{ border-top: none; }
-  .menu-row .k{flex:0 0 44px; font-size: 12.5px; color:#8a7440; font-weight: 700;}
-  .menu-row .v{flex:1; font-size: 13.5px; color: var(--ink); line-height: 1.6;}
+  .menu-row .k{flex:0 0 52px; font-size: 13px; color:#8a7440; font-weight: 800; white-space:nowrap;}
+  .menu-row .v{flex:1; min-width:0; font-size: 13.5px; color: var(--ink); line-height: 1.65; overflow-wrap:anywhere; word-break:break-word;}
   .menu-remind{margin-top: 8px; font-size: 12.5px; color:#a97c1f; background:#ffffffb3; border:1px solid #f2eee5; padding: 8px 10px; border-radius: 12px;}
 
   /* ===== 每日亲子英语 ===== */
@@ -810,7 +812,7 @@
   }
   .gnews-meta{margin-top:5px; font-size:11.5px; color:var(--ink-3);}
 
-  /* ===== 爆款视频拆解 ===== */
+  /* ===== 已移除模块遗留样式 ===== */
   .viral-card{
     background: linear-gradient(180deg, #fff8f2 0%, #f9efe3 100%);
     border: 1px solid #f0dfca;
@@ -1727,7 +1729,6 @@
   <div class="app-body">
     <!-- ============ 左侧竖导航 ============ -->
     <aside class="side-nav" aria-label="侧边导航">
-      <button type="button" class="nav-item" data-target="viral"><span class="n-emoji">🔥</span><span class="n-name">爆款</span></button>
       <button type="button" class="nav-item" data-target="ai"><span class="n-emoji">🤖</span><span class="n-name">AI学</span></button>
       <button type="button" class="nav-item" data-target="food"><span class="n-emoji">🥗</span><span class="n-name">饮食</span></button>
       <button type="button" class="nav-item" data-target="feng"><span class="n-emoji">🔮</span><span class="n-name">玄学</span></button>
@@ -1888,17 +1889,6 @@
         </div>
       </div>
     </div>
-  </section>
-    </div>
-
-    <div class="page page-detail" id="page-viral">
-  <!-- ============ 抖音 & 小红书爆款视频拆解 ============ -->
-  <section class="section">
-    <div class="section-head">
-      <div class="section-title"><span class="dot"></span><span class="icon">🔥</span>B 站 / 抖音 / 小红书爆款视频拆解</div>
-      <div class="section-note">每日更新</div>
-    </div>
-    <div class="card viral-card" id="viral-list"></div>
   </section>
     </div>
 
@@ -2442,7 +2432,7 @@ function renderFood(){
       <button type="button" class="menu-copy-btn" id="food-menu-copy">📋 复制本周菜单</button>
       <div class="menu-note">仅供日常点餐/做饭参考。</div>
     </div>
-    <div class="menu-grid">${menuCards}</div>
+    <div class="food-menu-list">${menuCards}</div>
   `;
 
   const copyBtn = document.getElementById('food-menu-copy');
@@ -3695,258 +3685,6 @@ document.querySelectorAll(".copy-btn[data-copy]").forEach(btn=>{
   renderLedger();
 })();
 
-/* ============ B站 / 抖音 / 小红书爆款视频拆解 ============ */
-(function(){
-  const VIRAL_LIST = [
-    {
-      platform:"B站",
-      emoji:"📺",
-      videoUrl:"https://www.bilibili.com/video/BV1Q5rYBjEWK/",
-      bvid:"BV1Q5rYBjEWK",
-      duration:"7:42",
-      title:"勇哥以加盟商身份亲自试局，揭底加盟套路（116 万播放）",
-      hook:"“加盟避坑”是所有想开餐饮店的人共同焦虑点，标题直接给结论最抓人。",
-      start3s:"开头一句“我今天以加盟商身份走进这家店”，瞬间建立第一视角。",
-      structure:"进店实探→和顾问对话→拆合同陷阱→算真实回本周期→给劝退结论。",
-      bgm:"低沉纪录片感 BGM，配合暗访节奏，强化“调查揭底”氛围。",
-      comment:"评论区置顶“你交过哪家品牌的加盟费”，把话题从个案延展到全行业。",
-      method:"用“身份卧底 + 数据算账 + 结论劝退”的三段式，做深度可信的行业向内容。",
-      tips:"服务商可复用“亲自试局”思路，用真实到店体验帮加盟商识别加盟品牌质量。"
-    },
-    {
-      platform:"B站",
-      emoji:"📺",
-      videoUrl:"https://www.bilibili.com/video/BV1NdVm67Eiz/",
-      bvid:"BV1NdVm67Eiz",
-      duration:"6:18",
-      title:"冤种花 17 万接盘咖啡店，前老板做梦都笑醒！",
-      hook:"“接盘 + 前老板笑醒”天然戏剧冲突，咖啡店转让人群立刻点开。",
-      start3s:"上来先摆出转让合同 + 实际客流对比，一秒让观众看到落差。",
-      structure:"接盘决策→到店实探→查真实流水→揭老板套路→给出避坑清单。",
-      bgm:"轻快小剧场 BGM，把纠结经历变得像故事，观众更容易看完整。",
-      comment:"引导评论“你身边有没有踩过转让坑的朋友”，让评论区自然涌入案例。",
-      method:"“数据对比 + 故事复盘 + 避坑清单”让踩坑内容既有情绪，又有干货。",
-      tips:"咖啡/饮品服务商可帮门店客户做“转让前评估四问”，帮他们规避冲动接盘。"
-    },
-    {
-      platform:"B站",
-      emoji:"📺",
-      videoUrl:"https://www.bilibili.com/video/BV16fNv67EXJ/",
-      bvid:"BV16fNv67EXJ",
-      duration:"5:26",
-      title:"咖啡 + 面馆结合体，一个月就要开第二家店！",
-      hook:"“咖啡 + 面馆”这种反常识组合，本身就是餐饮业态创新的爆点。",
-      start3s:"进店先给融合菜单大特写，字幕直接打“咖啡 + 面 一个月开二店”。",
-      structure:"业态介绍→老板算账→客群画像→复盘为何跑通→是否可复制。",
-      bgm:"轻松爵士 BGM，衬托小店温度，也降低干货型内容的枯燥感。",
-      comment:"“你们城市有没有类似组合店”，让本地用户主动补充案例。",
-      method:"“反差业态 + 单店经营账 + 可复制性判断”的模型适合做门店经营向内容。",
-      tips:"服务商可帮西式快餐/饮品/烘焙客户找“非典型组合业态”作为差异化打法。"
-    },
-    {
-      platform:"B站",
-      emoji:"📺",
-      videoUrl:"https://www.bilibili.com/video/BV1tmBPBnENM/",
-      bvid:"BV1tmBPBnENM",
-      duration:"8:03",
-      title:"50 万加盟麒麟燚汉堡，月亏 1 万 8（店员：失业了）",
-      hook:"“50 万加盟 + 月亏 1.8 万”极强反差数字，是标题党的正确用法。",
-      start3s:"前 3 秒直接把亏损数字打上屏幕，配上员工画面，情绪拉满。",
-      structure:"加盟起因→装修投入→真实营收→亏损原因→给潜在加盟商的忠告。",
-      bgm:"低压叙事感 BGM，情绪偏冷，反而让踩坑故事更可信。",
-      comment:"置顶“你会 50 万开汉堡店吗”，让评论区做成态度投票。",
-      method:"用具体数字对比 + 员工侧证词，把踩坑故事讲得又扎实又有共情。",
-      tips:"西快服务商可提前给客户做“投入产出模拟”，避免加盟商拿真金白银试错。"
-    },
-    {
-      platform:"B站",
-      emoji:"📺",
-      videoUrl:"https://www.bilibili.com/video/BV19f421S7cP/",
-      bvid:"BV19f421S7cP",
-      duration:"4:47",
-      title:"一张图找 4 个博主发，小红书刷屏的面包店真的好吃吗？",
-      hook:"揭穿“探店营销真相”本身就是流量密码，尤其对餐饮从业者。",
-      start3s:"开头把 4 位博主的相同图并列出来，观众立刻嗅到问题。",
-      structure:"发现同质内容→实探门店→打分测评→复盘刷屏营销套路。",
-      bgm:"节奏偏快的调查感 BGM，让内容看起来像“行业观察员”。",
-      comment:"评论区引导“你有没有被小红书种草踩雷”，让用户共鸣自发。",
-      method:"“社交媒体现象 + 实地反证 + 行业解读”是很有辨识度的内容打法。",
-      tips:"烘焙品牌可反向学习“素人矩阵铺垫 + 头部博主收口”的合规打法。"
-    },
-    {
-      platform:"抖音",
-      emoji:"📱",
-      videoUrl:"https://www.douyin.com/search/9.9%E5%85%83%E6%97%A9%E9%A4%90%E5%BC%80%E7%AE%B1",
-      keywords:"9.9元早餐 开箱",
-      coverEmoji:"🥐",
-      coverGradient:"linear-gradient(135deg, #ff9966 0%, #ff5e62 100%)",
-      duration:"0:58",
-      title:"9.9 元早餐到底能吃到什么？通勤党实拍开箱",
-      hook:"把价格锚点和真实份量放一起，天然刺激用户点开验证值不值。",
-      start3s:"前 3 秒直接怼脸展示套餐全貌，再补一句“上海地铁口刚买的”。",
-      structure:"先拍袋口热气→逐件拆包装→咬第一口→最后给出饱腹感和复购结论。",
-      bgm:"轻快城市感鼓点，适合通勤节奏，弱化广告感，提升生活记录真实感。",
-      comment:"置顶“你们公司楼下早餐多少”，引导打工人晒价格，评论自然滚起来。",
-      method:"用价格对比 + 第一视角开箱 + 真实口感反馈，制造“我也想试试”的代入感。",
-      tips:"西式快餐服务商可让新品早餐用“地铁口 3 分钟吃什么”脚本，突出出餐快、热食感和职场场景。"
-    },
-    {
-      platform:"抖音",
-      emoji:"📱",
-      videoUrl:"https://www.douyin.com/search/%E8%87%AA%E5%8A%A9%E9%A4%90%2099%E5%85%83%E5%9B%9E%E6%9C%AC%E6%94%BB%E7%95%A5",
-      keywords:"自助餐 99元回本攻略",
-      coverEmoji:"🦞",
-      coverGradient:"linear-gradient(135deg, #f7971e 0%, #ffd200 100%)",
-      duration:"1:12",
-      title:"自助餐 99 元回本挑战，第一盘怎么拿最聪明？",
-      hook:"“回本挑战”自带任务感，用户会跟着看完整套取餐策略。",
-      start3s:"一上来就给满桌海鲜画面，字幕直接打“99 元吃回 160 元”。",
-      structure:"先列回本规则→展示第一盘选择→解释避坑品类→结尾复盘总价。",
-      bgm:"节奏偏快的挑战类 BGM，能把“攻略感”拉满，强化打卡氛围。",
-      comment:"引导评论“你吃自助先拿什么”，让用户贡献自己的回本公式。",
-      method:"用明确目标驱动观看，再用步骤化信息提高收藏率和转发率。",
-      tips:"自助餐服务商可围绕“怎么拿最划算”“新手不踩雷”做系列，帮门店抢攻略型流量。"
-    },
-    {
-      platform:"抖音",
-      emoji:"📱",
-      videoUrl:"https://www.douyin.com/search/%E6%B1%89%E5%A0%A1%20%E6%96%B0%E5%93%81%20%E7%88%86%E7%82%B9%E9%95%9C%E5%A4%B4",
-      keywords:"汉堡 新品 爆点镜头",
-      coverEmoji:"🍔",
-      coverGradient:"linear-gradient(135deg, #ee0979 0%, #ff6a00 100%)",
-      duration:"0:45",
-      title:"新品汉堡上市，为什么我只拍第一口就爆了？",
-      hook:"标题直接揭示“爆了”的结果，再反问原因，适合做经验复盘。",
-      start3s:"前 3 秒只保留手掰汉堡、酱汁流下来的大特写，不讲废话。",
-      structure:"先给爆点镜头→拆解面包肉饼酱料→讲价格档位→补一句适合谁吃。",
-      bgm:"重低音卡点 BGM，配合慢动作掰开镜头，更容易打出食欲冲击。",
-      comment:"评论区引导“鸡腿堡派还是牛肉堡派”，让用户站队提升互动。",
-      method:"把最有食欲的镜头前置，再用简单评价体系降低理解成本。",
-      tips:"西快新品上市期可统一要求门店拍“第一口爆点镜头”，总部提供卡点模板给服务商复用。"
-    },
-    {
-      platform:"抖音",
-      emoji:"📱",
-      videoUrl:"https://www.douyin.com/search/%E4%BA%B2%E5%AD%90%20%E5%84%BF%E7%AB%A5%E5%A5%97%E9%A4%90%20%E5%BF%AB%E9%A4%90",
-      keywords:"亲子 儿童套餐 快餐",
-      coverEmoji:"🧒",
-      coverGradient:"linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-      duration:"1:05",
-      title:"周末亲子快餐局，儿童套餐到底是不是智商税？",
-      hook:"围绕家庭消费做价值判断，能同时吸引宝妈和年轻家庭用户。",
-      start3s:"第一秒先拍玩具，再切餐盘，先抓孩子再抓家长关注点。",
-      structure:"先看套餐内容→拆玩具与餐品→评价动线与等位体验→最后总结值不值。",
-      bgm:"明亮童趣节奏 BGM，能把亲子场景的轻松氛围抬起来。",
-      comment:"评论区鼓励晒“你家娃最爱哪个玩具”，把互动点从价格延伸到体验。",
-      method:"双受众表达法：既讲孩子获得感，也讲家长性价比与省心感。",
-      tips:"西快服务商可围绕儿童套餐、亲子门店、周末家庭场景做内容，帮助门店拿下家庭客群。"
-    },
-    {
-      platform:"小红书",
-      emoji:"📕",
-      videoUrl:"https://www.xiaohongshu.com/search_result?keyword=%E8%8A%8B%E6%B3%A5%E7%9B%92%E5%AD%90%20%E7%83%98%E7%84%99",
-      keywords:"芋泥盒子 烘焙",
-      coverEmoji:"🍰",
-      coverGradient:"linear-gradient(135deg, #ff6b9d 0%, #ffb75e 100%)",
-      duration:"图文",
-      title:"烘焙店 18 元芋泥盒子，切开那一刻我懂排队原因了",
-      hook:"先抛“排队值不值”这种争议判断，用户会带着答案意识看完整条。",
-      start3s:"开头直接用勺子切开爆浆横截面，奶油纹理一出来就很抓眼。",
-      structure:"门头 1 秒定位→横切近景→口感关键词→甜度评价→谁适合买单总结。",
-      bgm:"慵懒奶油感韩系 BGM，和烘焙画面匹配，能放大精致感与治愈感。",
-      comment:"评论区问“你站芋泥还是开心果”，把单品讨论做成口味站队。",
-      method:"高颜值特写 + 口感形容词 + 人群推荐，适合把普通单品拍出种草力。",
-      tips:"烘焙品牌可重点拍切面、拉丝、撒粉等细节，把“早餐/下午茶/送人”三个购买理由说透。"
-    },
-    {
-      platform:"小红书",
-      emoji:"📕",
-      videoUrl:"https://www.xiaohongshu.com/search_result?keyword=%E8%9C%9C%E6%A1%83%E5%A5%B6%E8%8C%B6%20%E6%A8%AA%E8%AF%84",
-      keywords:"蜜桃奶茶 横评",
-      coverEmoji:"🍑",
-      coverGradient:"linear-gradient(135deg, #ffb199 0%, #ff0844 100%)",
-      duration:"图文",
-      title:"我把 3 家连锁奶茶的蜜桃系列一次喝完了",
-      hook:"横评天然适合做决策内容，用户会为了“到底买哪家”停留。",
-      start3s:"三杯并排入镜，字幕直接打“哪杯最像真桃子？”制造判断欲。",
-      structure:"先报品牌和价格→逐杯闻香与甜度→最后出排名和适合人群。",
-      bgm:"清爽少女感 BGM，配粉橘色调画面，更容易形成夏日氛围。",
-      comment:"鼓励评论区补充“你心中第一名”，让内容延伸成口碑榜单。",
-      method:"用横评做选择题，把主观口感翻译成可比较的维度，用户更愿意收藏。",
-      tips:"饮品服务商适合做同城门店新品横评，帮品牌把“甜度、茶感、颜值”卖点讲清楚。"
-    },
-    {
-      platform:"小红书",
-      emoji:"📕",
-      videoUrl:"https://www.xiaohongshu.com/search_result?keyword=%E6%B2%99%E6%8B%89%E5%BA%97%20%E6%89%93%E5%B7%A5%E4%BA%BA%E5%8D%88%E9%A4%90",
-      keywords:"沙拉店 打工人午餐公式",
-      coverEmoji:"🥗",
-      coverGradient:"linear-gradient(135deg, #56ab2f 0%, #a8e063 100%)",
-      duration:"图文",
-      title:"连锁沙拉店的打工人午餐公式，我终于吃明白了",
-      hook:"“公式”让内容显得可复制，天然适合职场轻食与健康餐品类。",
-      start3s:"开头就把蛋白、主食、酱料三格餐盘摆好，信息一秒看懂。",
-      structure:"先给搭配公式→展示三套组合→讲饱腹度与价格→最后给不同需求建议。",
-      bgm:"轻快木吉他 BGM，强化干净、健康、可持续打卡的生活方式感。",
-      comment:"评论区引导“减脂党/增肌党/怕饿党”选阵营，方便用户自报需求。",
-      method:"把复杂选择拆成模板，能显著提高收藏率，适合做长期栏目。",
-      tips:"轻食、饮品、烘焙都能把“点单公式”变成连载内容，服务商培训门店拍摄时更容易标准化。"
-    }
-  ];
-
-  function escapeAttr(s){
-    return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-  }
-
-  function renderVideoEntry(item){
-    if(item.platform === "B站" && item.bvid){
-      return `
-        <div class="viral-video-embed">
-          <iframe src="//player.bilibili.com/player.html?bvid=${encodeURIComponent(item.bvid)}&page=1&autoplay=0&high_quality=1&danmaku=0" allowfullscreen="true" scrolling="no" frameborder="0" loading="lazy" referrerpolicy="no-referrer"></iframe>
-        </div>`;
-    }
-    const cta = item.platform === "抖音" ? "🎬 点击跳转到抖音观看" : "🎬 点击跳转到小红书查看";
-    const dur = item.duration ? `<span class="cover-duration">${escapeAttr(item.duration)}</span>` : "";
-    return `
-      <a class="viral-video-cover" href="${escapeAttr(item.videoUrl)}" target="_blank" rel="noopener" style="background:${escapeAttr(item.coverGradient || "linear-gradient(135deg,#ff6b9d,#ffb75e)")};">
-        <span class="cover-emoji">${item.coverEmoji || item.emoji}</span>
-        <span class="cover-title">${escapeAttr(item.title)}</span>
-        <span class="cover-cta">${cta}</span>
-        ${dur}
-      </a>`;
-  }
-
-  const todayIndex = dayOfYear() % VIRAL_LIST.length;
-  const viralItems = [VIRAL_LIST[todayIndex]];
-  if(VIRAL_LIST.length > 1 && dayOfYear() % 2 === 0){
-    viralItems.push(VIRAL_LIST[(todayIndex + 1) % VIRAL_LIST.length]);
-  }
-
-  const listEl = document.getElementById("viral-list");
-  if(!listEl) return;
-  listEl.innerHTML = viralItems.map((item, index)=>{
-    const copyText = `【${item.platform} · ${item.title}】\n视频入口：${item.videoUrl || ""}\n钩子：${item.hook}\n开头3秒：${item.start3s}\n内容结构：${item.structure}\nBGM：${item.bgm}\n评论区：${item.comment}\n方法论：${item.method}\n服务商可借鉴：${item.tips}`;
-    return `
-      <div class="viral-item">
-        ${renderVideoEntry(item)}
-        <div class="viral-title">
-          <div class="viral-hook">${item.emoji} ${item.title}</div>
-          <span class="viral-tag">${item.platform}</span>
-        </div>
-        <div class="viral-dim"><div class="lbl">标题钩子</div><div class="cnt">${item.hook}</div></div>
-        <div class="viral-dim"><div class="lbl">开头 3 秒抓注意力</div><div class="cnt">${item.start3s}</div></div>
-        <div class="viral-dim"><div class="lbl">内容结构</div><div class="cnt">${item.structure}</div></div>
-        <div class="viral-dim"><div class="lbl">BGM 选择</div><div class="cnt">${item.bgm}</div></div>
-        <div class="viral-dim"><div class="lbl">评论区运营</div><div class="cnt">${item.comment}</div></div>
-        <div class="viral-dim"><div class="lbl">可复用方法论</div><div class="cnt">${item.method}</div></div>
-        <div class="viral-tips"><b>服务商可借鉴点：</b>${item.tips}</div>
-        <div class="viral-copy">
-          <button class="copy-btn" data-copy-text="${copyText.replace(/"/g, "&quot;")}" id="viral-copy-${index}">📋 复制拆解</button>
-        </div>
-      </div>
-    `;
-  }).join("");
-})();
 
 /* ============ AI 学习专区 ============ */
 (function(){
@@ -4020,7 +3758,6 @@ document.querySelectorAll(".copy-btn[data-copy]").forEach(btn=>{
 const routes = {
   news: "page-news",
   global: "page-global",
-  viral: "page-viral",
   ai: "page-ai",
   food: "page-food",
   bdj: "page-bdj",
@@ -4030,7 +3767,7 @@ const routes = {
   ledger: "page-ledger"
 };
 // 左侧导航默认展示的模块（顶部三卡片对应 news/global/bdj 不在侧栏）
-const SIDE_KEYS = new Set(["viral","ai","food","feng","baby","share","ledger"]);
+const SIDE_KEYS = new Set(["ai","food","feng","baby","share","ledger"]);
 const DEFAULT_ROUTE = "baby";
 let currentRoute = DEFAULT_ROUTE;
 
