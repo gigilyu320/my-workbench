@@ -1952,6 +1952,119 @@
     .hot-tab{ min-width: 0; }
     .hot-heat{ font-size: 11px; padding: 2px 6px; }
   }
+
+  /* ===== 核桃辅食模块 ===== */
+  .baby-food-hero{
+    background: linear-gradient(135deg, #fff9f0 0%, #ffe8e0 50%, #ffeef2 100%);
+    border: 1px solid #fde3d5;
+    border-radius: 16px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .baby-food-hero .bfh-period{
+    font-size: 14px; font-weight: 800; color:#8b4d3d;
+    margin-bottom: 4px;
+  }
+  .baby-food-hero .bfh-tags{
+    display:flex; gap:8px; flex-wrap:wrap; margin: 6px 0;
+  }
+  .baby-food-hero .bfh-tag{
+    font-size: 12px; padding: 3px 9px; border-radius: 999px;
+    background: #ffffffc9; border: 1px solid #fde3d5; color:#8b4d3d;
+  }
+  .baby-food-hero .bfh-tip{
+    margin-top: 8px; font-size: 12px; color:#a97c1f;
+    background:#ffffffb5; border-radius: 10px; padding: 8px 10px;
+    border-left: 3px solid #f6a67a; line-height: 1.6;
+  }
+  .baby-food-goals{
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    margin-bottom: 12px;
+  }
+  @media (max-width: 420px){
+    .baby-food-goals{ grid-template-columns: 1fr; }
+  }
+  .baby-food-goal{
+    background: #ffffffcc; border: 1px solid #fce3d5;
+    border-radius: 14px; padding: 11px;
+  }
+  .baby-food-goal .bfg-title{
+    font-size: 13px; font-weight: 800; color:#8b4d3d;
+    margin-bottom: 4px;
+  }
+  .baby-food-goal .bfg-desc{
+    font-size: 12px; color:#5a4432; line-height: 1.6;
+  }
+  .baby-food-ing{margin-bottom: 12px;}
+  .baby-food-ing .bfi-title{
+    font-size: 13px; font-weight: 800; color:#8b4d3d; margin-bottom: 8px;
+  }
+  .baby-food-ing-grid{
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .baby-food-ing-row{
+    background: #ffffffcc; border: 1px solid #fce3d5;
+    border-radius: 12px; padding: 9px 11px;
+  }
+  .baby-food-ing-row .bfir-cat{
+    font-size: 12px; font-weight: 800; color:#a97c1f; margin-bottom: 4px;
+  }
+  .baby-food-ing-row .bfir-items{
+    display: flex; flex-wrap: wrap; gap: 5px;
+  }
+  .baby-food-ing-row .bfir-chip{
+    font-size: 11.5px; padding: 3px 8px; border-radius: 999px;
+    background:#fff; border: 1px solid #f2eee5; color: var(--ink-2);
+  }
+  .baby-food-ing-row .bfir-chip .chip-tag{
+    font-size: 10px; color:#a97c1f; margin-left: 2px;
+  }
+  .baby-food-menu-title{
+    font-size: 13px; font-weight: 800; color:#8b4d3d; margin-bottom: 10px;
+  }
+  .baby-food-recipe{
+    background: #ffffffcc; border: 1px solid #fce3d5;
+    border-radius: 14px; padding: 12px; margin-bottom: 10px;
+  }
+  .baby-food-recipe:last-child{margin-bottom: 0;}
+  .baby-food-recipe .bfr-head{
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+    margin-bottom: 6px;
+  }
+  .baby-food-recipe .bfr-name{
+    font-size: 14px; font-weight: 800; color:#8b4d3d;
+  }
+  .baby-food-recipe .bfr-age{
+    font-size: 11px; background: #fff0d5; color:#a97c1f;
+    padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+  }
+  .baby-food-recipe .bfr-ing{
+    font-size: 12px; color:#5a4432; line-height: 1.6;
+    background: #fff8f0; border: 1px solid #fde3d5;
+    border-radius: 10px; padding: 8px 10px; margin-bottom: 6px;
+  }
+  .baby-food-recipe .bfr-steps{
+    font-size: 12.5px; color:#5a4432; line-height: 1.7;
+    margin: 0; padding-left: 20px;
+  }
+  .baby-food-recipe .bfr-steps li{margin: 3px 0;}
+  .baby-food-recipe .bfr-highlight{
+    margin-top: 6px; font-size: 12px; color:#4a7a41;
+    background: #f0faf3; border-left: 3px solid #7bab6b;
+    padding: 5px 8px; border-radius: 8px;
+  }
+  .baby-food-recipe .bfr-tip{
+    margin-top: 5px; font-size: 11.5px; color:#a97c1f;
+    background: #fffcf5; border-left: 3px solid #f6a67a;
+    padding: 5px 8px; border-radius: 8px;
+  }
+  .baby-food-recipe .bfr-copy{
+    margin-top: 8px; display: flex; justify-content: flex-end;
+  }
+  .baby-food-footer{
+    margin-top: 12px; font-size: 11.5px; color: var(--ink-3);
+    text-align: center; line-height: 1.6;
+  }
 </style>
 </head>
 <body>
@@ -2209,6 +2322,7 @@
       <div class="food-owner-tabs" role="tablist" aria-label="谁的菜单" id="food-owner-tabs">
         <button type="button" class="food-owner-btn active" data-owner="me">👩 我的</button>
         <button type="button" class="food-owner-btn" data-owner="mom">👵 老妈的</button>
+        <button type="button" class="food-owner-btn" data-owner="baby">🍼 核桃</button>
       </div>
       <div class="food-tabs" role="tablist" aria-label="健康饮食二级 Tab" id="food-tabs">
         <button type="button" class="food-tab active" data-ftab="list">✅ 推荐吃 / ⚠️ 少吃</button>
@@ -2217,6 +2331,7 @@
 
       <div class="food-panel active" id="food-panel-list"></div>
       <div class="food-panel" id="food-panel-menu"></div>
+      <div class="food-panel" id="food-panel-baby"></div>
     </div>
   </section>
     </div>
@@ -2700,17 +2815,216 @@ const MOM_FOOD_DATA = {
 
 const FOOD_STATE = { owner: 'me', tab: 'list' };
 
+/* ===== 核桃辅食数据 ===== */
+const BABY_FOOD_GOALS = [
+  {emoji:"🥩", title:"铁 · 每日需 10mg", desc:"1-3 岁每日需铁 10mg。本周通过瘦猪肉泥、猪肝（少量 1 次）、蛋黄稳定供给。保守方案优先动物性血红素铁。"},
+  {emoji:"🍳", title:"优质蛋白 · 每日保证", desc:"每日 1 个鸡蛋 + 30-50g 肉/鱼 + 少量豆腐，保证生长发育所需氨基酸。"},
+  {emoji:"🥦", title:"维生素/膳食纤维", desc:"每日 100-150g 蔬菜，深色叶菜占一半；搭配维 C 水果促进铁吸收。"},
+  {emoji:"💧", title:"水分与奶量", desc:"奶 400-500ml/天，白水 300-500ml/天。不喝果汁/含糖饮料，保持清淡。"}
+];
+
+const BABY_FOOD_INGREDIENTS = [
+  {cat:"主食", items:[{n:"软米饭",t:"能量"},{n:"软面条",t:"易消化"},{n:"山药",t:"健脾"},{n:"南瓜",t:"护眼"},{n:"红薯",t:"膳食纤维"}]},
+  {cat:"蛋白", items:[{n:"鸡蛋",t:"全营养"},{n:"瘦猪肉",t:"补铁"},{n:"鸡腿肉",t:"优质蛋白"},{n:"龙利鱼",t:"低汞DHA"},{n:"内酯豆腐",t:"高钙"}]},
+  {cat:"蔬菜", items:[{n:"西兰花",t:"维C"},{n:"胡萝卜",t:"护眼"},{n:"菠菜",t:"补铁"},{n:"青菜",t:"膳食纤维"},{n:"番茄",t:"维C"},{n:"冬瓜",t:"清热"}]},
+  {cat:"水果", items:[{n:"苹果",t:"温和"},{n:"香蕉",t:"能量"},{n:"蓝莓（少量）",t:"花青素"}]},
+  {cat:"奶制品", items:[{n:"无糖酸奶",t:"益生菌"},{n:"配方奶/母乳",t:"钙+蛋白"}]}
+];
+
+const BABY_WEEK_MENU = [
+  {day:"周日 7/27", emoji:"💚",
+    breakfast:"小米南瓜粥 40g + 蒸蛋黄 1 个 + 蒸红薯条 30g",
+    lunch:"软米饭 30g + 番茄鸡蛋碎 + 蒸胡萝卜条 + 冬瓜汤",
+    snack:"无糖酸奶 50ml + 苹果泥 30g",
+    dinner:"西兰花猪肉软面 60g + 蒸南瓜块 30g",
+    milk:"睡前奶 150-180ml"},
+  {day:"周一 7/28", emoji:"🌤️",
+    breakfast:"山药米糊 50g + 全蛋蒸蛋羹 1 个 + 香蕉片 30g",
+    lunch:"软米饭 35g + 胡萝卜鸡腿肉丁 40g + 清炒青菜碎 + 番茄蛋花汤",
+    snack:"蓝莓 5-6 颗（切半）+ 配方奶 100ml",
+    dinner:"南瓜猪肉粥 60g + 蒸西兰花小朵",
+    milk:"睡前奶 150-180ml"},
+  {day:"周二 7/29", emoji:"🌞",
+    breakfast:"红薯小米粥 50g + 蒸蛋黄 1 个 + 苹果片（蒸软）30g",
+    lunch:"软米饭 35g + 龙利鱼番茄汤 50g + 菠菜碎（焯水）+ 胡萝卜条",
+    snack:"无糖酸奶 50ml + 香蕉半根",
+    dinner:"山药鸡肉软面 60g + 蒸冬瓜块 30g",
+    milk:"睡前奶 150-180ml"},
+  {day:"周三 7/30", emoji:"🌥️",
+    breakfast:"南瓜米糊 50g + 全蛋蒸蛋羹 1 个 + 蒸山药条 30g",
+    lunch:"软米饭 35g + 猪肝胡萝卜泥 30g（本周仅此 1 次）+ 番茄青菜汤",
+    snack:"苹果泥 30g + 配方奶 100ml",
+    dinner:"西兰花豆腐蛋花粥 60g + 蒸红薯块 30g",
+    milk:"睡前奶 150-180ml"},
+  {day:"周四 7/31", emoji:"☀️",
+    breakfast:"小米山药粥 50g + 蒸蛋黄 1 个 + 香蕉片 30g",
+    lunch:"软米饭 35g + 番茄瘦猪肉丁 40g + 蒸胡萝卜条 + 菠菜蛋花汤",
+    snack:"无糖酸奶 50ml + 蓝莓 5 颗（切半）",
+    dinner:"南瓜鸡肉软面 60g + 清蒸青菜碎",
+    milk:"睡前奶 150-180ml"},
+  {day:"周五 8/1", emoji:"🌈",
+    breakfast:"红薯米糊 50g + 全蛋蒸蛋羹 1 个 + 苹果片（蒸软）30g",
+    lunch:"软米饭 35g + 龙利鱼西兰花碎 50g + 胡萝卜番茄汤",
+    snack:"香蕉半根 + 配方奶 100ml",
+    dinner:"山药瘦肉粥 60g + 蒸冬瓜块 30g + 蒸豆腐",
+    milk:"睡前奶 150-180ml"},
+  {day:"周六 8/2", emoji:"🌸",
+    breakfast:"南瓜小米粥 50g + 蒸蛋黄 1 个 + 蒸山药条 30g",
+    lunch:"软米饭 35g + 胡萝卜鸡腿肉丁 40g + 番茄青菜汤 + 蒸南瓜块",
+    snack:"无糖酸奶 50ml + 苹果泥 30g",
+    dinner:"菠菜猪肉软面 60g + 蒸西兰花小朵",
+    milk:"睡前奶 150-180ml"}
+];
+
+const BABY_RECIPES = [
+  {
+    name:"番茄龙利鱼软面",
+    age:"17 月龄+",
+    ingredients:"龙利鱼 30g、番茄半个（约 50g）、宝宝面条 40g、少许植物油（3ml）、清水适量",
+    steps:["龙利鱼解冻洗净，检查无刺，切成 1cm 小丁备用","番茄顶部划十字，开水烫 30 秒去皮去籽，切碎丁","锅中少许油，倒入番茄碎小火炒出汁水（约 2 分钟）","加清水 200ml 煮沸，放入面条煮至极软（约 6-8 分钟）","放入鱼丁轻搅，中火煮 3 分钟至鱼熟透","关火，稍晾至温热即可盛出"],
+    highlight:"补铁 + DHA + 维 C 促铁吸收，一碗搞定优质蛋白和蔬菜",
+    tip:"面条煮到能用勺背轻松压碎；番茄一定去皮去籽防呛；鱼丁检查无刺再给宝宝"
+  },
+  {
+    name:"蒸蛋羹配西兰花米糊",
+    age:"17 月龄+",
+    ingredients:"鸡蛋 1 个、温水 60ml、西兰花 3 小朵（约 30g）、米粉/米糊 15g、温水 40ml（调米糊用）",
+    steps:["鸡蛋打散，加 60ml 温水搅匀，过筛去泡","碗盖保鲜膜（戳几个孔），上锅蒸 10-12 分钟至凝固","西兰花焯水 2 分钟捞出，切成极细碎粒","米粉加 40ml 温水调成稀糊，拌入西兰花碎","蒸蛋出锅稍凉，搭配西兰花米糊一起喂"],
+    highlight:"蛋羹滑嫩安全、易吞咽；搭配维 C 丰富的西兰花促进铁吸收",
+    tip:"蒸蛋水比 1:1.2 保证嫩滑；保鲜膜戳孔防水汽滴入；西兰花切极碎防呛"
+  },
+  {
+    name:"山药红枣小米粥",
+    age:"17 月龄+",
+    ingredients:"小米 20g、鲜山药 30g、红枣 2 颗（去核切碎）、清水 300ml",
+    steps:["小米淘洗浸泡 10 分钟；山药去皮切 0.5cm 小丁","红枣去核，切成极细碎粒（约绿豆大小）","锅中放清水 300ml + 小米，大火煮沸转小火","5 分钟后加入山药丁和红枣碎，继续小火煮 20 分钟","煮至粥浓稠、山药软烂，关火焖 3 分钟","稍凉后用勺轻压几下即可喂食"],
+    highlight:"健脾养胃、温和主食，小米补 B 族维生素，山药助消化",
+    tip:"红枣务必去核并切极碎（防窒息）；红枣用量少（2 颗足够甜度，无需加糖）；山药去皮后手可能痒，戴手套操作"
+  }
+];
+
+let BABY_FOOD_INITED = false;
+
+function renderBabyFood(){
+  const panel = document.getElementById('food-panel-baby');
+  if(!panel) return;
+  if(BABY_FOOD_INITED){ panel.classList.add('active'); return; }
+  BABY_FOOD_INITED = true;
+
+  let html = '';
+  // A. Hero banner
+  html += `<div class="baby-food-hero">
+    <div class="bfh-period">🌰 本周菜单 · 2026-07-27 ~ 08-02（17 月龄）</div>
+    <div class="bfh-tags">
+      <span class="bfh-tag">🥩 稳定补铁</span>
+      <span class="bfh-tag">🥚 优质蛋白</span>
+      <span class="bfh-tag">🥦 深色蔬菜</span>
+    </div>
+    <div class="bfh-tip">⚠️ 以安全为第一，本周菜单坚持已熟悉食材，暂不引入新品；如需尝试新食材，请先在早餐后单独少量试敏 3 天再纳入。</div>
+  </div>`;
+
+  // B. Goals
+  html += `<div class="baby-food-goals">`;
+  BABY_FOOD_GOALS.forEach(g=>{
+    html += `<div class="baby-food-goal"><div class="bfg-title">${g.emoji} ${g.title}</div><div class="bfg-desc">${g.desc}</div></div>`;
+  });
+  html += `</div>`;
+
+  // C. Ingredients
+  html += `<div class="baby-food-ing"><div class="bfi-title">📋 本周推荐食材清单</div><div class="baby-food-ing-grid">`;
+  BABY_FOOD_INGREDIENTS.forEach(cat=>{
+    html += `<div class="baby-food-ing-row"><div class="bfir-cat">${cat.cat}</div><div class="bfir-items">`;
+    cat.items.forEach(item=>{
+      html += `<span class="bfir-chip">${item.n}<span class="chip-tag">${item.t}</span></span>`;
+    });
+    html += `</div></div>`;
+  });
+  html += `</div></div>`;
+
+  // D. Week menu
+  html += `<div class="baby-food-menu-title">📅 一周菜单（7 天 · 保守版）</div>`;
+  html += `<div class="food-menu-list">`;
+  BABY_WEEK_MENU.forEach(d=>{
+    html += `<div class="menu-card">
+      <div class="menu-head"><div class="menu-day">${d.day}</div><div class="menu-emoji">${d.emoji}</div></div>
+      <div class="menu-row"><div class="k">🌅 早餐</div><div class="v">${d.breakfast}</div></div>
+      <div class="menu-row"><div class="k">☀️ 午餐</div><div class="v">${d.lunch}</div></div>
+      <div class="menu-row"><div class="k">🍎 加餐</div><div class="v">${d.snack}</div></div>
+      <div class="menu-row"><div class="k">🌙 晚餐</div><div class="v">${d.dinner}</div></div>
+      <div class="menu-row"><div class="k">🌜 睡前奶</div><div class="v">${d.milk}</div></div>
+    </div>`;
+  });
+  html += `</div>`;
+
+  // Copy menu button
+  html += `<div style="margin:10px 0;display:flex;justify-content:flex-end;">
+    <button type="button" class="menu-copy-btn" id="baby-menu-copy">📋 复制本周菜单</button>
+  </div>`;
+
+  // E. Recipes
+  html += `<div class="baby-food-menu-title" style="margin-top:14px;">👩‍🍳 本周推荐菜谱（保守版 · 3 道）</div>`;
+  BABY_RECIPES.forEach((r,i)=>{
+    html += `<div class="baby-food-recipe">
+      <div class="bfr-head"><div class="bfr-name">${r.name}</div><div class="bfr-age">${r.age}</div></div>
+      <div class="bfr-ing"><b>食材：</b>${r.ingredients}</div>
+      <ol class="bfr-steps">${r.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+      <div class="bfr-highlight">🌱 ${r.highlight}</div>
+      <div class="bfr-tip">⚠️ 保守 tips：${r.tip}</div>
+      <div class="bfr-copy"><button type="button" class="copy-btn baby-recipe-copy" data-ridx="${i}">📋 一键复制</button></div>
+    </div>`;
+  });
+
+  // F. Footer
+  html += `<div class="baby-food-footer">本周菜单由资深营养师视角设计，仅供参考。每周更新一次，若需针对性调整（如便秘/腹泻/挑食），请另行沟通。</div>`;
+
+  panel.innerHTML = html;
+
+  // Bind copy events
+  const menuCopy = document.getElementById('baby-menu-copy');
+  if(menuCopy){
+    menuCopy.onclick = ()=>{
+      let txt = '【核桃 · 一周辅食菜单 · 2026-07-27~08-02（17 月龄 · 保守版）】\n\n';
+      BABY_WEEK_MENU.forEach(d=>{
+        txt += `${d.day} ${d.emoji}\n🌅 早餐：${d.breakfast}\n☀️ 午餐：${d.lunch}\n🍎 加餐：${d.snack}\n🌙 晚餐：${d.dinner}\n🌜 睡前奶：${d.milk}\n\n`;
+      });
+      doCopy(txt.trim(), menuCopy);
+    };
+  }
+  panel.querySelectorAll('.baby-recipe-copy').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const r = BABY_RECIPES[Number(btn.dataset.ridx)];
+      let txt = `【核桃辅食菜谱】${r.name}（${r.age}）\n\n食材：${r.ingredients}\n\n做法：\n`;
+      r.steps.forEach((s,i)=>{ txt += `${i+1}. ${s}\n`; });
+      txt += `\n🌱 营养亮点：${r.highlight}\n⚠️ 保守 tips：${r.tip}`;
+      doCopy(txt, btn);
+    });
+  });
+}
+
 function renderFood(){
   const ownerTabs = Array.from(document.querySelectorAll('#food-owner-tabs .food-owner-btn'));
   const tabs = Array.from(document.querySelectorAll('#food-tabs .food-tab'));
   const list = document.getElementById('food-panel-list');
   const menu = document.getElementById('food-panel-menu');
+  const babyPanel = document.getElementById('food-panel-baby');
   if(!ownerTabs.length || !tabs.length || !list || !menu) return;
 
+  ownerTabs.forEach(b=>b.classList.toggle('active', b.dataset.owner===FOOD_STATE.owner));
+
+  // If baby owner, hide normal tabs and show baby panel
+  if(FOOD_STATE.owner === 'baby'){
+    document.getElementById('food-tabs').style.display = 'none';
+    document.querySelectorAll('#page-food .food-panel').forEach(p=>p.classList.remove('active'));
+    if(babyPanel) babyPanel.classList.add('active');
+    renderBabyFood();
+    return;
+  }
+
+  // Normal flow for me/mom
+  document.getElementById('food-tabs').style.display = '';
   const data = FOOD_STATE.owner === 'me' ? MY_FOOD_DATA : MOM_FOOD_DATA;
   const ownerName = FOOD_STATE.owner === 'me' ? '江江' : '老妈';
 
-  ownerTabs.forEach(b=>b.classList.toggle('active', b.dataset.owner===FOOD_STATE.owner));
   tabs.forEach(b=>b.classList.toggle('active', b.dataset.ftab===FOOD_STATE.tab));
   
   document.querySelectorAll('#page-food .food-panel').forEach(p=>p.classList.remove('active'));
