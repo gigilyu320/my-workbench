@@ -995,6 +995,118 @@
 
   /* ===== 每日账本 ===== */
   .ledger-card{background:#fff;}
+
+  /* ===== 重要日子倒计时 ===== */
+  .days-card{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    padding: 12px;
+    background: linear-gradient(180deg, #ffffff 0%, #fffbf5 100%);
+  }
+  .days-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding: 14px 12px;
+    border-radius: 16px;
+    background:#fff;
+    border:1px solid #f1ebdf;
+    box-shadow: 0 6px 18px rgba(80,60,20,.06);
+  }
+  .days-item.today{
+    background: linear-gradient(135deg, #fff6da 0%, #f7d774 100%);
+    border-color:#efcb71;
+    box-shadow: 0 10px 22px rgba(201,162,74,.22);
+  }
+  .days-emoji{
+    flex:0 0 44px;
+    width:44px;
+    text-align:center;
+    font-size:30px;
+    line-height:1;
+  }
+  .days-info{
+    flex:1;
+    min-width:0;
+  }
+  .days-name{
+    font-size:15px;
+    font-weight:800;
+    color:var(--ink);
+    line-height:1.35;
+  }
+  .days-date{
+    margin-top:3px;
+    font-size:12.5px;
+    color:var(--ink-3);
+    line-height:1.5;
+    overflow-wrap:anywhere;
+  }
+  .days-side{
+    flex:0 0 auto;
+    text-align:right;
+    min-width:86px;
+  }
+  .days-count{
+    font-size:14px;
+    font-weight:800;
+    color:#c78618;
+    line-height:1.25;
+    white-space:nowrap;
+  }
+  .days-count strong{
+    font-size:24px;
+    color:#de8c16;
+    margin:0 2px;
+  }
+  .days-item.today .days-count{
+    color:#8a6113;
+  }
+  .days-item.today .days-count strong{
+    color:#7a550f;
+  }
+  .days-badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    margin-top:6px;
+    padding: 3px 9px;
+    border-radius:999px;
+    font-size:11.5px;
+    font-weight:700;
+    background:#f2f0ea;
+    color:#8a867e;
+  }
+  .days-badge.soon{
+    background:#fde3de;
+    color:#c05252;
+  }
+  .days-badge.today{
+    background:#fff7db;
+    color:#8a6113;
+  }
+  @media (max-width: 420px){
+    .days-item{
+      align-items:flex-start;
+      gap:10px;
+      padding: 12px 10px;
+    }
+    .days-emoji{
+      flex-basis:40px;
+      width:40px;
+      font-size:28px;
+    }
+    .days-side{
+      min-width:72px;
+    }
+    .days-count{
+      font-size:12.5px;
+    }
+    .days-count strong{
+      font-size:21px;
+    }
+  }
   .ledger-toolbar{
     display:flex; align-items:center; gap:8px; flex-wrap:wrap;
     margin-bottom: 10px;
@@ -1735,6 +1847,7 @@
       <button type="button" class="nav-item active" data-target="baby"><span class="n-emoji">🍼</span><span class="n-name">核桃</span></button>
       <button type="button" class="nav-item" data-target="share"><span class="n-emoji">✍️</span><span class="n-name">灵感</span></button>
       <button type="button" class="nav-item" data-target="ledger"><span class="n-emoji">💰</span><span class="n-name">账本</span></button>
+      <button type="button" class="nav-item" data-target="days"><span class="n-emoji">📅</span><span class="n-name">日子</span></button>
     </aside>
 
     <!-- ============ 右侧内容区 ============ -->
@@ -2181,6 +2294,16 @@
       </div>
       <div class="ledger-list" id="ledger-list"></div>
     </div>
+  </section>
+    </div>
+
+    <div class="page page-detail" id="page-days">
+  <section class="section">
+    <div class="section-head">
+      <div class="section-title"><span class="dot"></span><span class="icon">📅</span>重要日子倒计时</div>
+      <div class="section-note">按倒计时排序</div>
+    </div>
+    <div class="card days-card" id="days-list"></div>
   </section>
     </div>
     </main>
@@ -3754,6 +3877,113 @@ document.querySelectorAll(".copy-btn[data-copy]").forEach(btn=>{
   `).join("");
 })();
 
+/* ============ 重要日子倒计时 ============ */
+const DAYS_DATA = [
+  { emoji:"🎂", name:"江江生日", type:"annual", month:3, day:20 },
+  { emoji:"🌙", name:"老妈生日", type:"lunar", dates:[{y:2027,m:6,d:11},{y:2028,m:5,d:30},{y:2029,m:6,d:16},{y:2030,m:6,d:5},{y:2031,m:5,d:24}], lunarText:"农历五月初四" },
+  { emoji:"🌟", name:"大吉生日", type:"annual", month:7, day:19 },
+  { emoji:"🌰", name:"核桃生日", type:"annual", month:2, day:6, birthYear:2025 },
+  { emoji:"💍", name:"结婚纪念日", type:"annual", month:5, day:20 },
+  { emoji:"🥮", name:"中秋节", type:"fixed", date:"2026-09-25" },
+  { emoji:"🎉", name:"国庆节", type:"fixed", date:"2026-10-01" },
+  { emoji:"🎄", name:"圣诞节", type:"fixed", date:"2026-12-25" },
+  { emoji:"🎆", name:"元旦", type:"fixed", date:"2027-01-01" },
+  { emoji:"❤️", name:"情人节", type:"fixed", date:"2027-02-14" },
+  { emoji:"🧧", name:"春节", type:"fixed", date:"2027-02-17" },
+  { emoji:"👩", name:"妇女节", type:"fixed", date:"2027-03-08" },
+  { emoji:"👶", name:"儿童节", type:"fixed", date:"2027-06-01" }
+];
+
+function nextAnnual(month, day, todayDate){
+  const y = todayDate.getFullYear();
+  let target = new Date(y, month - 1, day);
+  target.setHours(0,0,0,0);
+  const today = new Date(todayDate);
+  today.setHours(0,0,0,0);
+  if(target < today) target = new Date(y + 1, month - 1, day);
+  target.setHours(0,0,0,0);
+  return target;
+}
+function daysDiff(target, today){
+  const t = new Date(target); t.setHours(0,0,0,0);
+  const t0 = new Date(today); t0.setHours(0,0,0,0);
+  return Math.round((t - t0) / 86400000);
+}
+function formatDate(target){
+  const y = target.getFullYear();
+  const m = String(target.getMonth() + 1).padStart(2, "0");
+  const d = String(target.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+function resolveNextDate(item, today){
+  if(item.type === "annual"){
+    return nextAnnual(item.month, item.day, today);
+  }
+  if(item.type === "lunar"){
+    const todayTime = new Date(today);
+    todayTime.setHours(0,0,0,0);
+    const next = (item.dates || []).find(d => {
+      const target = new Date(d.y, d.m - 1, d.d);
+      target.setHours(0,0,0,0);
+      return target >= todayTime;
+    });
+    return next ? new Date(next.y, next.m - 1, next.d) : null;
+  }
+  if(item.type === "fixed" && item.date){
+    const [y, m, d] = item.date.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  }
+  return null;
+}
+function getDaysMeta(item, target){
+  const dateText = formatDate(target);
+  if(item.type === "lunar"){
+    return `${dateText} · ${item.lunarText || "农历"}`;
+  }
+  if(item.birthYear){
+    return `${dateText} · 今年满 ${target.getFullYear() - item.birthYear} 岁`;
+  }
+  return dateText;
+}
+function renderDays(){
+  const container = document.getElementById("days-list");
+  if(!container) return;
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  const list = DAYS_DATA.map(item => {
+    const target = resolveNextDate(item, today);
+    if(!target) return null;
+    target.setHours(0,0,0,0);
+    return {
+      ...item,
+      target,
+      diff: daysDiff(target, today),
+      meta: getDaysMeta(item, target)
+    };
+  }).filter(Boolean).sort((a,b)=>a.diff-b.diff);
+
+  container.innerHTML = list.map(item => {
+    const isToday = item.diff === 0;
+    const badgeClass = isToday ? "today" : (item.diff <= 7 ? "soon" : "");
+    const badgeText = isToday ? "今天" : (item.diff <= 7 ? "最近" : "已安排");
+    const countHtml = isToday ? "🎊 就是今天！" : `还有 <strong>${item.diff}</strong> 天`;
+    return `
+      <div class="days-item${isToday ? " today" : ""}">
+        <div class="days-emoji">${item.emoji}</div>
+        <div class="days-info">
+          <div class="days-name">${item.name}</div>
+          <div class="days-date">${item.meta}</div>
+        </div>
+        <div class="days-side">
+          <div class="days-count">${countHtml}</div>
+          <div class="days-badge${badgeClass ? ` ${badgeClass}` : ""}">${badgeText}</div>
+        </div>
+      </div>`;
+  }).join("");
+}
+renderDays();
+
 /* ============ 侧栏导航 + 置顶卡片 路由 ============ */
 const routes = {
   news: "page-news",
@@ -3764,10 +3994,11 @@ const routes = {
   feng: "page-feng",
   baby: "page-baby",
   share: "page-share",
+  days: "page-days",
   ledger: "page-ledger"
 };
 // 左侧导航默认展示的模块（顶部三卡片对应 news/global/bdj 不在侧栏）
-const SIDE_KEYS = new Set(["ai","food","feng","baby","share","ledger"]);
+const SIDE_KEYS = new Set(["ai","food","feng","baby","share","days","ledger"]);
 const DEFAULT_ROUTE = "baby";
 let currentRoute = DEFAULT_ROUTE;
 
