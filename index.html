@@ -224,7 +224,7 @@
     font-size: 12px;
   }
 
-  /* ===== 健康饮食（中药期忌口 + 一周菜单）===== */
+  /* ===== 健康饮食（推荐吃 + 一周菜单）===== */
   .food-card{
     background: linear-gradient(180deg, #ffffff 0%, #fffdf8 100%);
     border: 1px solid #f2eee5;
@@ -1916,22 +1916,20 @@
     </div>
 
     <div class="page page-detail" id="page-food">
-  <!-- ============ 健康饮食（中药期） ============ -->
+  <!-- ============ 健康饮食 ============ -->
   <section class="section">
     <div class="section-head">
       <div class="section-title"><span class="dot"></span><span class="icon">🥗</span>健康饮食</div>
-      <div class="section-note">忌口清单 + 一周菜单</div>
+      <div class="section-note">清淡温养 · 一周菜单</div>
     </div>
 
     <div class="card food-card">
       <div class="food-tabs" role="tablist" aria-label="健康饮食一级 Tab" id="food-tabs">
-        <button type="button" class="food-tab active" data-ftab="med">📋 用药提醒</button>
-        <button type="button" class="food-tab" data-ftab="list">✅ 可以吃 / ❌ 不能吃</button>
+        <button type="button" class="food-tab active" data-ftab="list">✅ 推荐吃 / ⚠️ 少吃</button>
         <button type="button" class="food-tab" data-ftab="menu">📅 一周菜单</button>
       </div>
 
-      <div class="food-panel active" id="food-panel-med"></div>
-      <div class="food-panel" id="food-panel-list"></div>
+      <div class="food-panel active" id="food-panel-list"></div>
       <div class="food-panel" id="food-panel-menu"></div>
     </div>
   </section>
@@ -2294,69 +2292,48 @@ function dayOfYear(){
   return Math.floor(diff / (1000 * 60 * 60 * 24));
 }
 
-/* ============ 健康饮食（中药期）· 数据 & 渲染 ============ */
+/* ============ 健康饮食 · 数据 & 渲染 ============ */
 const FOOD_DATA = {
-  med: {
-    course: "14 剂 · 每剂 10 味药",
-    method: "每天 2 次 · 每次 150ml · 饭后 1 小时",
-    temp: "温热服用（不要凉服）",
-    tip: "药需要慢慢喝，配合饮食忌口效果更好呀 💛"
-  },
   cannotEat: [
-    { cat: "甜", emoji: "🍬", items: ["糖", "巧克力", "酒酿"] },
-    { cat: "腻", emoji: "🥛", items: ["奶及奶制品", "奶茶", "糯米年糕", "甲鱼", "鳗鱼", "蹄膀"] },
-    { cat: "酸", emoji: "🍋", items: ["醋", "酸菜", "番茄"] },
-    { cat: "涩", emoji: "☕", items: ["红酒", "咖啡"] },
-    { cat: "冷/凉性", emoji: "❄️", items: ["生鱼片", "蟹", "贝", "螺", "鸭", "黄瓜", "藕", "菱", "芹菜", "银耳", "绿豆", "百合", "薏米", "青菜", "白菜", "菠菜", "白豆腐", "啤酒及绿茶等凉茶"] },
-    { cat: "其他", emoji: "🍎", items: ["一切水果"] }
+    { cat: "偏甜", emoji: "🍬", items: ["糖", "巧克力", "含糖饮料"] },
+    { cat: "过腻", emoji: "🥛", items: ["奶茶", "糯米年糕", "蹄膀", "油炸食物"] },
+    { cat: "过酸", emoji: "🍋", items: ["醋（少）", "酸菜（少）"] },
+    { cat: "过凉", emoji: "❄️", items: ["生鱼片（少）", "螃蟹（少）", "冷饮"] },
+    { cat: "刺激", emoji: "🌶️", items: ["麻辣火锅", "过辣", "浓咖啡（空腹）", "烈酒"] }
   ],
   canEat: [
-    { cat: "主食", emoji: "🍚", items: ["白米饭", "燕麦（少量温热）", "小米粥", "山药糊", "南瓜粥", "面条", "馒头", "糙米饭"] },
-    { cat: "蔬菜（温性/平性）", emoji: "🥕", items: ["胡萝卜", "南瓜", "山药", "土豆", "香菇", "金针菇", "平菇", "四季豆", "豆角", "洋葱", "大葱", "韭菜", "卷心菜（可少量）", "木耳", "竹笋（少量）"] },
+    { cat: "主食", emoji: "🍚", items: ["白米饭", "燕麦", "小米粥", "山药糊", "南瓜粥", "面条", "馒头", "糙米饭"] },
+    { cat: "蔬菜（温性/平性）", emoji: "🥕", items: ["胡萝卜", "南瓜", "山药", "土豆", "香菇", "金针菇", "平菇", "四季豆", "豆角", "洋葱", "大葱", "韭菜", "卷心菜", "木耳", "竹笋"] },
     { cat: "肉类", emoji: "🍗", items: ["鸡肉", "牛肉", "猪肉（瘦）", "羊肉（少量）", "鸡蛋", "鹌鹑蛋", "淡水鱼（鲈鱼/鳕鱼/黄鱼/带鱼）", "淡水虾"] },
-    { cat: "豆类", emoji: "🫘", items: ["黄豆", "豆浆（自制、不加糖）", "豆干", "腐竹", "豆皮"] },
-    { cat: "汤饮", emoji: "🍵", items: ["温开水", "红枣水", "生姜水", "桂圆水", "姜枣茶", "陈皮水", "山楂水（少量）", "麦冬水"] },
+    { cat: "豆类", emoji: "🫘", items: ["黄豆", "豆浆", "豆干", "腐竹", "豆皮", "白豆腐"] },
+    { cat: "汤饮", emoji: "🍵", items: ["温开水", "红枣水", "生姜水", "桂圆水", "姜枣茶", "陈皮水", "山楂水", "麦冬水"] },
     { cat: "调味", emoji: "🧂", items: ["盐（少）", "酱油", "料酒（少）", "姜", "蒜", "葱", "花椒", "八角"] }
   ],
   weekMenu: [
-    { day: "周一", emoji: "🌤️", breakfast: "小米南瓜粥 + 白煮蛋 + 山药馒头（饭后 1 小时喝药 💊）", snack: "温红枣水一杯", lunch: "白米饭 + 香菇鸡肉 + 清炒胡萝卜土豆丝 + 紫菜蛋花汤", dinner: "清汤面（鸡蛋 + 平菇）+ 蒸南瓜一小块（饭后 1 小时喝药 💊）" },
-    { day: "周二", emoji: "🌞", breakfast: "燕麦糊（不加奶不加糖，可加少许红枣桂圆）+ 蒸蛋（饭后 1 小时喝药 💊）", snack: "陈皮水一杯", lunch: "山药排骨汤 + 白米饭 + 清炒四季豆", dinner: "韭菜鸡蛋饺子（清淡少油）+ 金针菇鸡蛋汤（饭后 1 小时喝药 💊）" },
-    { day: "周三", emoji: "🌥️", breakfast: "山药糊（温热）+ 白煮蛋 + 馒头（饭后 1 小时喝药 💊）", snack: "姜枣茶一杯", lunch: "糙米饭 + 洋葱牛肉片（少油）+ 清炒卷心菜（少量）+ 香菇豆皮汤", dinner: "小米粥 + 清蒸鲈鱼 + 胡萝卜木耳炒蛋（饭后 1 小时喝药 💊）" },
-    { day: "周四", emoji: "☀️", breakfast: "小米粥 + 蒸南瓜 + 鹌鹑蛋 3-4 个（饭后 1 小时喝药 💊）", snack: "桂圆水一杯", lunch: "白米饭 + 清炖瘦肉冬菇（香菇）+ 清炒豆角 + 山药胡萝卜汤", dinner: "鸡丝面汤（加大葱少许）+ 蒸土豆块（饭后 1 小时喝药 💊）" },
-    { day: "周五", emoji: "🌈", breakfast: "南瓜粥 + 蒸蛋羹 + 山药馒头（饭后 1 小时喝药 💊）", snack: "麦冬水一杯", lunch: "白米饭 + 清炖牛肉萝卜（胡萝卜）+ 清炒香菇金针菇 + 紫菜蛋花汤", dinner: "山药排骨汤（少油）+ 馒头半个（饭后 1 小时喝药 💊）" },
-    { day: "周六", emoji: "🌸", breakfast: "温面条（清汤）+ 鸡蛋 + 香菇（饭后 1 小时喝药 💊）", snack: "山楂水（少量）一杯", lunch: "糙米饭 + 清蒸黄鱼 + 洋葱土豆丝 + 木耳豆皮汤", dinner: "小米粥 + 清炒四季豆 + 清炖鸡腿肉（去皮少油）（饭后 1 小时喝药 💊）" },
-    { day: "周日", emoji: "💚", breakfast: "山药南瓜粥 + 白煮蛋 + 馒头（饭后 1 小时喝药 💊）", snack: "温开水 / 红枣水任选一杯", lunch: "白米饭 + 清炖瘦肉土豆块 + 清炒胡萝卜木耳 + 金针菇汤", dinner: "清蒸鳕鱼 + 山药糊（温热）+ 清炒豆角（饭后 1 小时喝药 💊）" }
+    { day: "周一", emoji: "🌤️", breakfast: "小米南瓜粥 + 白煮蛋 + 山药馒头", snack: "温红枣水一杯", lunch: "白米饭 + 香菇鸡肉 + 清炒胡萝卜土豆丝 + 紫菜蛋花汤", dinner: "清汤面（鸡蛋 + 平菇）+ 蒸南瓜一小块" },
+    { day: "周二", emoji: "🌞", breakfast: "燕麦糊 + 蒸蛋 + 少许红枣桂圆", snack: "陈皮水一杯", lunch: "山药排骨汤 + 白米饭 + 清炒四季豆", dinner: "韭菜鸡蛋饺子（清淡少油）+ 金针菇鸡蛋汤" },
+    { day: "周三", emoji: "🌥️", breakfast: "山药糊（温热）+ 白煮蛋 + 馒头", snack: "姜枣茶一杯", lunch: "糙米饭 + 洋葱牛肉片（少油）+ 清炒卷心菜 + 香菇豆皮汤", dinner: "小米粥 + 清蒸鲈鱼 + 胡萝卜木耳炒蛋" },
+    { day: "周四", emoji: "☀️", breakfast: "小米粥 + 蒸南瓜 + 鹌鹑蛋 3-4 个", snack: "桂圆水一杯", lunch: "白米饭 + 清炖瘦肉香菇 + 清炒豆角 + 山药胡萝卜汤", dinner: "鸡丝面汤（加大葱少许）+ 蒸土豆块" },
+    { day: "周五", emoji: "🌈", breakfast: "南瓜粥 + 蒸蛋羹 + 山药馒头", snack: "麦冬水一杯", lunch: "白米饭 + 清炖牛肉胡萝卜 + 清炒香菇金针菇 + 紫菜蛋花汤", dinner: "山药排骨汤（少油）+ 馒头半个" },
+    { day: "周六", emoji: "🌸", breakfast: "温面条（清汤）+ 鸡蛋 + 香菇", snack: "山楂水一杯", lunch: "糙米饭 + 清蒸黄鱼 + 洋葱土豆丝 + 木耳豆皮汤", dinner: "小米粥 + 清炒四季豆 + 清炖鸡腿肉（去皮少油）" },
+    { day: "周日", emoji: "💚", breakfast: "山药南瓜粥 + 白煮蛋 + 馒头", snack: "温开水 / 红枣水任选一杯", lunch: "白米饭 + 清炖瘦肉土豆块 + 清炒胡萝卜木耳 + 金针菇汤", dinner: "清蒸鳕鱼 + 山药糊（温热）+ 清炒豆角" }
   ]
 };
 
-const FOOD_STATE = { tab: 'med' };
+const FOOD_STATE = { tab: 'list' };
 
 function renderFood(){
   const tabs = Array.from(document.querySelectorAll('#food-tabs .food-tab'));
-  const med = document.getElementById('food-panel-med');
   const list = document.getElementById('food-panel-list');
   const menu = document.getElementById('food-panel-menu');
-  if(!tabs.length || !med || !list || !menu) return;
+  if(!tabs.length || !list || !menu) return;
 
   tabs.forEach(b=>b.classList.toggle('active', b.dataset.ftab===FOOD_STATE.tab));
   document.querySelectorAll('#page-food .food-panel').forEach(p=>p.classList.remove('active'));
   const activePanel = document.getElementById(`food-panel-${FOOD_STATE.tab}`);
   if(activePanel) activePanel.classList.add('active');
 
-  // 用药提醒
-  med.innerHTML = `
-    <div class="food-med-card">
-      <div style="font-size:14px; font-weight:900; color:#6c5a2f;">💊 用药信息</div>
-      <div class="food-med-grid">
-        <div class="food-med-item"><div class="ic">💊</div><div><div class="t">总疗程</div><div class="v">${FOOD_DATA.med.course}</div></div></div>
-        <div class="food-med-item"><div class="ic">⏰</div><div><div class="t">服用方式</div><div class="v">${FOOD_DATA.med.method}</div></div></div>
-        <div class="food-med-item"><div class="ic">🌡️</div><div><div class="t">温度</div><div class="v">${FOOD_DATA.med.temp}</div></div></div>
-      </div>
-      <div class="food-med-tip">${FOOD_DATA.med.tip}</div>
-    </div>
-  `;
-
-  // 可以吃 / 不能吃
+  // 推荐吃 / 少吃
   const cannotHtml = FOOD_DATA.cannotEat.map(g=>`
     <div class="food-subcard no">
       <div class="head"><div class="cat">${g.emoji} ${g.cat}</div><div class="badge">${g.items.length} 条</div></div>
@@ -2374,12 +2351,12 @@ function renderFood(){
   list.innerHTML = `
     <div class="food-lists">
       <div>
-        <div class="food-col-title">❌ 不能吃（严格忌口）</div>
-        ${cannotHtml}
-      </div>
-      <div>
         <div class="food-col-title">✅ 推荐吃（温性/平性 · 清淡少油少盐）</div>
         ${canHtml}
+      </div>
+      <div>
+        <div class="food-col-title">⚠️ 少吃/慎吃</div>
+        ${cannotHtml}
       </div>
     </div>
   `;
@@ -2401,7 +2378,7 @@ function renderFood(){
   menu.innerHTML = `
     <div class="menu-top">
       <button type="button" class="menu-copy-btn" id="food-menu-copy">📋 复制本周菜单</button>
-      <div class="menu-note">仅供日常点餐/做饭参考，遵医嘱为先。</div>
+      <div class="menu-note">仅供日常点餐/做饭参考。</div>
     </div>
     <div class="menu-grid">${menuCards}</div>
   `;
@@ -2412,7 +2389,7 @@ function renderFood(){
       const txt = FOOD_DATA.weekMenu.map(d=>{
         return `${d.day} ${d.emoji}\n🍚 早：${d.breakfast}\n🍵 加餐：${d.snack}\n🥢 午：${d.lunch}\n🍜 晚：${d.dinner}`;
       }).join('\n\n');
-      doCopy(`【江江 · 中药期一周菜单】\n\n${txt}`, copyBtn);
+      doCopy(`【江江 · 一周健康菜单】\n\n${txt}`, copyBtn);
     };
   }
 }
@@ -2422,7 +2399,7 @@ function renderFood(){
   if(!box) return;
   box.querySelectorAll('.food-tab').forEach(btn=>{
     btn.addEventListener('click', ()=>{
-      FOOD_STATE.tab = btn.dataset.ftab || 'med';
+      FOOD_STATE.tab = btn.dataset.ftab || 'list';
       renderFood();
     });
   });
