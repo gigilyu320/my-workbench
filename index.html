@@ -230,6 +230,33 @@
     border: 1px solid #f2eee5;
     padding: 14px;
   }
+  .food-owner-tabs{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom: 10px;
+  }
+  .food-owner-btn{
+    flex:1;
+    min-width: 118px;
+    text-align:center;
+    padding: 9px 12px;
+    border-radius: 999px;
+    background: #f8f6f1;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--ink-2);
+    border: 1px solid #eee7d9;
+    cursor: pointer;
+    transition: all .18s ease;
+    user-select:none;
+  }
+  .food-owner-btn.active{
+    background: linear-gradient(135deg, #fff0c2 0%, #f3c765 100%);
+    color:#6f4c0d;
+    border-color:#edcf82;
+    box-shadow: 0 4px 12px rgba(201,162,74,.18), inset 0 -2px 0 rgba(181,130,33,.35);
+  }
   .food-tabs{
     display:flex;
     gap:8px;
@@ -1924,7 +1951,11 @@
     </div>
 
     <div class="card food-card">
-      <div class="food-tabs" role="tablist" aria-label="健康饮食一级 Tab" id="food-tabs">
+      <div class="food-owner-tabs" role="tablist" aria-label="谁的菜单" id="food-owner-tabs">
+        <button type="button" class="food-owner-btn active" data-owner="me">👩 我的</button>
+        <button type="button" class="food-owner-btn" data-owner="mom">👵 老妈的</button>
+      </div>
+      <div class="food-tabs" role="tablist" aria-label="健康饮食二级 Tab" id="food-tabs">
         <button type="button" class="food-tab active" data-ftab="list">✅ 推荐吃 / ⚠️ 少吃</button>
         <button type="button" class="food-tab" data-ftab="menu">📅 一周菜单</button>
       </div>
@@ -2293,7 +2324,7 @@ function dayOfYear(){
 }
 
 /* ============ 健康饮食 · 数据 & 渲染 ============ */
-const FOOD_DATA = {
+const MY_FOOD_DATA = {
   cannotEat: [
     { cat: "偏甜", emoji: "🍬", items: ["糖", "巧克力", "含糖饮料"] },
     { cat: "过腻", emoji: "🥛", items: ["奶茶", "糯米年糕", "蹄膀", "油炸食物"] },
@@ -2320,28 +2351,59 @@ const FOOD_DATA = {
   ]
 };
 
-const FOOD_STATE = { tab: 'list' };
+const MOM_FOOD_DATA = {
+  cannotEat: [
+    { cat: "油炸烘焙/甜点", emoji: "🔥", items: ["油炸食物", "烘焙糕点", "烧烤", "炒货", "各类坚果", "各种甜食", "糖", "蛋糕", "饼干", "糖果", "蜂蜜"] },
+    { cat: "特定蔬菜/调味", emoji: "🌿", items: ["韭菜", "茄子", "芹菜", "香菜", "各种香料", "五香粉", "卤味", "各种酱类", "豆瓣酱", "黄酱", "甜面酱"] },
+    { cat: "禽类海鲜/杂粮面食", emoji: "🍗", items: ["鸡肉", "羊肉", "所有海鲜", "鱼虾蟹贝", "淡水虾", "小龙虾", "所有面食", "馒头", "面条", "饺子", "包子", "面粉制品", "所有杂粮", "小米", "玉米面", "燕麦", "糙米", "荞麦", "藜麦"] },
+    { cat: "腌制/饮料/保健品", emoji: "🥒", items: ["腌菜", "咸菜", "腊肉", "酱菜", "豆腐乳", "榨菜", "泡菜", "咖啡", "奶茶", "鲜奶", "红茶", "所有水果罐头", "所有保健品"] }
+  ],
+  canEat: [
+    { cat: "主食", emoji: "🍚", items: ["白米饭", "大米粥（无杂粮）", "糯米饭（少量）", "白米面糊"] },
+    { cat: "蔬菜（温性/平性）", emoji: "🥬", items: ["白菜", "生菜（少）", "油菜", "菠菜（少）", "卷心菜", "冬瓜", "丝瓜", "西葫芦", "豆角", "四季豆", "青豆", "豌豆", "莴笋", "白萝卜", "萝卜", "土豆", "藕", "木耳", "香菇", "金针菇", "平菇", "豆芽"] },
+    { cat: "肉蛋豆制品", emoji: "🥩", items: ["精瘦猪肉", "猪里脊", "猪排骨（少油）", "牛肉", "牛腩", "牛柳", "鸡蛋", "鸭蛋", "鹌鹑蛋", "白豆腐", "豆干", "豆浆（无糖）"] },
+    { cat: "汤饮/调味", emoji: "🍵", items: ["温开水", "白开水", "淡姜水", "盐（少）", "生抽（少）", "姜", "葱", "蒜（少）"] },
+    { cat: "注意事项", emoji: "⚠️", items: ["山药（极少）", "老南瓜（极少）", "全禁水果", "如需吃水果请遵医嘱"] }
+  ],
+  weekMenu: [
+    { day: "周一", emoji: "🌤️", breakfast: "大米粥 + 白煮蛋 + 清炒白菜", snack: "温开水", lunch: "白米饭 + 清炖排骨萝卜 + 清炒油菜 + 冬瓜汤", dinner: "白米饭 + 清蒸豆腐鸡蛋羹 + 清炒卷心菜" },
+    { day: "周二", emoji: "🌞", breakfast: "大米粥 + 蒸蛋 + 清炒莴笋", snack: "淡姜水", lunch: "白米饭 + 瘦肉片炒木耳 + 清炒豆角 + 丝瓜蛋汤", dinner: "白米饭 + 牛肉炖萝卜 + 清炒豆芽" },
+    { day: "周三", emoji: "🌥️", breakfast: "白米面糊 + 白煮蛋 + 清炒油菜", snack: "白开水", lunch: "白米饭 + 猪里脊炒豆角 + 清蒸豆腐 + 香菇汤", dinner: "大米粥 + 牛腩炖土豆（去油） + 清炒白菜" },
+    { day: "周四", emoji: "☀️", breakfast: "大米粥 + 鸭蛋 + 清炒西葫芦", snack: "温开水", lunch: "白米饭 + 清炖排骨冬瓜 + 清炒青豆 + 豆浆", dinner: "白米饭 + 鸡蛋炒木耳 + 清炒卷心菜" },
+    { day: "周五", emoji: "🌈", breakfast: "大米粥 + 白煮蛋 + 清炒豆芽", snack: "淡姜水", lunch: "白米饭 + 牛肉片炒莴笋 + 清蒸嫩豆腐 + 萝卜汤", dinner: "大米粥 + 猪肉片炒四季豆 + 清炒冬瓜" },
+    { day: "周六", emoji: "🌸", breakfast: "白米面糊 + 蒸蛋 + 清炒白菜", snack: "温开水", lunch: "白米饭 + 清炖排骨藕片 + 清炒豆角 + 丝瓜汤", dinner: "白米饭 + 瘦肉片炒香菇 + 清炒西葫芦" },
+    { day: "周日", emoji: "💚", breakfast: "大米粥 + 白煮蛋 + 清炒油菜", snack: "白开水", lunch: "白米饭 + 牛柳炒豆角 + 清蒸豆腐 + 豆芽汤", dinner: "大米粥 + 猪排骨炖萝卜 + 清炒卷心菜" }
+  ]
+};
+
+const FOOD_STATE = { owner: 'me', tab: 'list' };
 
 function renderFood(){
+  const ownerTabs = Array.from(document.querySelectorAll('#food-owner-tabs .food-owner-btn'));
   const tabs = Array.from(document.querySelectorAll('#food-tabs .food-tab'));
   const list = document.getElementById('food-panel-list');
   const menu = document.getElementById('food-panel-menu');
-  if(!tabs.length || !list || !menu) return;
+  if(!ownerTabs.length || !tabs.length || !list || !menu) return;
 
+  const data = FOOD_STATE.owner === 'me' ? MY_FOOD_DATA : MOM_FOOD_DATA;
+  const ownerName = FOOD_STATE.owner === 'me' ? '江江' : '老妈';
+
+  ownerTabs.forEach(b=>b.classList.toggle('active', b.dataset.owner===FOOD_STATE.owner));
   tabs.forEach(b=>b.classList.toggle('active', b.dataset.ftab===FOOD_STATE.tab));
+  
   document.querySelectorAll('#page-food .food-panel').forEach(p=>p.classList.remove('active'));
   const activePanel = document.getElementById(`food-panel-${FOOD_STATE.tab}`);
   if(activePanel) activePanel.classList.add('active');
 
   // 推荐吃 / 少吃
-  const cannotHtml = FOOD_DATA.cannotEat.map(g=>`
+  const cannotHtml = data.cannotEat.map(g=>`
     <div class="food-subcard no">
       <div class="head"><div class="cat">${g.emoji} ${g.cat}</div><div class="badge">${g.items.length} 条</div></div>
       <div class="food-items">${g.items.map(x=>`<span class="food-chip">${x}</span>`).join('')}</div>
     </div>
   `).join('');
 
-  const canHtml = FOOD_DATA.canEat.map(g=>`
+  const canHtml = data.canEat.map(g=>`
     <div class="food-subcard yes">
       <div class="head"><div class="cat">${g.emoji} ${g.cat}</div><div class="badge">${g.items.length} 条</div></div>
       <div class="food-items">${g.items.map(x=>`<span class="food-chip">${x}</span>`).join('')}</div>
@@ -2362,7 +2424,7 @@ function renderFood(){
   `;
 
   // 一周菜单
-  const menuCards = FOOD_DATA.weekMenu.map(d=>`
+  const menuCards = data.weekMenu.map(d=>`
     <div class="menu-card">
       <div class="menu-head">
         <div class="menu-day">${d.day}</div>
@@ -2386,15 +2448,25 @@ function renderFood(){
   const copyBtn = document.getElementById('food-menu-copy');
   if(copyBtn){
     copyBtn.onclick = ()=>{
-      const txt = FOOD_DATA.weekMenu.map(d=>{
+      const txt = data.weekMenu.map(d=>{
         return `${d.day} ${d.emoji}\n🍚 早：${d.breakfast}\n🍵 加餐：${d.snack}\n🥢 午：${d.lunch}\n🍜 晚：${d.dinner}`;
       }).join('\n\n');
-      doCopy(`【江江 · 一周健康菜单】\n\n${txt}`, copyBtn);
+      doCopy(`【${ownerName} · 一周健康菜单】\n\n${txt}`, copyBtn);
     };
   }
 }
 
 (function bindFoodTabs(){
+  const ownerBox = document.getElementById('food-owner-tabs');
+  if(ownerBox){
+    ownerBox.querySelectorAll('.food-owner-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        FOOD_STATE.owner = btn.dataset.owner || 'me';
+        renderFood();
+      });
+    });
+  }
+  
   const box = document.getElementById('food-tabs');
   if(!box) return;
   box.querySelectorAll('.food-tab').forEach(btn=>{
